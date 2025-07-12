@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Loader2, AlertCircle, ChevronsRight, Bus } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 const formSchema = z.object({
   sourceStop: z.string().min(3, { message: 'Source stop must be at least 3 characters.' }),
@@ -81,7 +82,7 @@ export function SmartRouteFinder() {
           </div>
           <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Find Route
+            Find Routes
           </Button>
         </form>
       </Form>
@@ -97,38 +98,45 @@ export function SmartRouteFinder() {
       {suggestion && (
         <Card className="mt-6 animate-in fade-in">
           <CardHeader>
-            <CardTitle>Suggested Route</CardTitle>
+            <CardTitle>Suggested Routes</CardTitle>
             <CardDescription>
                 {suggestion.isRoutePossible 
-                    ? (suggestion.route.length > 1 ? "This route requires a transfer." : "This is a direct route.")
+                    ? `Found ${suggestion.routes.length} possible route(s).`
                     : "No direct or single-transfer route could be found."
                 }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {suggestion.isRoutePossible && suggestion.route && suggestion.route.length > 0 ? (
-              <div className="flex items-center flex-wrap gap-2 text-center">
-                {suggestion.route.map((segment, index) => (
-                  <div key={index} className="flex items-center flex-wrap gap-2">
-                    {index > 0 && (
-                        <div className="flex flex-col items-center mx-2 text-muted-foreground">
-                            <ChevronsRight className="h-6 w-6" />
-                            <span className="text-xs">Transfer at</span>
-                            <span className="text-xs font-semibold">{segment.startStop}</span>
+            {suggestion.isRoutePossible && suggestion.routes && suggestion.routes.length > 0 ? (
+                <div className="space-y-6">
+                {suggestion.routes.map((route, routeIndex) => (
+                    <div key={routeIndex}>
+                        <div className="flex items-center flex-wrap gap-2 text-center">
+                            {route.segments.map((segment, index) => (
+                            <div key={index} className="flex items-center flex-wrap gap-2">
+                                {index > 0 && (
+                                    <div className="flex flex-col items-center mx-2 text-muted-foreground">
+                                        <ChevronsRight className="h-6 w-6" />
+                                        <span className="text-xs">Transfer at</span>
+                                        <span className="text-xs font-semibold">{segment.startStop}</span>
+                                    </div>
+                                )}
+                                <div className="flex flex-col items-center p-3 rounded-lg bg-secondary/50 border">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Bus className="h-5 w-5 text-primary" />
+                                        <Badge variant="outline" className="text-base">{segment.busNumber}</Badge>
+                                    </div>
+                                    <div className="text-sm text-muted-foreground">
+                                    <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            ))}
                         </div>
-                    )}
-                    <div className="flex flex-col items-center p-3 rounded-lg bg-secondary/50 border">
-                        <div className="flex items-center gap-2 mb-1">
-                            <Bus className="h-5 w-5 text-primary" />
-                            <Badge variant="outline" className="text-base">{segment.busNumber}</Badge>
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                           <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
-                        </div>
+                        {routeIndex < suggestion.routes.length - 1 && <Separator className="mt-6" />}
                     </div>
-                  </div>
                 ))}
-              </div>
+                </div>
             ) : (
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />

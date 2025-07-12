@@ -1,5 +1,3 @@
-// Implemented the smartRouteSuggestion flow that suggests bus routes between two stops, potentially involving transfers, using the Gemini AI model.
-
 'use server';
 /**
  * @fileOverview A smart route suggestion AI agent.
@@ -25,10 +23,15 @@ const RouteSegmentSchema = z.object({
     endStop: z.string().describe('The alighting stop for this segment.'),
 });
 
+const SingleRouteSchema = z.object({
+  summary: z.string().describe('A very short summary of the route, like "Direct" or "1 Transfer".'),
+  segments: z.array(RouteSegmentSchema).describe('An array of route segments for a single complete journey. A direct route will have 1 segment, a transfer route will have 2 or more.'),
+});
+
 const SmartRouteSuggestionOutputSchema = z.object({
   isRoutePossible: z.boolean().describe('Set to false if no route can be found.'),
-  route: z.array(RouteSegmentSchema).describe('An array of route segments. If the route is direct, this array will have one segment. For transfers, it will have multiple segments.'),
-  reasoning: z.string().describe('The AI reasoning for choosing this route. Explain the path, including any transfers. If no route is found, explain why.'),
+  routes: z.array(SingleRouteSchema).describe('A list of all possible routes from source to destination. This should include all direct and single-transfer options.'),
+  reasoning: z.string().describe('If no route is found, explain why. Otherwise, this field is not needed and can be an empty string.'),
 });
 export type SmartRouteSuggestionOutput = z.infer<typeof SmartRouteSuggestionOutputSchema>;
 
@@ -42,10 +45,9 @@ const prompt = ai.definePrompt({
   name: 'smartRouteSuggestionPrompt',
   input: {schema: SmartRouteSuggestionInputSchema},
   output: {schema: SmartRouteSuggestionOutputSchema},
-  prompt: `You are an AI assistant specialized in suggesting the best bus routes between two stops in Mangalore.
-  Your task is to find a route from a given source stop to a destination stop using the provided list of bus routes.
-  Consider all possible routes and transfers to provide the most efficient route with the fewest transfers.
-  Explain your reasoning for choosing the route.
+  prompt: `You are an AI assistant specialized in suggesting all possible bus routes between two stops in Mangalore.
+  Your task is to find ALL viable routes from a given source stop to a destination stop using the provided list of bus routes.
+  This includes all direct routes and all reasonable single-transfer routes.
 
   Here is the list of all available bus routes and their stops:
   ${allRoutesAsString}
@@ -53,10 +55,12 @@ const prompt = ai.definePrompt({
   Source Stop: {{{sourceStop}}}
   Destination Stop: {{{destinationStop}}}
 
-  Based on the list above, provide the best bus route.
-  - If a direct route exists (or multiple direct routes on different buses), provide a single segment in the 'route' array. If multiple buses serve the same direct route, list them all in the busNumber field (e.g., "10A, 10B, 30A").
-  - If the route requires a transfer, provide multiple segments in the 'route' array. Each segment represents one part of the journey on a single bus.
-  - If no route is possible, set 'isRoutePossible' to false and explain why in the 'reasoning' field. The 'route' array can be empty.
+  Based on the list above, provide ALL possible bus routes.
+  - For each direct route, create a route object with a single segment in its 'segments' array.
+  - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
+  - Populate the 'routes' array with all the direct and single-transfer route objects you find.
+  - If no route is possible, set 'isRoutePossible' to false and explain why in the 'reasoning' field. The 'routes' array should be empty.
+  - Do not suggest routes with more than one transfer.
   `,
 });
 
