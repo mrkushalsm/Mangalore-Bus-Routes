@@ -12,7 +12,7 @@ import { Search, Bus, Star, AlertCircle } from 'lucide-react';
 export const navItems = [
   { href: '/', label: 'Route Finder', icon: Search },
   { href: '/routes', label: 'All Routes', icon: Bus },
-  { href: '/saved', label: 'Saved Routes', icon: Star },
+  { href: '/saved', label: 'Saved Journeys', icon: Star },
   { href: '/report', label: 'Report an Issue', icon: AlertCircle },
 ];
 
