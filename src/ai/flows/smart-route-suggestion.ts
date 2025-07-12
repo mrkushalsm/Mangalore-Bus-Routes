@@ -48,7 +48,7 @@ const prompt = ai.definePrompt({
   output: {schema: SmartRouteSuggestionOutputSchema},
   prompt: `You are an AI assistant specialized in suggesting all possible bus routes between two stops in Mangalore.
   Your task is to find ALL viable routes from a given source stop to a destination stop using the provided list of bus routes.
-  This includes all direct routes and all reasonable single-transfer routes.
+  This includes all direct routes and all reasonable single-transfer routes. It is critical that you return every possible combination in a single response. Do not leave any options out.
 
   Here is the list of all available bus routes and their stops:
   ${allRoutesAsString}
