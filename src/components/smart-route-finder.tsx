@@ -10,8 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Lightbulb, AlertCircle } from 'lucide-react';
+import { Loader2, Lightbulb, AlertCircle, ChevronsRight, Bus } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 
 const formSchema = z.object({
   sourceStop: z.string().min(3, { message: 'Source stop must be at least 3 characters.' }),
@@ -71,7 +72,7 @@ export function SmartRouteFinder() {
                 <FormItem>
                   <FormLabel>Destination Bus Stop</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Surathkal" {...field} />
+                    <Input placeholder="e.g., Adyar" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,9 +98,33 @@ export function SmartRouteFinder() {
         <Card className="mt-6 animate-in fade-in">
           <CardHeader>
             <CardTitle>Suggested Route</CardTitle>
+            {!suggestion.isRoutePossible && <CardDescription>No route could be found.</CardDescription>}
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-lg font-semibold">{suggestion.route}</p>
+            {suggestion.isRoutePossible && suggestion.route && suggestion.route.length > 0 ? (
+              <div className="flex items-center flex-wrap gap-2 text-center">
+                {suggestion.route.map((segment, index) => (
+                  <div key={index} className="flex items-center flex-wrap gap-2">
+                    {index > 0 && (
+                        <div className="flex flex-col items-center mx-2 text-muted-foreground">
+                            <ChevronsRight className="h-6 w-6" />
+                            <span className="text-xs">Transfer at</span>
+                            <span className="text-xs font-semibold">{segment.startStop}</span>
+                        </div>
+                    )}
+                    <div className="flex flex-col items-center p-3 rounded-lg bg-secondary/50 border">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Bus className="h-5 w-5 text-primary" />
+                            <Badge variant="outline" className="text-base">{segment.busNumber}</Badge>
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                           <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
+                        </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <Alert>
               <Lightbulb className="h-4 w-4" />
               <AlertTitle>AI Reasoning</AlertTitle>
