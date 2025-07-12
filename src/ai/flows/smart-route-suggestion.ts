@@ -21,6 +21,7 @@ const RouteSegmentSchema = z.object({
     busNumber: z.string().describe('The bus number for this segment of the journey.'),
     startStop: z.string().describe('The boarding stop for this segment.'),
     endStop: z.string().describe('The alighting stop for this segment.'),
+    stops: z.array(z.string()).describe('The list of all bus stops in this segment, from start to end.'),
 });
 
 const SingleRouteSchema = z.object({
@@ -56,6 +57,7 @@ const prompt = ai.definePrompt({
   Destination Stop: {{{destinationStop}}}
 
   Based on the list above, provide ALL possible bus routes.
+  - For each route segment, you MUST provide the complete list of stops for that segment in the 'stops' field. This includes the start and end stops, and all stops in between.
   - For each direct route, create a route object with a single segment in its 'segments' array.
   - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
   - Populate the 'routes' array with all the direct and single-transfer route objects you find.
