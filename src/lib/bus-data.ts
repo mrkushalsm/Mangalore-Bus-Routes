@@ -41,7 +41,7 @@ export const busRoutes: BusRoute[] = [
   { id: '33', busNumber: '13D', description: 'State Bank to Pacchanady Beggari Colony via Lalbagh and Bondel', stops: ['State Bank', 'K.S. Rao Road', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Kudremukh Housing Colony', 'Hudco Colony', 'Govt. Womens Polytechnic', 'Govt. Quarters', 'Kavoor', 'Bondel', 'Padangady', 'Pacchanady Beggari Colony'] },
   { id: '34', busNumber: '13E', description: 'Mangaladevi to Bondel via Jyothi and Kavoor', stops: ['Mangaladevi', 'Bendoorwell', 'Jyothi', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Kudremukh Housing Colony', 'Hudco Colony', 'Govt. Womens Polytechnic', 'Govt. Quarters', 'Kavoor', 'Bondel'] },
   { id: '35', busNumber: '14A', description: 'State Bank to Bondel via Kadri and Yeyyadi', stops: ['State Bank', 'Jyothi', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
-  { id: '36', busNumber: '14B', description: 'State Bank to Bondel via Kankanady and Yeyyadi', stops: ['State Bank', 'Falnir', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
+  { id: '36', busNumber: '14B', description: 'State Bank to Bondel via Kankanady and Yeyyadi', stops: ['State Bank', 'Falnir', 'Kankanady', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
   { id: '37', busNumber: '14C', description: 'Mangaladevi to Bondel via Kankanady and Yeyyadi', stops: ['Mangaladevi', 'Morgan Gate', 'Attavara', 'Yemmekere', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
   { id: '38', busNumber: '15', description: 'Mangaladevi to Surathkal via Kadri and Baikampady', stops: ['Mangaladevi', 'Morgan Gate', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri Market', 'Nanthur', 'Akashavani', 'Bejai', 'KSRTC Bus Stand', 'Bharat Mall', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal'] },
   { id: '39', busNumber: '15A', description: 'Mangaladevi to Katipalla via Kadri and Surathkal', stops: ['Mangaladevi', 'Morgan Gate', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri Market', 'Nanthur', 'Akashavani', 'Bejai', 'KSRTC Bus Stand', 'Bharat Mall', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal', 'Krishnapur', 'Katipalla'] },
@@ -99,5 +99,3 @@ export const busRoutes: BusRoute[] = [
   { id: '91', busNumber: '55', description: 'State Bank to Pavoor via Kankanady and Konaje', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Kuthar', 'Deralakatte', 'Natekal', 'Konaje', 'Fajir', 'Harekal', 'Pavoor'] },
   { id: '92', busNumber: '59', description: 'State Bank to Suratkal via Lalbagh and Baikampady', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Chitrapur', 'Hosabettu', 'Suratkal'] },
 ];
-
-    
