@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import type { CardDescriptionProps } from '@/components/ui/card';
 
 const formSchema = z.object({
   sourceStop: z.string().min(3, { message: 'Source stop must be at least 3 characters.' }),
@@ -161,7 +162,7 @@ export function SmartRouteFinder() {
                                         <div className="flex flex-col items-center mx-2 text-muted-foreground">
                                             <ChevronsRight className="h-6 w-6" />
                                             <span className="text-xs">Transfer at</span>
-                                            <span className="text-xs font-semibold">{segment.startStop}</span>
+                                            <span className="text-xs font-semibold">{route.segments[index-1].endStop}</span>
                                         </div>
                                     )}
                                     <SegmentStopsDialog segment={segment} />
