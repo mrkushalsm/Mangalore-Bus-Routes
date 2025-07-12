@@ -1,24 +1,28 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/ai/flows/smart-route-suggestion';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus } from 'lucide-react';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { busRoutes } from '@/lib/bus-data';
+import { useSavedRoutes } from '@/hooks/use-saved-routes';
+import { AutoComplete } from '@/components/ui/autocomplete';
 
 const formSchema = z.object({
-  sourceStop: z.string().min(3, { message: 'Source stop must be at least 3 characters.' }),
-  destinationStop: z.string().min(3, { message: 'Destination stop must be at least 3 characters.' }),
+  sourceStop: z.string().min(1, { message: 'Please select a source stop.' }),
+  destinationStop: z.string().min(1, { message: 'Please select a destination stop.' }),
 });
 
 type RouteSegment = NonNullable<SmartRouteSuggestionOutput['routes']>[0]['segments'][0];
@@ -27,6 +31,18 @@ export function SmartRouteFinder() {
   const [suggestion, setSuggestion] = useState<SmartRouteSuggestionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const { toggleSaveRoute, isRouteSaved } = useSavedRoutes();
+
+  const allStops = useMemo(() => {
+    const stops = new Set<string>();
+    busRoutes.forEach(route => {
+        route.stops.forEach(stop => {
+            stops.add(stop);
+        });
+    });
+    return Array.from(stops).sort().map(stop => ({ value: stop, label: stop }));
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +53,10 @@ export function SmartRouteFinder() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.sourceStop.toLowerCase() === values.destinationStop.toLowerCase()) {
+        form.setError("destinationStop", { message: "Source and destination cannot be the same." });
+        return;
+    }
     setIsLoading(true);
     setError(null);
     setSuggestion(null);
@@ -49,6 +69,35 @@ export function SmartRouteFinder() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const handleSaveRoute = (route: NonNullable<SmartRouteSuggestionOutput['routes']>[0]) => {
+    let savedCount = 0;
+    route.segments.forEach(segment => {
+        const bus = busRoutes.find(r => r.busNumber === segment.busNumber);
+        if (bus && !isRouteSaved(bus.id)) {
+            toggleSaveRoute(bus.id);
+            savedCount++;
+        }
+    });
+    if (savedCount > 0) {
+        toast({
+            title: "Route Saved!",
+            description: `Added ${savedCount} new bus route(s) to your saved list.`
+        });
+    } else {
+        toast({
+            title: "Already Saved",
+            description: "All buses in this route are already in your saved list."
+        });
+    }
+  }
+  
+  const isSuggestedRouteSaved = (route: NonNullable<SmartRouteSuggestionOutput['routes']>[0]) => {
+    return route.segments.every(segment => {
+        const bus = busRoutes.find(r => r.busNumber === segment.busNumber);
+        return bus ? isRouteSaved(bus.id) : false;
+    });
   }
 
   const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
@@ -103,7 +152,12 @@ export function SmartRouteFinder() {
                 <FormItem>
                   <FormLabel>Source Bus Stop</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Statebank" {...field} />
+                    <AutoComplete 
+                        options={allStops}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        placeholder="Select a source stop..."
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -116,7 +170,12 @@ export function SmartRouteFinder() {
                 <FormItem>
                   <FormLabel>Destination Bus Stop</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Adyar" {...field} />
+                    <AutoComplete 
+                        options={allStops}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        placeholder="Select a destination stop..."
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,7 +212,7 @@ export function SmartRouteFinder() {
             {suggestion.isRoutePossible && suggestion.routes && suggestion.routes.length > 0 ? (
                 <div className="space-y-6">
                 {suggestion.routes.map((route, routeIndex) => (
-                    <div key={routeIndex}>
+                    <div key={routeIndex} className='p-4 border rounded-lg relative'>
                         <div className="flex items-center justify-center flex-wrap gap-2 text-center">
                             {route.segments.map((segment, index) => (
                                 <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
@@ -168,6 +227,15 @@ export function SmartRouteFinder() {
                                 </div>
                             ))}
                         </div>
+                         <Button
+                            variant={isSuggestedRouteSaved(route) ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => handleSaveRoute(route)}
+                            className="absolute top-3 right-3"
+                        >
+                            <Star className={`mr-2 h-4 w-4 ${isSuggestedRouteSaved(route) ? 'fill-current text-yellow-400' : ''}`} />
+                            {isSuggestedRouteSaved(route) ? 'Saved' : 'Save'}
+                        </Button>
                         {routeIndex < suggestion.routes.length - 1 && <Separator className="mt-6" />}
                     </div>
                 ))}
