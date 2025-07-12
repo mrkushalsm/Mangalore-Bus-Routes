@@ -59,7 +59,7 @@ const prompt = ai.definePrompt({
   Destination Stop: {{{destinationStop}}}
 
   Based on the list above, provide all possible bus routes.
-  - For each route segment, you MUST provide the complete list of stops for that segment in the 'stops' field. This includes the start and end stops, and all stops in between.
+  - For each route segment, you MUST provide the list of stops for that segment in the 'stops' field. CRITICAL: This list must ONLY contain the stops sequentially between the segment's start and end stops for that specific direction of travel. Do not list all stops for the entire bus line.
   - For each direct route, create a route object with a single segment in its 'segments' array.
   - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
   - IMPORTANT: The order of segments in the 'segments' array MUST be chronological. The first segment must start at the original source stop. The 'endStop' of a segment must be the 'startStop' of the next segment (the transfer point).
