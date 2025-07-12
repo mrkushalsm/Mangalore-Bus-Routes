@@ -1,4 +1,4 @@
-import { SmartRouteFinder } from '@/components/smart-route-finder';
+import { MangaloreBusRoutesFinder } from '@/components/mangalore-bus-routes-finder';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 export default function Home() {
@@ -15,11 +15,11 @@ export default function Home() {
         </div>
         <Card className="w-full shadow-lg text-left">
           <CardHeader>
-            <CardTitle>Smart Route Finder</CardTitle>
+            <CardTitle>Mangalore Bus Routes Finder</CardTitle>
             <CardDescription>Get intelligent route suggestions, including transfers.</CardDescription>
           </CardHeader>
           <CardContent>
-            <SmartRouteFinder />
+            <MangaloreBusRoutesFinder />
           </CardContent>
         </Card>
       </div>
