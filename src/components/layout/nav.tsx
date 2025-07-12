@@ -1,0 +1,39 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from '@/components/ui/sidebar';
+import { Search, Bus, Star, AlertCircle } from 'lucide-react';
+
+export const navItems = [
+  { href: '/', label: 'Route Finder', icon: Search },
+  { href: '/routes', label: 'All Routes', icon: Bus },
+  { href: '/saved', label: 'Saved Routes', icon: Star },
+  { href: '/report', label: 'Report an Issue', icon: AlertCircle },
+];
+
+export function Nav() {
+  const pathname = usePathname();
+
+  return (
+    <SidebarMenu>
+      {navItems.map((item) => (
+        <SidebarMenuItem key={item.href}>
+          <Link href={item.href} legacyBehavior passHref>
+            <SidebarMenuButton
+              isActive={pathname === item.href}
+              tooltip={item.label}
+            >
+              <item.icon className="h-5 w-5" />
+              <span>{item.label}</span>
+            </SidebarMenuButton>
+          </Link>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  );
+}
