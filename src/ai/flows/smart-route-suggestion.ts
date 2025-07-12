@@ -31,7 +31,7 @@ const SingleRouteSchema = z.object({
 
 const SmartRouteSuggestionOutputSchema = z.object({
   isRoutePossible: z.boolean().describe('Set to false if no route can be found.'),
-  routes: z.array(SingleRouteSchema).describe('A list of all possible routes from source to destination. This should include all direct and single-transfer options.'),
+  routes: z.array(SingleRouteSchema).describe('A list of all possible routes from source to destination. This should include direct and single-transfer options.'),
   reasoning: z.string().describe('If no route is found, explain why. Otherwise, this field is not needed and can be an empty string.'),
 });
 export type SmartRouteSuggestionOutput = z.infer<typeof SmartRouteSuggestionOutputSchema>;
@@ -46,9 +46,9 @@ const prompt = ai.definePrompt({
   name: 'smartRouteSuggestionPrompt',
   input: {schema: SmartRouteSuggestionInputSchema},
   output: {schema: SmartRouteSuggestionOutputSchema},
-  prompt: `You are an AI assistant specialized in suggesting all possible bus routes between two stops in Mangalore.
-  Your task is to find ALL viable routes from a given source stop to a destination stop using the provided list of bus routes.
-  This includes all direct routes and all reasonable single-transfer routes. It is critical that you return every possible combination in a single response. Do not leave any options out.
+  prompt: `You are an AI assistant specialized in suggesting bus routes in Mangalore.
+  Your task is to find all viable routes from a given source stop to a destination stop using the provided list of bus routes.
+  This includes direct routes and single-transfer routes.
 
   Here is the list of all available bus routes and their stops:
   ${allRoutesAsString}
@@ -56,7 +56,7 @@ const prompt = ai.definePrompt({
   Source Stop: {{{sourceStop}}}
   Destination Stop: {{{destinationStop}}}
 
-  Based on the list above, provide ALL possible bus routes.
+  Based on the list above, provide possible bus routes.
   - For each route segment, you MUST provide the complete list of stops for that segment in the 'stops' field. This includes the start and end stops, and all stops in between.
   - For each direct route, create a route object with a single segment in its 'segments' array.
   - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
