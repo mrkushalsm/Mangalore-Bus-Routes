@@ -50,6 +50,8 @@ const prompt = ai.definePrompt({
   Your task is to find all viable routes from a given source stop to a destination stop using the provided list of bus routes.
   This includes direct routes and single-transfer routes.
 
+  VERY IMPORTANT: All bus routes listed are two-way (bidirectional). The bus travels from the first stop to the last, and also from the last stop back to the first. You must consider both directions when finding routes.
+
   Here is the list of all available bus routes and their stops:
   ${allRoutesAsString}
 
@@ -60,7 +62,7 @@ const prompt = ai.definePrompt({
   - For each route segment, you MUST provide the complete list of stops for that segment in the 'stops' field. This includes the start and end stops, and all stops in between.
   - For each direct route, create a route object with a single segment in its 'segments' array.
   - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
-  - IMPORTANT: The order of segments in the 'segments' array MUST be chronological. The first segment must start at the original source stop. The endStop of a segment must be the startStop of the next segment (the transfer point).
+  - IMPORTANT: The order of segments in the 'segments' array MUST be chronological. The first segment must start at the original source stop. The 'endStop' of a segment must be the 'startStop' of the next segment (the transfer point).
   - Populate the 'routes' array with all the direct and single-transfer route objects you find.
   - If no route is possible, set 'isRoutePossible' to false and explain why in the 'reasoning' field. The 'routes' array should be empty.
   - Do not suggest routes with more than one transfer.
