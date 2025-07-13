@@ -6,6 +6,7 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
+  SidebarFooter,
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
@@ -33,6 +34,30 @@ export function AppLayout({ children }: PropsWithChildren) {
             <SidebarContent>
                 <Nav />
             </SidebarContent>
+             <SidebarFooter className="p-4 border-t border-sidebar-border">
+                <div className="text-xs text-sidebar-foreground/70 space-y-2">
+                    <p>
+                        Built by{' '}
+                        <a
+                            href="https://github.com/mrkushalsm"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium underline underline-offset-4 hover:text-sidebar-foreground"
+                        >
+                            Kushal SM
+                        </a>
+                    </p>
+                    <a
+                        href="https://github.com/mrkushalsm/Mangalore-Bus-Routes"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 font-medium underline underline-offset-4 hover:text-sidebar-foreground"
+                    >
+                        <Github className="h-4 w-4" />
+                        View on GitHub
+                    </a>
+                </div>
+            </SidebarFooter>
             </Sidebar>
 
             <SidebarInset>
@@ -50,27 +75,6 @@ export function AppLayout({ children }: PropsWithChildren) {
             <main className="flex-1 p-4 sm:p-6">{children}</main>
             </SidebarInset>
         </div>
-        <footer className="p-4 text-center text-sm text-muted-foreground border-t">
-            Built by{' '}
-            <a
-              href="https://github.com/mrkushalsm"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Kushal SM
-            </a>
-            . View the project on{' '}
-            <a
-              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              GitHub
-            </a>
-            .
-        </footer>
       </div>
     </SidebarProvider>
   );
