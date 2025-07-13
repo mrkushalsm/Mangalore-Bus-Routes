@@ -104,6 +104,13 @@ The application will be available at `http://localhost:9002`
 
 ## 📱 Usage
 
+## 🔑 API Key Setup
+
+This project uses Google's Gemini API for its AI features. To enable this, you need to provide your API key.
+
+1. Copy the `.env.example` file to `.env.local`: `cp .env.example .env.local`
+2. Open `.env.local` and replace `YOUR_GOOGLE_AI_API_KEY` with your actual Gemini API key.
+
 1. **Find Routes**: Enter your source and destination stops to get AI-powered route suggestions
 2. **View Route Details**: See detailed information about each route segment including bus numbers and stops
 3. **Save Routes**: Save frequently used routes for quick access later
