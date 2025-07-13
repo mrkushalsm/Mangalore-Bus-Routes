@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronsRight, Bus, Star, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 
 type RouteSegment = NonNullable<SmartRouteSuggestionOutput['routes']>[0]['segments'][0];
 type SuggestedRoute = NonNullable<SmartRouteSuggestionOutput['routes']>[0];
