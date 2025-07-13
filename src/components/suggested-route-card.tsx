@@ -1,15 +1,15 @@
+
 'use client';
 import { useState } from 'react';
 import type { SmartRouteSuggestionOutput } from '@/ai/flows/smart-route-suggestion';
 import { useSavedJourneys } from '@/hooks/use-saved-journeys';
 import { useToast } from '@/hooks/use-toast';
-import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { ChevronsRight, Bus, Star, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type RouteSegment = NonNullable<SmartRouteSuggestionOutput['routes']>[0]['segments'][0];
 type SuggestedRoute = NonNullable<SmartRouteSuggestionOutput['routes']>[0];
@@ -18,6 +18,8 @@ type SuggestedRouteCardProps = {
     route: SuggestedRoute & { id?: string };
     isLast: boolean;
     isSavedView?: boolean;
+    sourceStop?: string;
+    destinationStop?: string;
 };
 
 const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
@@ -59,17 +61,15 @@ const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     </Dialog>
 );
 
-export function SuggestedRouteCard({ route, isLast, isSavedView = false }: SuggestedRouteCardProps) {
+export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceStop, destinationStop }: SuggestedRouteCardProps) {
     const { addJourney, removeJourney, isJourneySaved } = useSavedJourneys();
     const { toast } = useToast();
-    const form = useFormContext(); // Will be null in saved view, which is fine.
-
+    
     // Generate a stable ID for the route based on its segments
     const journeyId = route.id || route.segments.map(s => `${s.busNumber}-${s.startStop}-${s.endStop}`).join('|');
     const isSaved = isJourneySaved(journeyId);
     
     const handleSave = () => {
-        const { sourceStop, destinationStop } = form.getValues();
         if (!sourceStop || !destinationStop) {
             toast({
                 title: "Cannot Save Journey",
