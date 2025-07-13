@@ -65,7 +65,7 @@ const prompt = ai.definePrompt({
   - For each route that requires one transfer, create a route object with two segments in its 'segments' array.
   - Populate the 'routes' array with all the direct and single-transfer route objects you find.
   - If no route is possible, set 'isRoutePossible' to false and explain why in the 'reasoning' field. The 'routes' array should be empty.
-  - Do suggest routes with more than one transfer.
+  - Routes can have more than one transfer.
   `,
 });
 
