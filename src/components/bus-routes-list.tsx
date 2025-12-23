@@ -31,14 +31,37 @@ export function BusRoutesList({ allRoutes }: BusRoutesListProps) {
     );
   }, [searchTerm, allRoutes]);
 
-  const handleShare = (route: BusRoute) => {
+  const handleShare = async (route: BusRoute) => {
     const routeInfo = `Bus Route: ${route.busNumber}\nDescription: ${route.description}\nStops: ${route.stops.join(', ')}`;
-    const emailBody = encodeURIComponent(`Check out this bus route in Mangalore:\n\n${routeInfo}`);
-    window.location.href = `mailto:?subject=Mangalore Bus Route: ${route.busNumber}&body=${emailBody}`;
-    toast({
-      title: 'Ready to Share!',
-      description: 'Your email client has been opened to share the route.',
-    });
+    const shareText = `Check out this bus route in Mangalore:\n\n${routeInfo}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Mangalore Bus Route: ${route.busNumber}`,
+          text: shareText,
+        });
+      } catch (err) {
+        // Ignore AbortError (user cancelled)
+        if ((err as Error).name !== 'AbortError') {
+            console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareText);
+        toast({
+          title: 'Copied to Clipboard!',
+          description: 'Route details copied. You can paste them anywhere.',
+        });
+      } catch (err) {
+        toast({
+          title: 'Failed to Copy',
+          description: 'Could not copy route details to clipboard.',
+          variant: 'destructive',
+        });
+      }
+    }
   };
 
   return (

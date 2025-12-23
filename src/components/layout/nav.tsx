@@ -13,7 +13,7 @@ export const navItems = [
   { href: '/', label: 'Route Finder', icon: Search },
   { href: '/routes', label: 'All Routes', icon: Bus },
   { href: '/saved', label: 'Saved Journeys', icon: Star },
-  { href: '/report', label: 'Report an Issue', icon: AlertCircle },
+
 ];
 
 export function Nav() {

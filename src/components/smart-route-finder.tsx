@@ -10,7 +10,7 @@ import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/lib/sma
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown } from 'lucide-react';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, Info } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -319,6 +319,12 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                     <AlertDescription>{suggestion.reasoning}</AlertDescription>
                 </Alert>
             )}
+            <div className="flex items-start gap-2 pt-4 text-xs text-muted-foreground border-t mt-2">
+              <Info className="h-4 w-4 shrink-0 translate-y-0.5" />
+              <p>
+                Note: Routes are subject to bus availability. Frequency is not guaranteed for all routes.
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}

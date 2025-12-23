@@ -8,7 +8,7 @@ const busIconDataUri = `data:image/svg+xml;base64,${btoa(busIconSvg)}`;
 
 export const metadata: Metadata = {
   title: 'Mangalore Bus Routes',
-  description: 'Find bus routes, get smart suggestions, and report issues in Mangalore.',
+  description: 'Find bus routes, get smart suggestions in Mangalore.',
   icons: {
     icon: busIconDataUri,
   },
