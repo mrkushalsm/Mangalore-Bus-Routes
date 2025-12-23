@@ -1,0 +1,179 @@
+id,busNumber,description,stops
+1,1,State Bank to Kunjathbail,State Bank;Car Street;Kudroli;Mannagudde;Lady Hill;Urwa Stores;Kottara;Kulur;Kavoor;Markada;Kunjathbail
+2,1A,State Bank to Tannirbavi,State Bank;Hampankatta;Lalbagh;Lady Hill;Kottara;Kulur Church;Tannirbavi
+3,1B,State Bank to Kodikal,State Bank;Lalbagh;Lady Hill;Kodikal Cross;Kodikal School;Kodikal
+4,1C,Mangaldevi to Kodikal,Mangaldevi;Lalbagh;Lady Hill;Kodikal Cross;Kodikalkatte;Kodikal
+5,2,State Bank to Katipalla,State Bank;Hampankatta;Shedigudde;Lady Hill;Panambur;Kulur;Surathkal;Katipalla
+6,2A,State Bank to Shashihithlu,State Bank;Hampankatta;Shedigudde;Lalbagh;Kottara;Kulur;Panambur;Chithrapura cross;Kulai;Surathkal;Mukka;Shashihithlu
+7,2B,Bengre to Bajpe,Bengre;Baikampady;Bajpe
+8,2C,State Bank to Jokatte,State Bank;Hampankatta;Shedigudde;Lady Hill;Panambur;Bikampady;KBS Gudde;Jokatte
+9,2D,Kaikamba to Polali,Kaikamba;Maroli;Nanthoor;Polali
+11,2E,Kankanadi to Bajpe,Kankanadi;Jyoti;Lalbagh;Bajpe
+12,2E,Kankanadi to Jokatte,Kankanadi;Baikampady;Jokatte
+13,2F,Bondel to Sasihithlu,Bondel;Kavoor;Surathkal;NITK(KREC);Sasihithlu
+14,2G,Surathkal to Bajpe,Surathkal;Jokatte;Baikampady;Kodikere;Bajpe
+15,3A,State Bank to Moodushedde,State Bank;Jyoti;Nanthoor;Bikarnakatte;Kudpu;Vamanjuru;Moodushedde
+17,3B,State Bank to Moodushedde,State Bank;Falneer;Kankanadi;Nanthoor;Kudpu Temple;Vamanjuru;Moodushedde
+19,3C,Mangaldevi to Moodushedde,Mangaldevi;Vamanjuru;Moodushedde
+20,3D,State Bank to Permanki,State Bank;Light House Hill;Jyoti;Nanthoor;Kudpu Temple;Vamanjuru;Ulayibettu School;Permanki
+21,3E,Pilikula to Katipalla,Pilikula;Bondel;Kavoor;Katipalla
+22,3E,Moodushedde to Kaikamba,Moodushedde;Kulur;Kavoor;Pachhanady;Kaikamba
+23,3F,Kottara to Kombel,Kottara;Mallikatte;Kadri;Bejai;Kapikad;Kombel
+24,3G,Kottara to Ulaibettu,Kottara;KPT;Kuntikana;Ulaibettu
+25,3H,Moodushedde to Chelyarpadavu,Moodushedde;Vamanjuru;Kavoor;Surathkal;Chelyarpadavu
+26,3K,Talapady to Moodushedde,Talapady;Thokottu;Kankanadi;Vamanjuru;Moodushedde
+27,3L,Kottara to Moodushedde,Kottara;Moodushedde
+28,4,State Bank to Kulshekar,State Bank;Hampankatta;Milagres;Falneer;Highlands;Kankanadi;Bendoor;Bendoorwell;Kadri Shivabagh;Nanthoor;Bikarnakatte;Kulshekar
+29,4A,State Bank to Merlapadav,State Bank;Falneer;Nanthoor;Paldane;Nirmarga;Ontemar;Adyar Padav;Merlapadav
+30,4B,State Bank to Saripalla,State Bank;Falneer;Bendoorwell;ESI;Shivabagh;Nanthoor;Pedamale;Saripalla
+31,4C,State Bank to Nirmarga,State Bank;Falneer;Kankanadi;Nanthoor;Paldane;Nirmarga
+32,4D,Mangaldevi to Kannagudde,Mangaldevi;Morgans Gate;Kankanadi;Nanthoor;Kaikamba;Saripalla;Kannagudde
+33,4E,Mangaldevi to Merlapadav,Mangaldevi;Morgans Gate;Kankanadi;Jyoti;Mallikatte;Nanthoor;Chowki;Nirmarga;Kullikola;Adyar Padav;Merlapadav
+34,5,State Bank to Morgans Gate,State Bank;Jyoti;Kankanadi;Nandigudde;Morgans Gate
+35,6A,State Bank to Shaktinagar,State Bank;Jyoti;Nanthoor;Bikarnakatte;Canara Rubber;Shaktinagar
+36,6B,State Bank to Shaktinagar,State Bank;Kankanadi;Nanthoor;Bikarnakatte;Muthappagudi;Shaktinagar
+37,6C,State Bank to Shaktinagar,State Bank;Jyoti;Nanthoor;Bikarnakatte;Muthappagudi;Shaktinagar
+38,6D,Mangaldevi to Shaktinagar,Mangaldevi;Nandigudde;Kankanadi;Nanthoor;Muthappagudi;Shaktinagar
+39,6F,Morgans Gate to Preetinagar,Morgans Gate;Kankanadi;Nanthoor;Preetinagar
+40,7,State Bank to Urwa Stores,State Bank;Car Street;Kudroli;Lady Hill;Chilimbi;Urwa Stores
+41,9,State Bank to Bajal Church,State Bank;Jyoti;Kankanadi;Pumpwell;Padeel;Karmar;Bajal;Bajal Church
+42,9A,State Bank to JM Road,State Bank;Pandeshwar;Yemmekere;Mangaldevi;Morgans Gate;Jeppinamogaru;Kudthadka;Bajal;Bajal Church;JM Road
+43,9A,Clock Tower to Bajal Church,Clock Tower;Mangaldevi;Jeppu;Bajal Church
+44,9B,State Bank to JM Road,State Bank;Jyoti;Pumpwell;Jeppinamogaru Cross;Pakkaladka;JM Road
+45,9C,JM Road to Kunjathbail,JM Road;Jeppinamogaru;Lady Hill;Kavoor;Kunjathbail
+46,10A,State Bank to Adyar,State Bank;Jyoti;Pumpwell;Launch Jetty;Padeel;Kannur;Adyar
+47,10B,Kankanadi to Valachil,Kankanadi;Capitanio School;Kannur;Valachil
+48,11A,State Bank to Kannurbettu.,State Bank;Falneer;Kankanadi;Pumpwell;Padeel;Kannur;Kannurbettu.
+49,11B,State Bank to Jalligudde,State Bank;Falneer;Kankanadi;Pumpwell;Padeel;Bajal Cross;Jalligudde
+50,11C,Mangaldevi to Jalligudde,Mangaldevi;Morgans Gate;Nandigudde;Kankanadi;Padeel;Bajal Cross;Jalligudde
+51,11D,Kottara to Pallakere,Kottara;Bejai;KSRTC;Pallakere
+52,12A,State Bank to Pallipady,State Bank;Bunts Hostel;Nanthoor;Kudpu Temple;Vamanjuru;Addooru;Polali;Pallipady
+53,12B,State Bank to Mangaji,State Bank;Bunts Hostel;Nanthoor;Kudpu Temple;Vamanjuru;Badakabail;Ammunje;Mangaji
+54,13,State Bank to Urwa Stores,State Bank;Car Street;Kudroli;Mannagudde;Lady Hill;Chilimbi;Urwa Stores
+55,13A,State Bank to Kottara,State Bank;Car Street;Chitra talkies;Kudroli;Mannagudde;Chilimbi;Urwa Stores;Kottara
+56,13A,Kunjathbail to Chelyarpadavu,Kunjathbail;Kavoor;Kulur;Chelyarpadavu
+57,13A,Kunjathbail to Katipalla,Kunjathbail;Kavoor;Kulur;Surathkal;Katipalla
+59,13B,State Bank to Kunjathbail,State Bank;Shedigudde;Lady Hill;Kulur;Panjimogaru;Kavoor;Markada;Kunjathbail
+60,13C,State Bank to Beggars Colony,State Bank;Shedigudde;Lady Hill;Kulur;Kavoor;Bondel;Pachhanady;Beggars Colony
+61,13D,State Bank to Bondel,State Bank;Shedigudde;Lady Hill;Kulur;Kavoor;Bondel
+62,13E,Kunjathbail to Surathkal,Kunjathbail;Kulur;Kavoor;Baikampady;Surathkal
+63,13F,Mangaldevi to Kunjathbail,Mangaldevi;Kankanadi;Jyoti;Kulur;Kunjathbail
+64,13G,Mangaldevi to Kunjathbail,Mangaldevi;Kankanadi;KPT;Lalbagh;Kunjathbail
+65,13G,Kunjathbail to Chelyarpadavu,Kunjathbail;Kavoor;Kulur;Chelyarpadavu
+67,13G,Kunjathbail to Surathkal,Kunjathbail;Baikampady;Kodikere;Surathkal
+68,13H,Mangaldevi to Bondel,Mangaldevi;Nandigudde;Valencia;Nanthoor;KPT;Bejai Church;Lalbagh;Lady Hill;Kodikal Cross;Kulur;Kavoor;Bondel
+70,13J,Kunjathbail to Katipalla,Kunjathbail;Kavoor;Kulur;Baikampady;Surathkal;Katipalla
+71,13K,Kunjathbail to Khadgeshwari,Kunjathbail;Kavoor;Kulur;Baikampady;Surathkal;Khadgeshwari
+72,13L,Devinagara to Kulshekar Kaikamba,Devinagara;Kulshekar Kaikamba
+73,14,State Bank to Bondel,State Bank;Falneer;Kankanadi;Bendoor;KPT;Padavinangadi;Bondel
+74,14A,State Bank to Bondel,State Bank;Jyoti;Nanthoor;Padavinangadi;Bondel
+75,14B,Kankanadi to Pachhanady,Kankanadi;Nanthoor;Pachhanady
+76,14C,Mangaldevi to Bondel,Mangaldevi;Valencia;Nanthoor;Padavinangadi;Bondel
+77,14D,Jeppu Market to Bondel,Jeppu Market;Kankanadi;Nanthoor;Bondel
+78,14E,Pumpwell to Vamanjuru,Pumpwell;KPT;Pachhanady;Vamanjuru
+79,14F,Kunjathbail to Tharaithota,Kunjathbail;Nanthoor;Tharaithota
+80,15,Mangaldevi to Surathkal,Mangaldevi;Valencia;Kankanadi;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Kottara;Kulur;Panambur;Kulai;Surathkal
+82,15A,Mangaldevi to Kaatipalla,Mangaldevi;Valencia;Kankanadi;Nanthoor;Lady Hill;Surathkal;Kaatipalla
+84,15A,Mangaldevi to Madhya Padavu,Mangaldevi;Valencia;Kankanadi;Nanthoor;Lady Hill;Kulur;Panambur;Baikampady;Surathkal;Madhya Padavu
+85,15A,Mangaldevi to Kulshekar Kaikamba,Mangaldevi;Valencia;Kankanadi;Nanthoor;Kulshekar Kaikamba
+88,15B,Mangaldevi to MRPL,Mangaldevi;Valencia;Kankanadi;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Kottara;Kulur;Surathkal;Krishnapura;MRPL
+90,15C,Mangaldevi to MRPL,Mangaldevi;Valencia;Kankanadi;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Kottara;Kulur;Surathkal;Krishnapura;MRPL
+91,15C,Mangaldevi to Kaithakumer,Mangaldevi;Valencia;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Kottara;Kulur;Surathkal;Kaatipalla;MRPL;Kaithakumer
+92,15D,Mangaldevi to Kuthethoor,Mangaldevi;Valencia;Kankanadi;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Kulur;Surathkal;MRPL;Kuthethoor
+93,15E,Mangaldevi to Ganeshapura,Mangaldevi;Kankanadi;Valencia;Nanthoor;Lady Hill;Lalbagh;Kulur;Ganeshapura
+94,15F,Mangaldevi to Kaithakumer,Mangaldevi;Valencia;Kankanadi;Nanthoor;Labagh;Lady Hill;Kulur;Surathkal;Kaatipalla;MRPL;Kaithakumer
+95,15G,Mangaldevi to Janatha Colony,Mangaldevi;Valencia;Kankanadi;Jyoti;PVS;Lady Hill;Surathkal;Kana;Janatha Colony
+96,15G,Mangaldevi to Janatha Colony,Mangaldevi;Valencia;Kankanadi;Jyoti;PVS;Lady Hill;Surathkal;Kana;Janatha Colony
+97,15H,Mangaldevi to Madhya Padavu,Mangaldevi;Valencia;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Lady Hill;Surathkal;Kana;Kaatipalla;Narayanaguru ITI;Madhya Padavu
+98,15I,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanadi;Nanthoor;KSRTC;Lady Hill;Surathkal;Krishnapura;Kaikamba
+99,15J,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanadi;Nanthoor;Bejai;KSRTC;Lalbagh;Lady Hill;Surathkal;Krishnapura;Kaikamba
+101,15K,Mangaldevi to Dambel,Mangaldevi;Valencia;Nanthoor;Lady Hill;Shediguri;Dambel
+102,15L,Mallikatte to Katipalla,Mallikatte;Nanthoor;Lady Hill;Surathkal;Kana;Katipalla
+103,15N,Mangaldevi to Khandige,Mangaldevi;Morgans Gate;Nanthoor;Lady Hill;Surathkal;Madhya Padavu;Chelyarpadavu;Khandige
+104,15P,Mangaldevi to Mungaru,Mangaldevi;Bendore;Nanthoor;Baikampady;Mungaru
+105,16,State Bank to Sulthan Batheri,State Bank;Kudroli;Churchgate;Boloor;Sulthan Batheri
+106,16A,State Bank to Sulthan Batheri,State Bank;Kudroli;Churchgate;Boloor;Sulthan Batheri
+107,16B,Nehru Circle to Vishranthi Church Bokkapatna,Nehru Circle;Jyoti;PVS;Lalbagh;Lady Hill;Urwa Market;Vishranthi Church Bokkapatna
+108,16C,Sulthan Batheri to Pumpwell,Sulthan Batheri;Urwa Market;Lady Hill;Lalbagh;Bejai;KPT;Nanthoor;Pumpwell
+109,17A,State Bank to Kunjathbail,State Bank;PVS;Lalbagh;KSRTC;Muliyakad;Kavoor;Markada;Kunjathbail
+110,17B,State Bank to Kunjathbail,State Bank;PVS;Lalbagh;KSRTC;Muliyakad;Kavoor;Markada;Kunjathbail
+111,18,State Bank to Morgans Gate,State Bank;RTO;Hoige Bazar;Marigudi;Mangaldevi Cross;Jeppu Market;Morgans Gate
+112,19,State Bank to Bondel,State Bank;Light House Hill;Jyoti;Bunts Hostel;PVS;Lalbagh;Bejai Church;Yeyyadi;Maryhill;Pachhanady;Bondel
+113,19,State Bank to Beggars Colony,State Bank;PVS;Lalbagh;KPT;Maryhill;Bondel;Pachhanady;Beggars Colony
+114,19A,Kankanadi to Bondel,Kankanadi;Jyoti;PVS;KSRTC;Maryhill;Bondel
+115,21,State Bank to Nirmarga,State Bank;Jyoti;Bunts Hostel;Nanthoor;Baithurly;Nirmarga
+116,21A,State Bank to Arkula Padav,State Bank;Jyoti;Bunts Hostel;Nanthoor;Nirmarga;Merlapadav;Arkula Padav
+117,22,State Bank to Bajpe,State Bank;Bunts Hostel;Nanthoor;Kudpu Temple;Vamanjuru;Sunkadakatte;Bajpe
+118,22A,State Bank to Adyapady,State Bank;Bunts Hostel;Nanthoor;Kudpu Temple;Vamanjuru;Gurupura;Kinnikambla;Kolambe;Bajpe A.D.;Adyapady
+119,23,State Bank to Faizalnagar,State Bank;Jyoti;Pumpwell;Alape;Veeranagara;Faizalnagar
+120,23B,State Bank to Faizalnagar,State Bank;Jyoti;Pumpwell;Alape;Veeranagara;Faizalnagar
+121,23C,State Bank to Faizalnagar,State Bank;Falneer;Capitanio;Veeranagara;Faizalnagar
+122,27,State Bank to Mangaldevi,State Bank;Attavara;Nandigudde;Mangaldevi
+123,27A,State Bank to Mulihithlu,State Bank;Attavara;Mangaldevi;Mulihithlu
+124,29,State Bank to Morgans Gate,State Bank;RTO;Pandeshwar;Yemmekere;Mangaldevi;Morgans Gate
+125,29A,State Bank to Morgans Gate,State Bank;RTO;Pandeshwar;Yemmekere;Mangaldevi Temple;Morgans Gate
+126,30,State Bank to Padeel,State Bank;Jyoti;Nanthoor;Kaikamba;Maroli;Padeel
+127,30B,State Bank to Adyar,State Bank;Syndicate;Jyoti;Bendoor;Nanthoor;Launch Jetty Maroli;Padeel;Kannur;Adyar
+128,31,State Bank to Shediguri,State Bank;PVS;Mannagudde;Gokarnanatha College;Hoigebail;Ashokanagar;Shediguri
+129,31A,State Bank to Shediguri,State Bank;PVS;Lalbagh;Urwa Market;Marigudi;Ashokanagar;Shediguri
+130,31 B,State Bank to Dambel,State Bank;Car Street;Mannagudde;Lady Hill;Marigudi temple;Ashokanagar;Shediguri;Dambel
+131,31C,Dambel to Nehru Circle,Dambel;Shediguri;Ashokanagar;Mannagudde;Jyoti;Kankanadi;Nandigudde;Mangaldevi;Pandeshwar;Nehru Circle
+132,33,State Bank to Anandanagar,State Bank;Shedigudde;Lalbagh;KSRTC;Kuntikana;Nandanapura;Akashabhavan;Anandanagar
+133,37,State Bank to Padeel,State Bank;Jyoti;Nanthoor;Maroli;Padeel
+134,41A,State Bank to MRPL Colony,State Bank;Shedigudde;Lalbagh;Lady Hill;Surathkal;Munchur;Madhya Padavu;Chelyarpadavu;MRPL Colony
+135,42,State Bank to Talapady,State Bank;Jyoti;Kankanadi;Pumpwell;Thokottu;Kolya;Adka;Kotekar;Talapady
+136,43B,State Bank to Kinya,State Bank;Jyoti;Pumpwell;Thokottu;K C Road;Talapady;Olavinahalli;Kinya
+137,44,State Bank to Amrithnagar,State Bank;Jyoti;Pumpwell;Thokottu;Kumpala;Amrithnagar
+138,44A,State Bank to Someshwar,State Bank;Jyoti;Pumpwell;Thokottu;Ullal;Chota Mangalore;Someshwar
+139,44B,State Bank to Elyarpadav,State Bank;Jyoti;Pumpwell;Thokottu;Kuthar Padav;Ranipura;Madaka;Elyarpadav
+140,44C,State Bank to Ullal Jetty,State Bank;Jyoti;Pumpwell;Thokottu;Kotepura;Ullal;Ullal Jetty
+141,44D,State Bank to Ullal Jetty,State Bank;Jyoti;Pumpwell;Thokottu;Kotepura;Ullal Jetty
+142,44E,Amrithnagar to Nehru Circle,Amrithnagar;Moorukatte;Kumpala;Thokottu;Jeppu Market;Mulihithlu;Lewell;Yemmekere;Nehru Circle
+143,44G,Kankanadi to Madaka,Kankanadi;Pumpwell;Thokottu;Kuttarpadav;Deralakatte;Mallar;Madaka
+144,44I,Amrithnagar to Surathkal,Amrithnagar;Moorukatte;Kumpala cross;Thokottu;Pumpwell;Jyoti;Bunts Hostel;Kadri;Temple;Lady Hill;Surathkal
+145,44J,Nehru Circle to Someshwar,Nehru Circle;Yemmekere;Mangaldevi;Thokottu;Ullal;Someshwar
+146,44K,Someshwar to Konaje,Someshwar;Ombathukere;Thokottu;Kuthar Padav;Deralakatte;Assaigoli;Konaje
+147,44M,State Bank to Elyarpadav,State Bank;Jyoti;Pumpwell;Deralakatte;Ranipura;Elyarpadav
+148,44N,Kankanadi to Inoli Temple,Kankanadi;Pumpwell;Thokottu;Elyarpadav;Gramchavadl;Malar School;Inoli Temple
+149,44P,Someshwar to Pavoor,Someshwar;Ullal;Thokottu;Gramachavadi;Inoli Padav;Harekala;Pavoor
+150,45,State Bank to Kaatipalla,State Bank;PVS;Lady Hill;Surathkal;Bala;Kaatipalla
+151,45A,State Bank to Krishnapura,State Bank;PVS;Lady Hill;Surathkal;Kaatipalla;Krishnapura
+152,45B,State Bank to Krishnapura,State Bank;PVS;Lady Hill;Surathkal;Kana;Kaatipalla;Krishnapura
+153,45C,State Bank to Mangalapete,State Bank;PVS;Lalbagh;Surathkal;Kaatipalla;Mangalapete
+154,45D,State Bank to Kuthethoor,State Bank;PVS;Lady Hill;Surathkal;Kaatipalla;Moodapadav;Kuthethoor
+155,45E,State Bank to Indiranagar,State Bank;PVS;Lady Hill;Kaatipalla;Indiranagar
+156,45F,State Bank to Kaithakumer,State Bank;PVS;Lady Hill;Surathkal;Kaatipalla;Mangalapete;Kaithakumer
+157,45G,State Bank to Janatha Colony,State Bank;PVS;Lady Hill;Surathkal;Kana;Janatha Colony
+158,45H,State Bank to Madhya Padavu,State Bank;PVS;Lady Hill;Surathkal;Kaatipalla;Madhya Padavu
+159,47,State Bank to Bajpe,State Bank;PVS;KSRTC;Kuntikana;Kavoor;Maravoor;Porkodi;Bajpe
+160,47A,State Bank to Bajpe,State Bank;PVS;Kuntikana;Kavoor;Markada;Porkodi;Bajpe
+161,47B,State Bank to Adyapady (Bajpe),State Bank;PVS;Lady Hill;Kulur;Kavoor;Markada;Bajpe Airport;Adyapady (Bajpe)
+162,47C,State Bank to Kathalsar,State Bank;PVS;KSRTC;Kuntikana;Kavoor;Batrakere;Kathalsar
+163,47D,Bajpe to Kankanadi,Bajpe;Kavoor;Batrakere;Adyapadi;Markada;Kavoor;Kuntikana;KSRTC;Nanthoor;Kankanadi
+164,47F,Mangaldevi to Bajpe,Mangaldevi;Nandigudde;Valencia;Jyoti;PVS;Lady Hill;Kavoor;Markada;Kenjaru;Porkodi;Bajpe
+165,51,State Bank to Konaje,State Bank;Jyoti;Kankanadi;Pumpwell;Thokottu;Natekal;Konaje
+166,51A,State Bank to Inolipadav,State Bank;Jyoti;Kankanadi;Pumpwell;Thokottu;Konaje;Pavoor;Inolipadav
+167,51B,Kottara to Konaje,Kottara;Urwa Stores;Lady Hill;PVS;Jyoti;Kankanadi;Pumpwell;Thokottu;Kotekar;Madoor;Deralakatte;Konaje
+168,51C,Konaje to MRPL,Konaje;Thokottu;Kulur;MRPL
+169,51D,Kottara to Inolipadav,Kottara;Kankanadi;Thokottu;Inolipadav
+170,51E,State Bank to Hoohakuvakallu,State Bank;Jyoti;Kankanadi;Pumpwell;Thokottu;Konaje;Mudipu;Hoohakuvakallu
+171,51G,Baikampady to Dharmanagar,Baikampady;Panambur;Lalbagh;Nanthoor;Thokottu;Konaje;Inolipadavu;Dharmanagar
+172,51K,Kinya to Kankanadi,Kinya;Gorigudda;Thokottu;Kankanadi
+173,51T,Talapady to Thokottu,Talapady;Deralakatte;Kuttharpadavu;Thokottu
+174,53,State Bank to Soorinje,State Bank;PVS;Lady Hill;Surathkal;Kaatipalla;Soorinje
+175,53A,Kankanadi to Soorinje,Kankanadi;Nanthoor;Kuntikana;Surathkal;Kaatipalla;Soorinje
+176,53B,C.F. Colony to Shibaroor,C.F. Colony;Kulur;Surathkal;Katipalla;Shibaroor
+177,53C,Mangaldevi to Delanthabettu,Mangaldevi;Nandigudde;Kankanadi;Nanthoor;Lady Hill;Surathkal;Bala;Soorinje;Delanthabettu
+178,53D,Porkodi to Shibaroor,Porkodi;Surathkal;Katipalla;Shibaroor
+179,54,State Bank to Thoudugoli,State Bank;Jyoti;Kankanadi;Pumpwell;Thokottu;Kotekar;Talapady;Mangalanthi;Thoudugoli
+180,54A,State Bank to Hoohakuvakallu,State Bank;Jyoti;Pumpwell;Thokottu;Manjanady;Hoohakuvakallu
+181,54B,State Bank to Hoohakuvakallu,State Bank;RTO;Pandeshwar;Mulihithlu;Morgans Gate;Jeppinamogaru;Thokottu;Manjanady;Narya;Hoohakuvakallu
+182,55,State Bank to Pavoor-Harekala,State Bank;Jyoti;Pumpwell;Thokottu;Konaje;Bavate Guri;Pavoor-Harekala
+183,59,State Bank to Surathkal,State Bank;PVS;Lady Hill;Baikampady;Chitrapur Temple;Hosabettu;Surathkal
+184,60,Anandanagar to Gorigudda,Anandanagar;Nandanapura;Malemar;Lady Hill;Bejai Museum;Kadri Temple;Kankanadi;Valencia;Gorigudda
+185,60B,Lady Hill to Akashabhavan,Lady Hill;Kottara;Akashabhavan
+186,61,Kodikal to Kankanadi,Kodikal;Kodikal Cross;Lady Hill;Bejai Museum;Kadri Temple;Pumpwell;Padeel;Kankanadi
+188,62A,Padeel Railway Station to Kaatipalla,Padeel Railway Station;KPT;Bondel;Kavoor;Kulur;Kaikamba;Kaatipalla
+189,65,Kankanadi Railway Station to Kaikamba,Kankanadi Railway Station;Kuntikana;Surathkal;Kaikamba
+190,65E,Kankanadi to Ganeshapura,Kankanadi;Kottara;Ganeshapura
+191,65G,Kankanadi to Janatha Colony,Kankanadi;Nanthoor;Janatha Colony

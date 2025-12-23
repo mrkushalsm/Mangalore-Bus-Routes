@@ -1,7 +1,9 @@
-import { MangaloreBusRoutesFinder } from '@/components/mangalore-bus-routes-finder';
+import { SmartRouteFinder } from '@/components/smart-route-finder';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { getBusRoutes } from '@/lib/bus-data';
 
-export default function Home() {
+export default async function Home() {
+  const busRoutes = await getBusRoutes();
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="flex flex-col items-center justify-center space-y-8 text-center">
@@ -10,7 +12,7 @@ export default function Home() {
             Find Your Way in Mangalore
           </h1>
           <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-            Enter your start and end points to get the best bus route suggestions, powered by AI.
+            Enter your start and end points to get the best bus route suggestions, powered by our smart algorithm.
           </p>
         </div>
         <Card className="w-full shadow-lg text-left">
@@ -19,7 +21,7 @@ export default function Home() {
             <CardDescription>Get intelligent route suggestions, including transfers.</CardDescription>
           </CardHeader>
           <CardContent>
-            <MangaloreBusRoutesFinder />
+            <SmartRouteFinder busRoutes={busRoutes} />
           </CardContent>
         </Card>
       </div>

@@ -1,7 +1,7 @@
 
 'use client';
 import { useState } from 'react';
-import type { SmartRouteSuggestionOutput } from '@/ai/flows/smart-route-suggestion';
+import type { SmartRouteSuggestionOutput } from '@/lib/smart-route-suggestion';
 import { useSavedJourneys } from '@/hooks/use-saved-journeys';
 import { useToast } from '@/hooks/use-toast';
 

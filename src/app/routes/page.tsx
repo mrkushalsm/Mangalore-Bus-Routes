@@ -1,7 +1,8 @@
 import { BusRoutesList } from '@/components/bus-routes-list';
-import { busRoutes } from '@/lib/bus-data';
+import { getBusRoutes } from '@/lib/bus-data';
 
-export default function RoutesPage() {
+export default async function RoutesPage() {
+  const busRoutes = await getBusRoutes();
   return (
     <div className="container mx-auto">
       <div className="space-y-2 mb-8">

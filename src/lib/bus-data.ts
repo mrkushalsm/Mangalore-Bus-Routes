@@ -1,3 +1,6 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+
 export type BusRoute = {
   id: string;
   busNumber: string;
@@ -5,99 +8,53 @@ export type BusRoute = {
   stops: string[];
 };
 
-export const busRoutes: BusRoute[] = [
-  { id: '1', busNumber: '1', description: 'State Bank to Kunjathbail via Car Street and Ladyhill', stops: ['State Bank', 'Car Street', 'Mannagudda', 'Ladyhill', 'Chilimbi', 'Urva Stores', 'Kavoor', 'MCF Colony', 'Kunjathbail'] },
-  { id: '2', busNumber: '1A', description: 'State Bank to Thannir Bavi via Lalbagh', stops: ['State Bank', 'Lalbagh', 'Urva Stores', 'Kulur', 'Thannir Bavi'] },
-  { id: '3', busNumber: '1B', description: 'State Bank to Kodikal via Car Street and Ladyhill', stops: ['State Bank', 'Car Street', 'Mannagudda', 'Ladyhill', 'Chilimbi', 'Urva Stores', 'Kodikal'] },
-  { id: '4', busNumber: '2', description: 'State Bank to Mukka via Lalbagh and Suratkal', stops: ['State Bank', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Suratkal', 'Mukka'] },
-  { id: '5', busNumber: '2A', description: 'State Bank to Sasihitlu via Lalbagh and Suratkal', stops: ['State Bank', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Suratkal', 'Mukka', 'Sasihitlu'] },
-  { id: '6', busNumber: '2C', description: 'State Bank to Jokatte via Baikampady Industrial Estate', stops: ['State Bank', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Baikampady Industrial Estate', 'Jokatte'] },
-  { id: '7', busNumber: '2D', description: 'State Bank to Parkodi via Baikampady Industrial Estate', stops: ['State Bank', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Baikampady Industrial Estate', 'Jokatte', 'Parkodi'] },
-  { id: '8', busNumber: '2E', description: 'Kankanady to Bajpe via Lalbagh and Jokatte', stops: ['Kankanady', 'Jyothi', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Baikampady Industrial Estate', 'Jokatte', 'Kalavar', 'Bajpe'] },
-  { id: '9', busNumber: '2F', description: 'Kankanady to Bajpe via Lalbagh and Jokatte', stops: ['Kankanady', 'Jyothi', 'Lalbagh', 'Ashoknagar', 'Baikampady', 'Baikampady Industrial Estate', 'Jokatte', 'Kalavar', 'Bajpe'] },
-  { id: '10', busNumber: '3', description: 'State Bank to Moodushedde via Kadri and Vamanjoor', stops: ['State Bank', 'Falnir', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kudupu', 'Vamanjoor', 'Moodushedde'] },
-  { id: '11', busNumber: '3A', description: 'State Bank to Moodushedde via Jyothi and Vamanjoor', stops: ['State Bank', 'Jyothi', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kudupu', 'Vamanjoor', 'Moodushedde'] },
-  { id: '12', busNumber: '3B', description: 'Mangaladevi to Moodushedde via Kadri and Vamanjoor', stops: ['Mangaladevi', 'Kankanady', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kudupu', 'Vamanjoor', 'Moodushedde'] },
-  { id: '13', busNumber: '3D', description: 'State Bank to Ulaibettu via Kadri and Vamanjoor', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Kadri', 'Vamanjoor', 'Ulaibettu'] },
-  { id: '14', busNumber: '4', description: 'State Bank to Kulshekar Chowki via Kankanady and Kadri', stops: ['State Bank', 'Falnir', 'Kankanady', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kulshekar Chowki'] },
-  { id: '15', busNumber: '4A', description: 'State Bank to Merlapadavu via Kadri and Neermarga', stops: ['State Bank', 'Falnir', 'Kankanady', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Kulshekar', 'Kaikamba', 'Neermarga', 'Merlapadavu'] },
-  { id: '16', busNumber: '4C', description: 'State Bank to Neermarga via Kadri and Kaikamba', stops: ['State Bank', 'Falnir', 'Kankanady', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Kulshekar', 'Kaikamba', 'Neermarga'] },
-  { id: '17', busNumber: '5', description: 'State Bank to Morgan Gate via Kankanady and Nandigudda', stops: ['State Bank', 'Jyothi', 'Bendoorwell', 'Kankanady', 'Nandigudda', 'Marnamikatta', 'Morgan Gate'] },
-  { id: '18', busNumber: '6A', description: 'State Bank to Shaktinagar via Kadri and Kulshekar', stops: ['State Bank', 'Jyothi', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Shaktinagar'] },
-  { id: '19', busNumber: '6B', description: 'State Bank to Shaktinagar via Kankanady and Kulshekar', stops: ['State Bank', 'Falnir', 'Kankanady', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Shaktinagar'] },
-  { id: '20', busNumber: '6C', description: 'State Bank to Shaktinagar via Bunts Hostel and Kulshekar', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Shaktinagar'] },
-  { id: '21', busNumber: '7', description: 'State Bank to Urva Stores via Car Street and Ladyhill', stops: ['State Bank', 'Car Street', 'Alake', 'Mannagudda', 'Ladyhill', 'Chilimbi', 'Urva Stores'] },
-  { id: '22', busNumber: '9A', description: 'State Bank to J.M. Road via Pandeshwar and Bajal', stops: ['State Bank', 'Pandeshwar', 'Jeppu', 'Morgan Gate', 'Jeppupatna', 'Ekkur', 'Mugeru', 'Bajal', 'Bajal Pakkaladka', 'J.M. Road'] },
-  { id: '23', busNumber: '9B', description: 'State Bank to J.M. Road via Jyothi and Bajal', stops: ['State Bank', 'Jyothi', 'Pumpwell', 'Ekkur', 'Mugeru', 'Bajal', 'Bajal Pakkaladka', 'J.M. Road'] },
-  { id: '24', busNumber: '10A', description: 'State Bank to Adyar Launch Jetty via Kankanady and Padil', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Nagori', 'Padil', 'Kannurbettu', 'Adyar', 'Adyar Launch Jetty'] },
-  { id: '25', busNumber: '10B', description: 'State Bank to Adyar Launch Jetty via Jyothi and Padil', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Pumpwell', 'Nagori', 'Padil', 'Kannurbettu', 'Adyar', 'Adyar Launch Jetty'] },
-  { id: '26', busNumber: '11A', description: 'State Bank to Kannurbettu via Kankanady and Garodi', stops: ['State Bank', 'Falnir', 'Kankanady', 'Nagori', 'Garodi', 'Padil', 'Kannurbettu'] },
-  { id: '27', busNumber: '11B', description: 'State Bank to Jalligudde via Kankanady and Garodi', stops: ['State Bank', 'Falnir', 'Kankanady', 'Nagori', 'Garodi', 'Padil', 'Jalligudde'] },
-  { id: '28', busNumber: '12A', description: 'State Bank to Polali via Kadri and Kaikamba', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kudupu', 'Vamanjoor', 'Gurupura', 'Kaikamba', 'Addoor', 'Polali'] },
-  { id: '29', busNumber: '12B', description: 'State Bank to Kolthamajal via Kadri and Kaikamba', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Kadri', 'Bikkarnakatta', 'Kulshekar', 'Kudupu', 'Vamanjoor', 'Gurupura', 'Kaikamba', 'Addoor', 'Polali', 'Kolthamajal'] },
-  { id: '30', busNumber: '13', description: 'State Bank to Urva Stores via Car Street and Ladyhill', stops: ['State Bank', 'Car Street', 'Mannagudda', 'Ladyhill', 'Chilimbi', 'Urva Stores'] },
-  { id: '31', busNumber: '13A', description: 'State Bank to Kottara via Car Street and Ladyhill', stops: ['State Bank', 'Car Street', 'Mannagudda', 'Ladyhill', 'Chilimbi', 'Urva Stores', 'Kottara'] },
-  { id: '32', busNumber: '13C', description: 'State Bank to Bondel via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Kudremukh Housing Colony', 'Hudco Colony', 'Govt. Womens Polytechnic', 'Govt. Quarters', 'Kavoor', 'Bondel'] },
-  { id: '33', busNumber: '13D', description: 'State Bank to Pacchanady Beggari Colony via Lalbagh and Bondel', stops: ['State Bank', 'K.S. Rao Road', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Kudremukh Housing Colony', 'Hudco Colony', 'Govt. Womens Polytechnic', 'Govt. Quarters', 'Kavoor', 'Bondel', 'Padangady', 'Pacchanady Beggari Colony'] },
-  { id: '34', busNumber: '13E', description: 'Mangaladevi to Bondel via Jyothi and Kavoor', stops: ['Mangaladevi', 'Bendoorwell', 'Jyothi', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Kudremukh Housing Colony', 'Hudco Colony', 'Govt. Womens Polytechnic', 'Govt. Quarters', 'Kavoor', 'Bondel'] },
-  { id: '35', busNumber: '14A', description: 'State Bank to Bondel via Kadri and Yeyyadi', stops: ['State Bank', 'Jyothi', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
-  { id: '36', busNumber: '14B', description: 'State Bank to Bondel via Kankanady and Yeyyadi', stops: ['State Bank', 'Falnir', 'Bendoorwell', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
-  { id: '37', busNumber: '14C', description: 'Mangaladevi to Bondel via Kankanady and Yeyyadi', stops: ['Mangaladevi', 'Morgan Gate', 'Attavara', 'Yemmekere', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Akashavani', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padangady', 'Bondel'] },
-  { id: '38', busNumber: '15', description: 'Mangaladevi to Surathkal via Kadri and Baikampady', stops: ['Mangaladevi', 'Morgan Gate', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri Market', 'Nanthur', 'Akashavani', 'Bejai', 'KSRTC Bus Stand', 'Bharat Mall', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal'] },
-  { id: '39', busNumber: '15A', description: 'Mangaladevi to Katipalla via Kadri and Surathkal', stops: ['Mangaladevi', 'Morgan Gate', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri Market', 'Nanthur', 'Akashavani', 'Bejai', 'KSRTC Bus Stand', 'Bharat Mall', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal', 'Krishnapur', 'Katipalla'] },
-  { id: '40', busNumber: '15B', description: 'Mangaladevi to Chelairpadavu via Kadri and Katipalla', stops: ['Mangaladevi', 'Morgan Gate', 'Nandigudda', 'Kankanady', 'Mallikatte', 'Kadri Market', 'Nanthur', 'Akashavani', 'Bejai', 'KSRTC Bus Stand', 'Bharat Mall', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal', 'Krishnapur', 'Katipalla', 'Chelairpadavu'] },
-  { id: '41', busNumber: '16', description: 'State Bank to Sulthan Battery via Kudroli', stops: ['State Bank', 'Mission Street', 'Azizzudin Road', 'Kandathpalli', 'Mandi', 'Gokarnath Temple', 'Kudroli', 'Bokkapatna', 'Boloor', 'Sulthan Battery'] },
-  { id: '42', busNumber: '16A', description: 'State Bank to Sulthan Battery via Car Street and Kudroli', stops: ['State Bank', 'Car Street', 'Alake', 'Kudroli', 'Bokkapatna', 'Boloor', 'Sulthan Battery'] },
-  { id: '43', busNumber: '17', description: 'State Bank to Kunjathbail via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Konchadi', 'Mullakadu', 'Kavoor', 'Maravoor', 'Kunjathbail'] },
-  { id: '44', busNumber: '17A', description: 'State Bank to Kunjathbail via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Konchadi', 'Mullakadu', 'Kavoor', 'Maravoor', 'Kunjathbail'] },
-  { id: '45', busNumber: '17B', description: 'State Bank to Kunjathbail via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Konchadi', 'Mullakadu', 'Kavoor', 'Maravoor', 'Kunjathbail'] },
-  { id: '46', busNumber: '18', description: 'State Bank to Morgan Gate via Pandeshwar and Jeppu Market', stops: ['State Bank', 'Pandeshwar', 'Hoige Bazar', 'Bolar', 'Jeppu Market', 'Morgan Gate'] },
-  { id: '47', busNumber: '19', description: 'State Bank to Pacchanady via Lalbagh and Bondel', stops: ['State Bank', 'Hampankatta', 'Jyothi', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Bejai', 'K.P.T', 'Yeyyadi', 'Konchadi', 'Padavinangadi', 'Bondel', 'Pacchanady'] },
-  { id: '48', busNumber: '21', description: 'State Bank to Neermarga via Kadri and Kaikamba', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Kadri', 'Nanthur', 'Bikkarnakatta', 'Kulshekar', 'Kaikamba', 'Neermarga'] },
-  { id: '49', busNumber: '22', description: 'State Bank to Bajpe via Kadri and Gurupura', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Nanthur', 'Bikkarnakatta', 'Kulshekar', 'Vamanjoor', 'Gurupura', 'Kaikamba', 'Bajpe'] },
-  { id: '50', busNumber: '22A', description: 'State Bank to Bajpe Aerodrome via Kadri and Gurupura', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatte', 'Nanthur', 'Bikkarnakatta', 'Kulshekar', 'Vamanjoor', 'Gurupura', 'Kaikamba', 'Bajpe', 'Bajpe Aerodrome'] },
-  { id: '51', busNumber: '23', description: 'State Bank to Faisalnagar via Kankanady and Padil', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Pumpwell', 'Nagori', 'Garodi', 'Padil', 'Faisalnagar'] },
-  { id: '52', busNumber: '27', description: 'State Bank to Mangaladevi via Attavar and Nandigudda', stops: ['State Bank', 'Attavar', 'Nandigudda', 'Marnamikatta', 'Mangaladevi'] },
-  { id: '53', busNumber: '27A', description: 'State Bank to Mulihitlu via Attavar and Mangaladevi', stops: ['State Bank', 'Attavar', 'Nandigudda', 'Marnamikatta', 'Mangaladevi', 'Mulihitlu'] },
-  { id: '54', busNumber: '29', description: 'State Bank to Morgan Gate via Pandeshwar and Jeppu Market', stops: ['State Bank', 'Pandeshwar', 'Yemmekere', 'Bolar', 'Jeppu Market', 'Morgan Gate'] },
-  { id: '55', busNumber: '30', description: 'State Bank to Padil via Kadri and Maroli', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Bikkarnakatta', 'Maroli', 'Padil'] },
-  { id: '56', busNumber: '30A', description: 'State Bank to Adyar via Kadri and Padil', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Bikkarnakatta', 'Maroli', 'Padil', 'Kannurbettu', 'Adyar'] },
-  { id: '57', busNumber: '30B', description: 'State Bank to Adyar Launch Jetty via Kadri and Padil', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Bikkarnakatta', 'Maroli', 'Padil', 'Kannurbettu', 'Adyar', 'Adyar Launch Jetty'] },
-  { id: '58', busNumber: '31', description: 'State Bank to Shediguri via PVS and Urva Market', stops: ['State Bank', 'PVS', 'Canara College', 'Empire Mall', 'Ballalbagh', 'Mannagudda', 'Urva Market', 'Shediguri'] },
-  { id: '59', busNumber: '31A', description: 'State Bank to Ashoknagar via Lalbagh and Urva Market', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Canara College', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Urva Market', 'Ashoknagar'] },
-  { id: '60', busNumber: '31B', description: 'State Bank to Dombel via Car Street and Urva Market', stops: ['State Bank', 'Car Street', 'Mannagudda', 'Urva Market', 'Ashoknagar', 'Dombel'] },
-  { id: '61', busNumber: '33', description: 'State Bank to Akashbhavan via Lalbagh and Konchadi', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Derebail', 'Konchadi', 'Akashbhavan'] },
-  { id: '62', busNumber: '37', description: 'State Bank to Padil via Kankanady and Maroli', stops: ['State Bank', 'Jyothi', 'Balmatta', 'Kankanady', 'Mallikatte', 'Kadri', 'Nanthur', 'Bikkarnakatta', 'Maroli', 'Padil'] },
-  { id: '63', busNumber: '41A', description: 'State Bank to Chelairpadavu via Lalbagh and Surathkal', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Surathkal', 'Krishnapur', 'Katipalla', 'Chelairpadavu'] },
-  { id: '64', busNumber: '42', description: 'State Bank to Talapady via Kankanady and Thokkottu', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Kotekar', 'Beeri', 'Talapady'] },
-  { id: '65', busNumber: '43', description: 'State Bank to Kinya via Kankanady and Thokkottu', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Kotekar', 'Beeri', 'Talapady', 'Kinya'] },
-  { id: '66', busNumber: '44A', description: 'State Bank to Someshwar via Kankanady and Ullal', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Ullal', 'Someshwar'] },
-  { id: '67', busNumber: '44B', description: 'State Bank to Eliaradavu via Kankanady and Thokkottu', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Kotekar', 'Eliaradavu'] },
-  { id: '68', busNumber: '44C', description: 'State Bank to Ullal Launch Jetty via Kankanady and Thokkottu', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Ullal', 'Ullal Launch Jetty'] },
-  { id: '69', busNumber: '44D', description: 'State Bank to Kotepura via Kankanady and Ullal', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Ullal', 'Kotepura'] },
-  { id: '70', busNumber: '45', description: 'State Bank to Katipalla via Lalbagh and Surathkal', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla'] },
-  { id: '71', busNumber: '45A', description: 'State Bank to Chokkabettu via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Chokkabettu'] },
-  { id: '72', busNumber: '45B', description: 'State Bank to Chokkabettu via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Chokkabettu'] },
-  { id: '73', busNumber: '45C', description: 'State Bank to Kaikamba via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Mangalpete', 'Kaikamba'] },
-  { id: '74', busNumber: '45D', description: 'State Bank to Kuthethur via Lalbagh and MRPL', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Mangalpete', 'MRPL', 'Kuthethur'] },
-  { id: '75', busNumber: '45E', description: 'State Bank to Kaithakurneri via Lalbagh and MRPL', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Mangalpete', 'MRPL', 'Kaithakurneri'] },
-  { id: '76', busNumber: '45F', description: 'State Bank to Kaikamba via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Kaikamba'] },
-  { id: '77', busNumber: '45G', description: 'State Bank to Janatha Colony via Lalbagh and Suratkal', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Mason Road', 'Janatha Colony'] },
-  { id: '78', busNumber: '45H', description: 'State Bank to Madhyapadavu via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Madhyapadavu'] },
-  { id: '79', busNumber: '47', description: 'State Bank to Bajpe via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Kavoor', 'Maravoor', 'Bajpe'] },
-  { id: '80', busNumber: '47A', description: 'State Bank to Bajpe via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Kavoor', 'Maravoor', 'Bajpe'] },
-  { id: '81', busNumber: '47B', description: 'State Bank to Bajpe Aerodrome via Lalbagh and Kavoor', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Kavoor', 'Maravoor', 'Bajpe', 'Bajpe Aerodrome'] },
-  { id: '82', busNumber: '47C', description: 'State Bank to Kattalsara via Lalbagh and Bajpe', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Kapikad', 'Balebail', 'Kottara Cross', 'Kuntikana', 'Kavoor', 'Maravoor', 'Bajpe', 'Bajpe Aerodrome', 'Bhatrakere', 'Kattalsara'] },
-  { id: '83', busNumber: '48', description: 'State Bank to Bajpe via Kadri and Kavoor', stops: ['State Bank', 'Jyothi', 'Bunts Hostel', 'Mallikatta', 'Kadri', 'Nanthur Cross', 'KPT', 'Yeyyadi', 'Konchadi', 'Bondel', 'Kavoor', 'Maravoor', 'Bajpe'] },
-  { id: '84', busNumber: '48A', description: 'State Bank to Bajpe via Lalbagh and Bejai', stops: ['State Bank', 'Hampankatta', 'Jyothi', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Saibeen Complex', 'Bharat Mall', 'KSRTC Bus Stand', 'Bejai', 'Bejai Church', 'Yeyyadi', 'Konchadi', 'Bondel', 'Kavoor', 'Maravoor', 'Bajpe'] },
-  { id: '85', busNumber: '51', description: 'State Bank to Konaje via Kankanady and Mangalore University', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Deralakatte', 'Mangalore University', 'Konaje'] },
-  { id: '86', busNumber: '51A', description: 'State Bank to Inoli via Kankanady and Mangalore University', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Deralakatte', 'Mangalore University', 'Konaje', 'Inoli'] },
-  { id: '87', busNumber: '53', description: 'State Bank to Tibar via Lalbagh and Katipalla', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Chilimbi', 'Urva Store', 'Kottara Chowki', 'Kuloor', 'Panambur', 'Suratkal', 'Kana', 'Krishnapur', 'Katipalla', 'Soorinje', 'Tibar'] },
-  { id: '88', busNumber: '53A', description: 'Kankanady to Tibar via Kadri and Katipalla', stops: ['Kankanady', 'Pumpwell', 'Nanthur', 'Kadri', 'Kuloor', 'Suratkal', 'Chokkabettu', 'Katipalla', 'Soorinje', 'Tibar'] },
-  { id: '89', busNumber: '54', description: 'State Bank to Thaudugoli via Kankanady and Natekal', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Beeri', 'Maddur', 'Natekal', 'Manjanady', 'Thaudugoli'] },
-  { id: '90', busNumber: '54A', description: 'State Bank to Thaudugoli via Kankanady and Natekal', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Deralakatte', 'Natekal', 'Manjanady', 'Thaudugoli'] },
-  { id: '91', busNumber: '55', description: 'State Bank to Pavoor via Kankanady and Konaje', stops: ['State Bank', 'Balmatta', 'Jyothi', 'Kankanady', 'Pumpwell', 'Thokkottu', 'Kuthar', 'Deralakatte', 'Natekal', 'Konaje', 'Fajir', 'Harekal', 'Pavoor'] },
-  { id: '92', busNumber: '59', description: 'State Bank to Suratkal via Lalbagh and Baikampady', stops: ['State Bank', 'K.S. Rao Road', 'PVS', 'Empire Mall', 'Ballalbagh', 'Lalbagh', 'Ladyhill', 'Kuloor', 'Baikampady', 'Chitrapur', 'Hosabettu', 'Suratkal'] },
-];
+export async function getBusRoutes(): Promise<BusRoute[]> {
+  const filePath = path.join(process.cwd(), 'public', 'data', 'bus-data.csv');
+  const fileContent = await fs.readFile(filePath, 'utf-8');
 
-    
+  const lines = fileContent.split('\n');
+  const routes: BusRoute[] = [];
+
+  // Skip header row
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Manual CSV parsing to handle quoted fields containing delimiters
+    const parts: string[] = [];
+    let currentPart = '';
+    let inQuotes = false;
+
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        parts.push(currentPart);
+        currentPart = '';
+      } else {
+        currentPart += char;
+      }
+    }
+    parts.push(currentPart);
+
+    if (parts.length >= 4) {
+      const id = parts[0];
+      const busNumber = parts[1];
+      // Remove surrounding quotes if present
+      const description = parts[2].replace(/^"|"$/g, '');
+      const stopsString = parts[3].replace(/^"|"$/g, '');
+
+      const stops = stopsString.split(';').map(s => s.trim()).filter(s => s.length > 0);
+
+      routes.push({
+        id,
+        busNumber,
+        description,
+        stops
+      });
+    }
+  }
+
+  return routes;
+}

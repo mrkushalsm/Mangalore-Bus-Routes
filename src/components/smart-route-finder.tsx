@@ -1,24 +1,25 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/ai/flows/smart-route-suggestion';
+import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/lib/smart-route-suggestion';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus, Star } from 'lucide-react';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { busRoutes } from '@/lib/bus-data';
+import { BusRoute } from '@/lib/bus-data';
 import { useSavedRoutes } from '@/hooks/use-saved-routes';
 import { AutoComplete } from '@/components/ui/autocomplete';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const formSchema = z.object({
   sourceStop: z.string().min(1, { message: 'Please select a source stop.' }),
@@ -27,10 +28,16 @@ const formSchema = z.object({
 
 type RouteSegment = NonNullable<SmartRouteSuggestionOutput['routes']>[0]['segments'][0];
 
-export function SmartRouteFinder() {
+interface SmartRouteFinderProps {
+  busRoutes: BusRoute[];
+}
+
+export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   const [suggestion, setSuggestion] = useState<SmartRouteSuggestionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Pagination state: grouped by transfer count key (e.g., "0", "1") -> number of visible items
+  const [visibleCount, setVisibleCount] = useState<Record<string, number>>({});
   const { toast } = useToast();
   const { toggleSaveRoute, isRouteSaved } = useSavedRoutes();
 
@@ -42,7 +49,7 @@ export function SmartRouteFinder() {
         });
     });
     return Array.from(stops).sort().map(stop => ({ value: stop, label: stop }));
-  }, []);
+  }, [busRoutes]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,9 +67,21 @@ export function SmartRouteFinder() {
     setIsLoading(true);
     setError(null);
     setSuggestion(null);
+    setVisibleCount({});
     try {
       const result = await smartRouteSuggestion(values);
       setSuggestion(result);
+      
+      // Initialize visibility for all potential groups
+      if (result.isRoutePossible && result.routes) {
+         const updates: Record<string, number> = {};
+         result.routes.forEach(r => {
+             const key = (r.segments.length - 1).toString();
+             if (!updates[key]) updates[key] = 5;
+         });
+         setVisibleCount(updates);
+      }
+
     } catch (e) {
       console.error(e);
       setError('Failed to get route suggestion. Please try again.');
@@ -99,6 +118,13 @@ export function SmartRouteFinder() {
         return bus ? isRouteSaved(bus.id) : false;
     });
   }
+
+  const loadMore = (key: string) => {
+      setVisibleCount(prev => ({
+          ...prev,
+          [key]: (prev[key] || 5) + 5
+      }));
+  };
 
   const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     <Dialog>
@@ -139,6 +165,21 @@ export function SmartRouteFinder() {
     </Dialog>
   );
 
+  // Group routes by transfer count
+  const groupedRoutes = useMemo(() => {
+      if (!suggestion?.routes) return {};
+      const groups: Record<number, typeof suggestion.routes> = {};
+      suggestion.routes.forEach(route => {
+          const transfers = route.segments.length - 1;
+          if (!groups[transfers]) groups[transfers] = [];
+          groups[transfers].push(route);
+      });
+      return groups;
+  }, [suggestion]);
+
+  const sortedTransferKeys = useMemo(() => {
+      return Object.keys(groupedRoutes).map(Number).sort((a,b) => a - b);
+  }, [groupedRoutes]);
 
   return (
     <div className="space-y-6">
@@ -203,43 +244,74 @@ export function SmartRouteFinder() {
             <CardTitle>Suggested Routes</CardTitle>
             <CardDescription>
                 {suggestion.isRoutePossible 
-                    ? `Found ${suggestion.routes.length} possible route(s). Click on a bus segment to see all stops.`
+                    ? `Found ${suggestion.routes.length} possible route(s).`
                     : "No direct or single-transfer route could be found."
                 }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {suggestion.isRoutePossible && suggestion.routes && suggestion.routes.length > 0 ? (
-                <div className="space-y-6">
-                {suggestion.routes.map((route, routeIndex) => (
-                    <div key={routeIndex} className='p-4 border rounded-lg relative'>
-                        <div className="flex items-center justify-center flex-wrap gap-2 text-center">
-                            {route.segments.map((segment, index) => (
-                                <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
-                                    {index > 0 && (
-                                        <div className="flex flex-col items-center mx-2 text-muted-foreground">
-                                            <ChevronsRight className="h-6 w-6" />
-                                            <span className="text-xs">Transfer at</span>
-                                            <span className="text-xs font-semibold">{route.segments[index-1].endStop}</span>
+            {suggestion.isRoutePossible && suggestion.routes.length > 0 ? (
+                <Tabs defaultValue={sortedTransferKeys[0]?.toString()} className="w-full">
+                    <TabsList className="flex flex-wrap h-auto">
+                        {sortedTransferKeys.map(transfers => (
+                            <TabsTrigger key={transfers} value={transfers.toString()}>
+                                {transfers === 0 ? 'Direct' : `${transfers} Transfer${transfers > 1 ? 's' : ''}`}
+                                <Badge variant="secondary" className="ml-2">{groupedRoutes[transfers].length}</Badge>
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                    
+                    {sortedTransferKeys.map(transfers => {
+                        const routesInGroup = groupedRoutes[transfers];
+                        const visible = visibleCount[transfers.toString()] || 5;
+                        const shownRoutes = routesInGroup.slice(0, visible);
+                        const hasMore = visible < routesInGroup.length;
+
+                        return (
+                            <TabsContent key={transfers} value={transfers.toString()} className="space-y-6 mt-6">
+                                {shownRoutes.map((route, routeIndex) => (
+                                    <div key={routeIndex} className='p-4 border rounded-lg relative'>
+                                        <div className="flex items-center justify-center flex-wrap gap-2 text-center">
+                                            {route.segments.map((segment, index) => (
+                                                <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
+                                                    {index > 0 && (
+                                                        <div className="flex flex-col items-center mx-2 text-muted-foreground">
+                                                            <ChevronsRight className="h-6 w-6" />
+                                                            <span className="text-xs">Transfer at</span>
+                                                            <span className="text-xs font-semibold">{route.segments[index-1].endStop}</span>
+                                                        </div>
+                                                    )}
+                                                    <SegmentStopsDialog segment={segment} />
+                                                </div>
+                                            ))}
                                         </div>
-                                    )}
-                                    <SegmentStopsDialog segment={segment} />
-                                </div>
-                            ))}
-                        </div>
-                         <Button
-                            variant={isSuggestedRouteSaved(route) ? 'default' : 'outline'}
-                            size="sm"
-                            onClick={() => handleSaveRoute(route)}
-                            className="absolute top-3 right-3"
-                        >
-                            <Star className={`mr-2 h-4 w-4 ${isSuggestedRouteSaved(route) ? 'fill-current text-yellow-400' : ''}`} />
-                            {isSuggestedRouteSaved(route) ? 'Saved' : 'Save'}
-                        </Button>
-                        {routeIndex < suggestion.routes.length - 1 && <Separator className="mt-6" />}
-                    </div>
-                ))}
-                </div>
+                                         <Button
+                                            variant={isSuggestedRouteSaved(route) ? 'default' : 'outline'}
+                                            size="sm"
+                                            onClick={() => handleSaveRoute(route)}
+                                            className="absolute top-3 right-3"
+                                        >
+                                            <Star className={`mr-2 h-4 w-4 ${isSuggestedRouteSaved(route) ? 'fill-current text-yellow-400' : ''}`} />
+                                            {isSuggestedRouteSaved(route) ? 'Saved' : 'Save'}
+                                        </Button>
+                                        <div className="mt-4 text-xs text-center text-muted-foreground">
+                                            Total Stops: {route.segments.reduce((acc, s) => acc + s.stops.length, 0)}
+                                        </div>
+                                    </div>
+                                ))}
+                                
+                                {hasMore && (
+                                    <div className="flex justify-center pt-4">
+                                        <Button variant="outline" onClick={() => loadMore(transfers.toString())}>
+                                            <ChevronDown className="mr-2 h-4 w-4" />
+                                            Show 5 More
+                                        </Button>
+                                    </div>
+                                )}
+                            </TabsContent>
+                        );
+                    })}
+                </Tabs>
             ) : (
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
