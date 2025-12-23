@@ -6,6 +6,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { Search, Bus, Star, AlertCircle } from 'lucide-react';
 
@@ -18,6 +19,7 @@ export const navItems = [
 
 export function Nav() {
   const pathname = usePathname();
+  const { setOpenMobile, isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -28,7 +30,14 @@ export function Nav() {
             isActive={pathname === item.href}
             tooltip={item.label}
           >
-            <Link href={item.href}>
+            <Link 
+              href={item.href}
+              onClick={() => {
+                if (isMobile) {
+                  setOpenMobile(false);
+                }
+              }}
+            >
               <item.icon className="h-5 w-5" />
               <span>{item.label}</span>
             </Link>
