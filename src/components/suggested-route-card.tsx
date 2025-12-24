@@ -6,7 +6,7 @@ import { useSavedJourneys } from '@/hooks/use-saved-journeys';
 import { useToast } from '@/hooks/use-toast';
 
 import { Button } from '@/components/ui/button';
-import { ChevronsRight, Bus, Star, Trash2 } from 'lucide-react';
+import { ChevronsRight, Bus, Star, Trash2, Loader2, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
@@ -61,15 +61,18 @@ const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     </Dialog>
 );
 
+type SaveState = 'idle' | 'saving' | 'saved';
+
 export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceStop, destinationStop }: SuggestedRouteCardProps) {
     const { addJourney, removeJourney, isJourneySaved } = useSavedJourneys();
     const { toast } = useToast();
+    const [saveState, setSaveState] = useState<SaveState>('idle');
     
     // Generate a stable ID for the route based on its segments
     const journeyId = route.id || route.segments.map(s => `${s.busNumber}-${s.startStop}-${s.endStop}`).join('|');
     const isSaved = isJourneySaved(journeyId);
     
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!sourceStop || !destinationStop) {
             toast({
                 title: "Cannot Save Journey",
@@ -79,16 +82,26 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
             return;
         }
 
+        setSaveState('saving');
+        
+        // Simulate a small delay for visual feedback
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         addJourney({
             ...route,
             id: journeyId,
             sourceStop,
             destinationStop,
         });
+        
+        setSaveState('saved');
         toast({
             title: "Journey Saved!",
             description: "You can view it on the Saved Journeys page."
         });
+
+        // Reset to idle after showing "saved" state
+        setTimeout(() => setSaveState('idle'), 1500);
     };
 
     const handleRemove = () => {
@@ -99,8 +112,51 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
         });
     };
 
+    const renderSaveButton = () => {
+        if (saveState === 'saving') {
+            return (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled
+                    className="gap-1"
+                >
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="text-xs">Saving...</span>
+                </Button>
+            );
+        }
+
+        if (saveState === 'saved') {
+            return (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled
+                    className="gap-1 text-primary"
+                >
+                    <Check className="h-4 w-4" />
+                    <span className="text-xs">Saved!</span>
+                </Button>
+            );
+        }
+
+        // Idle state - show only star icon (empty or filled)
+        return (
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={isSaved ? handleRemove : handleSave}
+                className="h-8 w-8"
+                title={isSaved ? 'Remove from saved' : 'Save journey'}
+            >
+                <Star className={`h-5 w-5 ${isSaved ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+            </Button>
+        );
+    };
+
     return (
-        <div className={isSavedView ? '' : 'p-4 border rounded-lg relative'}>
+        <div className={isSavedView ? '' : 'p-4 border rounded-lg'}>
             <div className="flex items-center justify-center flex-wrap gap-2 text-center">
                 {route.segments.map((segment, index) => (
                     <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
@@ -116,29 +172,24 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                 ))}
             </div>
             
-            {isSavedView ? (
-                <Button
-                    variant='outline'
-                    size="sm"
-                    onClick={handleRemove}
-                    className="absolute top-3 right-3"
-                >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
-                </Button>
-            ) : (
-                <Button
-                    variant={isSaved ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={isSaved ? handleRemove : handleSave}
-                    className="absolute top-3 right-3"
-                >
-                    <Star className={`mr-2 h-4 w-4 ${isSaved ? 'fill-current text-yellow-400' : ''}`} />
-                    {isSaved ? 'Saved' : 'Save'}
-                </Button>
-            )}
+            {/* Save/Remove button - positioned at bottom right */}
+            <div className="flex justify-end mt-3">
+                {isSavedView ? (
+                    <Button
+                        variant='ghost'
+                        size="sm"
+                        onClick={handleRemove}
+                        className="text-destructive hover:text-destructive gap-1"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                        <span className="text-xs">Remove</span>
+                    </Button>
+                ) : (
+                    renderSaveButton()
+                )}
+            </div>
 
-            {!isLast && !isSavedView && <Separator className="mt-6" />}
+            {!isLast && !isSavedView && <Separator className="mt-4" />}
         </div>
     );
 }
