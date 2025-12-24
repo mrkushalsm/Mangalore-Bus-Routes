@@ -129,12 +129,12 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center p-3 rounded-lg bg-secondary/50 border cursor-pointer hover:bg-secondary transition-colors">
-          <div className="flex items-center gap-2 mb-1">
-            <Bus className="h-5 w-5 text-primary" />
-            <Badge variant="outline" className="text-base">{segment.busNumber}</Badge>
+        <div className="flex flex-col items-center p-2 sm:p-3 rounded-lg bg-secondary/50 border cursor-pointer hover:bg-secondary transition-colors">
+          <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
+            <Bus className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <Badge variant="outline" className="text-sm sm:text-base px-1.5 sm:px-2">{segment.busNumber}</Badge>
           </div>
-          <div className="text-sm text-muted-foreground text-center">
+          <div className="text-xs sm:text-sm text-muted-foreground text-center">
             <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
           </div>
         </div>
@@ -147,14 +147,14 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
         <div className="py-4">
             <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
                 {segment.stops.map((stop, index) => (
-                    <li key={index} className="mb-6 ml-6">
-                        <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                            <Bus className="w-3 h-3 text-blue-800 dark:text-blue-300"/>
+                    <li key={index} className="mb-4 sm:mb-6 ml-4 sm:ml-6">
+                        <span className="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-full -left-2.5 sm:-left-3 ring-4 sm:ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                            <Bus className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300"/>
                         </span>
-                        <h3 className="flex items-center mb-1 text-base font-semibold text-gray-900 dark:text-white">
+                        <h3 className="flex items-center mb-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                             {stop}
                             {(stop === segment.startStop || stop === segment.endStop) && (
-                                <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-3">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
+                                <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
                             )}
                         </h3>
                     </li>
@@ -268,34 +268,36 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                         const hasMore = visible < routesInGroup.length;
 
                         return (
-                            <TabsContent key={transfers} value={transfers.toString()} className="space-y-6 mt-6">
+                            <TabsContent key={transfers} value={transfers.toString()} className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
                                 {shownRoutes.map((route, routeIndex) => (
-                                    <div key={routeIndex} className='p-4 border rounded-lg relative'>
-                                        <div className="flex items-center justify-center flex-wrap gap-2 text-center">
+                                    <div key={routeIndex} className='p-3 sm:p-4 border rounded-lg'>
+                                        <div className="flex items-center justify-center flex-wrap gap-1 sm:gap-2 text-center">
                                             {route.segments.map((segment, index) => (
-                                                <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
+                                                <div key={index} className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 justify-center">
                                                     {index > 0 && (
-                                                        <div className="flex flex-col items-center mx-2 text-muted-foreground">
-                                                            <ChevronsRight className="h-6 w-6" />
-                                                            <span className="text-xs">Transfer at</span>
-                                                            <span className="text-xs font-semibold">{route.segments[index-1].endStop}</span>
+                                                        <div className="flex flex-col items-center mx-1 sm:mx-2 text-muted-foreground py-1 sm:py-0">
+                                                            <ChevronsRight className="h-4 w-4 sm:h-6 sm:w-6" />
+                                                            <span className="text-[10px] sm:text-xs leading-tight">Transfer at</span>
+                                                            <span className="text-[10px] sm:text-xs font-semibold leading-tight">{route.segments[index-1].endStop}</span>
                                                         </div>
                                                     )}
                                                     <SegmentStopsDialog segment={segment} />
                                                 </div>
                                             ))}
                                         </div>
-                                         <Button
-                                            variant={isSuggestedRouteSaved(route) ? 'default' : 'outline'}
-                                            size="sm"
-                                            onClick={() => handleSaveRoute(route)}
-                                            className="absolute top-3 right-3"
-                                        >
-                                            <Star className={`mr-2 h-4 w-4 ${isSuggestedRouteSaved(route) ? 'fill-current text-yellow-400' : ''}`} />
-                                            {isSuggestedRouteSaved(route) ? 'Saved' : 'Save'}
-                                        </Button>
-                                        <div className="mt-4 text-xs text-center text-muted-foreground">
-                                            Total Stops: {route.segments.reduce((acc, s) => acc + s.stops.length, 0)}
+                                        <div className="flex items-center justify-between mt-2 sm:mt-3">
+                                            <div className="text-[10px] sm:text-xs text-muted-foreground">
+                                                Total Stops: {route.segments.reduce((acc, s) => acc + s.stops.length, 0)}
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleSaveRoute(route)}
+                                                className="h-7 w-7 sm:h-8 sm:w-8"
+                                                title={isSuggestedRouteSaved(route) ? 'Already saved' : 'Save route'}
+                                            >
+                                                <Star className={`h-4 w-4 sm:h-5 sm:w-5 ${isSuggestedRouteSaved(route) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                                            </Button>
                                         </div>
                                     </div>
                                 ))}

@@ -95,8 +95,9 @@ id,busNumber,description,stops
 106,16A,State Bank to Sulthan Batheri,State Bank;Kudroli;Churchgate;Boloor;Sulthan Batheri
 107,16B,Nehru Circle to Vishranthi Church Bokkapatna,Nehru Circle;Jyoti;PVS;Lalbagh;Lady Hill;Urwa Market;Vishranthi Church Bokkapatna
 108,16C,Sulthan Batheri to Pumpwell,Sulthan Batheri;Urwa Market;Lady Hill;Lalbagh;Bejai;KPT;Nanthoor;Pumpwell
-109,17A,State Bank to Kunjathbail,State Bank;PVS;Lalbagh;KSRTC;Muliyakad;Kavoor;Markada;Kunjathbail
-110,17B,State Bank to Kunjathbail,State Bank;PVS;Lalbagh;KSRTC;Muliyakad;Kavoor;Markada;Kunjathbail
+191,17,State Bank to Kunjathbail,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
+109,17A,State Bank to Kunjathbail,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
+110,17B,State Bank to Kunjathbail,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
 111,18,State Bank to Morgans Gate,State Bank;RTO;Hoige Bazar;Marigudi;Mangaldevi Cross;Jeppu Market;Morgans Gate
 112,19,State Bank to Bondel,State Bank;Light House Hill;Jyoti;Bunts Hostel;PVS;Lalbagh;Bejai Church;Yeyyadi;Maryhill;Pachhanady;Bondel
 113,19,State Bank to Beggars Colony,State Bank;PVS;Lalbagh;KPT;Maryhill;Bondel;Pachhanady;Beggars Colony

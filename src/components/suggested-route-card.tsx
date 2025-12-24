@@ -25,12 +25,16 @@ type SuggestedRouteCardProps = {
 const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center p-3 rounded-lg bg-secondary/50 border cursor-pointer hover:bg-secondary transition-colors">
-          <div className="flex items-center gap-2 mb-1">
-            <Bus className="h-5 w-5 text-primary" />
-            <Badge variant="outline" className="text-base">{segment.busNumber}</Badge>
+        {/* Responsive: smaller padding and text on mobile */}
+        <div className="flex flex-col items-center p-2 sm:p-3 rounded-lg bg-secondary/50 border cursor-pointer hover:bg-secondary transition-colors">
+          <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
+            {/* Responsive icon size */}
+            <Bus className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            {/* Responsive badge size */}
+            <Badge variant="outline" className="text-sm sm:text-base px-1.5 sm:px-2">{segment.busNumber}</Badge>
           </div>
-          <div className="text-sm text-muted-foreground text-center">
+          {/* Responsive text size */}
+          <div className="text-xs sm:text-sm text-muted-foreground text-center">
             <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
           </div>
         </div>
@@ -43,14 +47,14 @@ const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
         <div className="py-4">
             <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
                 {segment.stops.map((stop, index) => (
-                    <li key={index} className="mb-6 ml-6">
-                        <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                            <Bus className="w-3 h-3 text-blue-800 dark:text-blue-300"/>
+                    <li key={index} className="mb-4 sm:mb-6 ml-4 sm:ml-6">
+                        <span className="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-full -left-2.5 sm:-left-3 ring-4 sm:ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                            <Bus className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300"/>
                         </span>
-                        <h3 className="flex items-center mb-1 text-base font-semibold text-gray-900 dark:text-white">
+                        <h3 className="flex items-center mb-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                             {stop}
                             {(stop === segment.startStop || stop === segment.endStop) && (
-                                <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-3">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
+                                <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
                             )}
                         </h3>
                     </li>
@@ -119,9 +123,9 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                     variant="ghost"
                     size="sm"
                     disabled
-                    className="gap-1"
+                    className="gap-1 h-7 sm:h-8"
                 >
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
                     <span className="text-xs">Saving...</span>
                 </Button>
             );
@@ -133,9 +137,9 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                     variant="ghost"
                     size="sm"
                     disabled
-                    className="gap-1 text-primary"
+                    className="gap-1 text-primary h-7 sm:h-8"
                 >
-                    <Check className="h-4 w-4" />
+                    <Check className="h-3 w-3 sm:h-4 sm:w-4" />
                     <span className="text-xs">Saved!</span>
                 </Button>
             );
@@ -147,24 +151,27 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                 variant="ghost"
                 size="icon"
                 onClick={isSaved ? handleRemove : handleSave}
-                className="h-8 w-8"
+                className="h-7 w-7 sm:h-8 sm:w-8"
                 title={isSaved ? 'Remove from saved' : 'Save journey'}
             >
-                <Star className={`h-5 w-5 ${isSaved ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                <Star className={`h-4 w-4 sm:h-5 sm:w-5 ${isSaved ? 'fill-yellow-400 text-yellow-400' : ''}`} />
             </Button>
         );
     };
 
     return (
-        <div className={isSavedView ? '' : 'p-4 border rounded-lg'}>
-            <div className="flex items-center justify-center flex-wrap gap-2 text-center">
+        // Responsive padding: p-3 on mobile, p-4 on desktop
+        <div className={isSavedView ? '' : 'p-3 sm:p-4 border rounded-lg'}>
+            {/* Responsive gaps and layout */}
+            <div className="flex items-center justify-center flex-wrap gap-1 sm:gap-2 text-center">
                 {route.segments.map((segment, index) => (
-                    <div key={index} className="flex items-center flex-wrap gap-2 justify-center">
+                    <div key={index} className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 justify-center">
                         {index > 0 && (
-                            <div className="flex flex-col items-center mx-2 text-muted-foreground">
-                                <ChevronsRight className="h-6 w-6" />
-                                <span className="text-xs">Transfer at</span>
-                                <span className="text-xs font-semibold">{route.segments[index-1].endStop}</span>
+                            // Transfer indicator - stacked on mobile, inline on desktop
+                            <div className="flex flex-col items-center mx-1 sm:mx-2 text-muted-foreground py-1 sm:py-0">
+                                <ChevronsRight className="h-4 w-4 sm:h-6 sm:w-6" />
+                                <span className="text-[10px] sm:text-xs leading-tight">Transfer at</span>
+                                <span className="text-[10px] sm:text-xs font-semibold leading-tight">{route.segments[index-1].endStop}</span>
                             </div>
                         )}
                         <SegmentStopsDialog segment={segment} />
@@ -172,16 +179,16 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                 ))}
             </div>
             
-            {/* Save/Remove button - positioned at bottom right */}
-            <div className="flex justify-end mt-3">
+            {/* Save/Remove button - responsive margin */}
+            <div className="flex justify-end mt-2 sm:mt-3">
                 {isSavedView ? (
                     <Button
                         variant='ghost'
                         size="sm"
                         onClick={handleRemove}
-                        className="text-destructive hover:text-destructive gap-1"
+                        className="text-destructive hover:text-destructive gap-1 h-7 sm:h-8"
                     >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         <span className="text-xs">Remove</span>
                     </Button>
                 ) : (
@@ -189,7 +196,7 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
                 )}
             </div>
 
-            {!isLast && !isSavedView && <Separator className="mt-4" />}
+            {!isLast && !isSavedView && <Separator className="mt-3 sm:mt-4" />}
         </div>
     );
 }
