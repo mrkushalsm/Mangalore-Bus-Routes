@@ -417,7 +417,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                 Tap cards to expand. Tap bus badges to view stops.
               </p>
               <p className="text-[10px] sm:text-xs text-amber-500/90">
-                ⚠️ Timings not available. Routes may vary. Please verify with locals before travel.
+                ⚠️ This is community data. No bus timings available, routes may vary. Please verify at the bus stop and/or with the locals.
               </p>
               <p className="text-[10px] sm:text-xs text-muted-foreground">
                 Found an error? <a href="/settings" className="text-primary hover:underline">Report in Settings</a>

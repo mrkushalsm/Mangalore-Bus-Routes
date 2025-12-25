@@ -139,7 +139,7 @@ export default function SettingsPage() {
             </a>
             
             <a
-              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new?labels=data&title=%5BRoute%20Data%5D"
+              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new?labels=data&template=route_data_issue.md&title=%5BRoute%20Data%5D"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between p-3 rounded-lg border hover:bg-secondary/50 transition-colors group"

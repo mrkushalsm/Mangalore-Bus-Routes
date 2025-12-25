@@ -13,7 +13,7 @@ export function AppLayout({ children }: PropsWithChildren) {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 mb-16 md:mb-0">
         {children}
       </main>
 
