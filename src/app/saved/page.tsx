@@ -37,12 +37,6 @@ export default function SavedRoutesPage() {
         <div className="relative container mx-auto max-w-6xl px-4 py-8 sm:py-12">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-accent/10">
-                  <Bookmark className="h-5 w-5 text-accent" />
-                </div>
-                <span className="text-sm font-medium text-accent">Your Collection</span>
-              </div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 Saved Journeys
               </h1>

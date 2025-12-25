@@ -14,12 +14,6 @@ export default async function RoutesPage() {
         <div className="relative container mx-auto max-w-6xl px-4 py-8 sm:py-12">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-primary/10">
-                  <Bus className="h-5 w-5 text-primary" />
-                </div>
-                <span className="text-sm font-medium text-primary">Browse All</span>
-              </div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 Available Bus Routes
               </h1>

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,16 +10,16 @@ import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/lib/sma
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, Info } from 'lucide-react';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { BusRoute } from '@/lib/bus-data';
-import { useSavedRoutes } from '@/hooks/use-saved-routes';
+import { useSavedJourneys } from '@/hooks/use-saved-journeys';
 import { AutoComplete } from '@/components/ui/autocomplete';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 const formSchema = z.object({
   sourceStop: z.string().min(1, { message: 'Please select a source stop.' }),
@@ -27,6 +27,7 @@ const formSchema = z.object({
 });
 
 type RouteSegment = NonNullable<SmartRouteSuggestionOutput['routes']>[0]['segments'][0];
+type SuggestedRoute = NonNullable<SmartRouteSuggestionOutput['routes']>[0];
 
 interface SmartRouteFinderProps {
   busRoutes: BusRoute[];
@@ -36,10 +37,10 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   const [suggestion, setSuggestion] = useState<SmartRouteSuggestionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // Pagination state: grouped by transfer count key (e.g., "0", "1") -> number of visible items
   const [visibleCount, setVisibleCount] = useState<Record<string, number>>({});
+  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const { toast } = useToast();
-  const { toggleSaveRoute, isRouteSaved } = useSavedRoutes();
+  const { addJourney, removeJourney, isJourneySaved } = useSavedJourneys();
 
   const allStops = useMemo(() => {
     const stops = new Set<string>();
@@ -68,16 +69,16 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     setError(null);
     setSuggestion(null);
     setVisibleCount({});
+    setOpenAccordions(new Set());
     try {
       const result = await smartRouteSuggestion(values);
       setSuggestion(result);
       
-      // Initialize visibility for all potential groups
       if (result.isRoutePossible && result.routes) {
          const updates: Record<string, number> = {};
          result.routes.forEach(r => {
              const key = (r.segments.length - 1).toString();
-             if (!updates[key]) updates[key] = 5;
+             if (!updates[key]) updates[key] = 10;
          });
          setVisibleCount(updates);
       }
@@ -90,54 +91,67 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     }
   }
 
-  const handleSaveRoute = (route: NonNullable<SmartRouteSuggestionOutput['routes']>[0]) => {
-    let savedCount = 0;
-    route.segments.forEach(segment => {
-        const bus = busRoutes.find(r => r.busNumber === segment.busNumber);
-        if (bus && !isRouteSaved(bus.id)) {
-            toggleSaveRoute(bus.id);
-            savedCount++;
-        }
-    });
-    if (savedCount > 0) {
-        toast({
-            title: "Route Saved!",
-            description: `Added ${savedCount} new bus route(s) to your saved list.`
-        });
+  // Generate a stable ID for a route based on its segments
+  const getJourneyId = (route: SuggestedRoute) => {
+    return route.segments.map(s => `${s.busNumber}-${s.startStop}-${s.endStop}`).join('|');
+  };
+
+  const handleSaveRoute = (route: SuggestedRoute) => {
+    const journeyId = getJourneyId(route);
+    const sourceStop = form.getValues('sourceStop');
+    const destinationStop = form.getValues('destinationStop');
+    
+    if (isJourneySaved(journeyId)) {
+      removeJourney(journeyId);
+      toast({
+        title: "Journey Removed",
+        description: "The journey has been removed from your saved list."
+      });
     } else {
-        toast({
-            title: "Already Saved",
-            description: "All buses in this route are already in your saved list."
-        });
+      addJourney({
+        ...route,
+        id: journeyId,
+        sourceStop,
+        destinationStop,
+      });
+      toast({
+        title: "Journey Saved!",
+        description: "You can view it on the Saved Journeys page."
+      });
     }
   }
   
-  const isSuggestedRouteSaved = (route: NonNullable<SmartRouteSuggestionOutput['routes']>[0]) => {
-    return route.segments.every(segment => {
-        const bus = busRoutes.find(r => r.busNumber === segment.busNumber);
-        return bus ? isRouteSaved(bus.id) : false;
-    });
+  const isSuggestedRouteSaved = (route: SuggestedRoute) => {
+    const journeyId = getJourneyId(route);
+    return isJourneySaved(journeyId);
   }
 
   const loadMore = (key: string) => {
       setVisibleCount(prev => ({
           ...prev,
-          [key]: (prev[key] || 5) + 5
+          [key]: (prev[key] || 10) + 10
       }));
+  };
+
+  const toggleAccordion = (key: string) => {
+    setOpenAccordions(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
   };
 
   const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center p-2 sm:p-3 rounded-lg bg-secondary/50 border cursor-pointer hover:bg-secondary transition-colors">
-          <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
-            <Bus className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-            <Badge variant="outline" className="text-sm sm:text-base px-1.5 sm:px-2">{segment.busNumber}</Badge>
-          </div>
-          <div className="text-xs sm:text-sm text-muted-foreground text-center">
-            <span className="font-medium text-foreground">{segment.startStop}</span> to <span className="font-medium text-foreground">{segment.endStop}</span>
-          </div>
-        </div>
+        <button className="flex items-center gap-1 px-2 py-1 rounded bg-secondary/50 border text-xs sm:text-sm hover:bg-secondary transition-colors">
+          <Bus className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+          <span className="font-medium">{segment.busNumber}</span>
+        </button>
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] overflow-y-auto">
         <DialogHeader>
@@ -166,9 +180,9 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   );
 
   // Group routes by transfer count
-  const groupedRoutes = useMemo(() => {
+  const groupedByTransfers = useMemo(() => {
       if (!suggestion?.routes) return {};
-      const groups: Record<number, typeof suggestion.routes> = {};
+      const groups: Record<number, SuggestedRoute[]> = {};
       suggestion.routes.forEach(route => {
           const transfers = route.segments.length - 1;
           if (!groups[transfers]) groups[transfers] = [];
@@ -177,21 +191,127 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
       return groups;
   }, [suggestion]);
 
+  // Further group by first bus within each transfer group
+  const groupedByFirstBus = useMemo(() => {
+      const result: Record<number, Record<string, SuggestedRoute[]>> = {};
+      
+      Object.entries(groupedByTransfers).forEach(([transferKey, routes]) => {
+          const transfers = parseInt(transferKey);
+          result[transfers] = {};
+          
+          routes.forEach(route => {
+              const firstBus = route.segments[0].busNumber;
+              const firstSegmentKey = `${firstBus}|${route.segments[0].startStop}|${route.segments[0].endStop}`;
+              if (!result[transfers][firstSegmentKey]) {
+                  result[transfers][firstSegmentKey] = [];
+              }
+              result[transfers][firstSegmentKey].push(route);
+          });
+      });
+      
+      return result;
+  }, [groupedByTransfers]);
+
   const sortedTransferKeys = useMemo(() => {
-      return Object.keys(groupedRoutes).map(Number).sort((a,b) => a - b);
-  }, [groupedRoutes]);
+      return Object.keys(groupedByTransfers).map(Number).sort((a,b) => a - b);
+  }, [groupedByTransfers]);
+
+  // Render a single route option within accordion
+  const renderRouteOption = (route: SuggestedRoute, idx: number) => {
+    const hasTransfers = route.segments.length > 1;
+    
+    return (
+      <div key={idx} className={`flex items-center justify-between py-2 px-2 ${idx > 0 ? 'border-t' : ''}`}>
+        <div className="flex items-center gap-1 flex-wrap text-xs sm:text-sm">
+          {hasTransfers ? (
+            <>
+              <span className="text-muted-foreground text-[10px] sm:text-xs">Transfer @{route.segments[0].endStop}:</span>
+              {route.segments.slice(1).map((segment, segIdx) => (
+                <div key={segIdx} className="flex items-center gap-1">
+                  {segIdx > 0 && <ChevronsRight className="h-3 w-3 text-muted-foreground" />}
+                  <SegmentStopsDialog segment={segment} />
+                  <span className="text-muted-foreground">→</span>
+                  <span className="font-medium text-xs sm:text-sm">{segment.endStop}</span>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <span className="text-muted-foreground">Direct to</span>
+              <span className="font-medium">{route.segments[0].endStop}</span>
+              <span className="text-muted-foreground text-[10px] sm:text-xs">({route.segments[0].stops.length} stops)</span>
+            </>
+          )}
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(e) => { e.stopPropagation(); handleSaveRoute(route); }}
+          className="h-6 w-6 sm:h-7 sm:w-7 shrink-0"
+          title={isSuggestedRouteSaved(route) ? 'Already saved' : 'Save route'}
+        >
+          <Star className={`h-3 w-3 sm:h-4 sm:w-4 ${isSuggestedRouteSaved(route) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+        </Button>
+      </div>
+    );
+  };
+
+  // Render an accordion card for routes starting with the same bus
+  const renderAccordionCard = (firstSegmentKey: string, routes: SuggestedRoute[], transferKey: number) => {
+    const firstRoute = routes[0];
+    const firstSegment = firstRoute.segments[0];
+    const accordionKey = `${transferKey}-${firstSegmentKey}`;
+    const isOpen = openAccordions.has(accordionKey);
+    const routeCount = routes.length;
+    
+    return (
+      <Collapsible key={firstSegmentKey} open={isOpen} onOpenChange={() => toggleAccordion(accordionKey)}>
+        <CollapsibleTrigger asChild>
+          <div className="p-3 sm:p-4 border rounded-lg cursor-pointer hover:bg-secondary/30 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5">
+                  <Bus className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  <Badge variant="outline" className="text-sm sm:text-base font-semibold">{firstSegment.busNumber}</Badge>
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground">
+                  {firstSegment.startStop} → {firstSegment.endStop}
+                </div>
+                <Badge variant="secondary" className="text-[10px] sm:text-xs">
+                  {routeCount} {routeCount === 1 ? 'route' : 'routes'}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <SegmentStopsDialog segment={firstSegment} />
+                {isOpen ? (
+                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
+            </div>
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="mt-1 ml-4 sm:ml-6 border-l-2 border-primary/30 bg-secondary/20 rounded-b-lg">
+            {routes.map((route, idx) => renderRouteOption(route, idx))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    );
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
+          <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="sourceStop"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Source Bus Stop</FormLabel>
+                  <FormLabel className="text-xs sm:text-sm">Source Bus Stop</FormLabel>
                   <FormControl>
                     <AutoComplete 
                         options={allStops}
@@ -209,7 +329,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               name="destinationStop"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Destination Bus Stop</FormLabel>
+                  <FormLabel className="text-xs sm:text-sm">Destination Bus Stop</FormLabel>
                   <FormControl>
                     <AutoComplete 
                         options={allStops}
@@ -239,74 +359,44 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
       )}
 
       {suggestion && (
-        <Card className="mt-6 animate-in fade-in">
-          <CardHeader>
-            <CardTitle>Suggested Routes</CardTitle>
-            <CardDescription>
+        <Card className="mt-4 sm:mt-6 animate-in fade-in">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-base sm:text-lg">Suggested Routes</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
                 {suggestion.isRoutePossible 
                     ? `Found ${suggestion.routes.length} possible route(s).`
                     : "No direct or single-transfer route could be found."
                 }
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4">
             {suggestion.isRoutePossible && suggestion.routes.length > 0 ? (
                 <Tabs defaultValue={sortedTransferKeys[0]?.toString()} className="w-full">
-                    <TabsList className="flex flex-wrap h-auto">
+                    <TabsList className="flex flex-wrap h-auto gap-1">
                         {sortedTransferKeys.map(transfers => (
-                            <TabsTrigger key={transfers} value={transfers.toString()}>
+                            <TabsTrigger key={transfers} value={transfers.toString()} className="text-xs sm:text-sm px-2 sm:px-3">
                                 {transfers === 0 ? 'Direct' : `${transfers} Transfer${transfers > 1 ? 's' : ''}`}
-                                <Badge variant="secondary" className="ml-2">{groupedRoutes[transfers].length}</Badge>
+                                <Badge variant="secondary" className="ml-1 sm:ml-2 text-[10px] sm:text-xs">{groupedByTransfers[transfers].length}</Badge>
                             </TabsTrigger>
                         ))}
                     </TabsList>
                     
                     {sortedTransferKeys.map(transfers => {
-                        const routesInGroup = groupedRoutes[transfers];
-                        const visible = visibleCount[transfers.toString()] || 5;
-                        const shownRoutes = routesInGroup.slice(0, visible);
-                        const hasMore = visible < routesInGroup.length;
+                        const busGroups = groupedByFirstBus[transfers] || {};
+                        const groupKeys = Object.keys(busGroups);
+                        const visible = visibleCount[transfers.toString()] || 10;
+                        const shownGroups = groupKeys.slice(0, visible);
+                        const hasMore = visible < groupKeys.length;
 
                         return (
-                            <TabsContent key={transfers} value={transfers.toString()} className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
-                                {shownRoutes.map((route, routeIndex) => (
-                                    <div key={routeIndex} className='p-3 sm:p-4 border rounded-lg'>
-                                        <div className="flex items-center justify-center flex-wrap gap-1 sm:gap-2 text-center">
-                                            {route.segments.map((segment, index) => (
-                                                <div key={index} className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 justify-center">
-                                                    {index > 0 && (
-                                                        <div className="flex flex-col items-center mx-1 sm:mx-2 text-muted-foreground py-1 sm:py-0">
-                                                            <ChevronsRight className="h-4 w-4 sm:h-6 sm:w-6" />
-                                                            <span className="text-[10px] sm:text-xs leading-tight">Transfer at</span>
-                                                            <span className="text-[10px] sm:text-xs font-semibold leading-tight">{route.segments[index-1].endStop}</span>
-                                                        </div>
-                                                    )}
-                                                    <SegmentStopsDialog segment={segment} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <div className="flex items-center justify-between mt-2 sm:mt-3">
-                                            <div className="text-[10px] sm:text-xs text-muted-foreground">
-                                                Total Stops: {route.segments.reduce((acc, s) => acc + s.stops.length, 0)}
-                                            </div>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleSaveRoute(route)}
-                                                className="h-7 w-7 sm:h-8 sm:w-8"
-                                                title={isSuggestedRouteSaved(route) ? 'Already saved' : 'Save route'}
-                                            >
-                                                <Star className={`h-4 w-4 sm:h-5 sm:w-5 ${isSuggestedRouteSaved(route) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
+                            <TabsContent key={transfers} value={transfers.toString()} className="space-y-2 sm:space-y-3 mt-3 sm:mt-4">
+                                {shownGroups.map(groupKey => renderAccordionCard(groupKey, busGroups[groupKey], transfers))}
                                 
                                 {hasMore && (
-                                    <div className="flex justify-center pt-4">
-                                        <Button variant="outline" onClick={() => loadMore(transfers.toString())}>
-                                            <ChevronDown className="mr-2 h-4 w-4" />
-                                            Show 5 More
+                                    <div className="flex justify-center pt-2 sm:pt-4">
+                                        <Button variant="outline" size="sm" onClick={() => loadMore(transfers.toString())}>
+                                            <ChevronDown className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                                            <span className="text-xs sm:text-sm">Show More</span>
                                         </Button>
                                     </div>
                                 )}
@@ -321,10 +411,10 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                     <AlertDescription>{suggestion.reasoning}</AlertDescription>
                 </Alert>
             )}
-            <div className="flex items-start gap-2 pt-4 text-xs text-muted-foreground border-t mt-2">
-              <Info className="h-4 w-4 shrink-0 translate-y-0.5" />
+            <div className="flex items-start gap-2 pt-3 sm:pt-4 text-[10px] sm:text-xs text-muted-foreground border-t mt-2">
+              <Info className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 translate-y-0.5" />
               <p>
-                Note: Routes are subject to bus availability. Frequency is not guaranteed for all routes.
+                Tap cards to expand and see route options. Tap bus badges to view all stops.
               </p>
             </div>
           </CardContent>

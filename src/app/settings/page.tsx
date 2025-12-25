@@ -1,6 +1,6 @@
 'use client';
 
-import { Settings as SettingsIcon, Moon, Sun, Github, Heart } from 'lucide-react';
+import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -96,6 +96,65 @@ export default function SettingsPage() {
                 Built by Kushal SM
               </p>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Support */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Support & Feedback</CardTitle>
+            <CardDescription>Help us improve the app</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <a
+              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new?labels=bug&template=bug_report.md&title=%5BBug%5D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-secondary/50 transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <Bug className="h-5 w-5 text-red-500" />
+                <div>
+                  <p className="text-sm font-medium">Report a Bug</p>
+                  <p className="text-xs text-muted-foreground">Found something broken? Let us know</p>
+                </div>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            </a>
+            
+            <a
+              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new?labels=enhancement&template=feature_request.md&title=%5BFeature%5D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-secondary/50 transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <Lightbulb className="h-5 w-5 text-yellow-500" />
+                <div>
+                  <p className="text-sm font-medium">Request a Feature</p>
+                  <p className="text-xs text-muted-foreground">Have an idea? We'd love to hear it</p>
+                </div>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            </a>
+            
+            <a
+              href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new?labels=data&title=%5BRoute%20Data%5D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-secondary/50 transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <svg className="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 9h18M3 15h18M5 3v18M19 3v18" />
+                </svg>
+                <div>
+                  <p className="text-sm font-medium">Report Route Data Issue</p>
+                  <p className="text-xs text-muted-foreground">Missing or incorrect bus route info</p>
+                </div>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            </a>
           </CardContent>
         </Card>
       </div>

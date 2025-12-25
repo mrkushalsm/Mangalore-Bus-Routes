@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Bus, Github, Star, Search } from 'lucide-react';
+import { Menu, Bus, Github, Star, Search, Bug, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/', label: 'Route Finder', icon: Search },
   { href: '/routes', label: 'All Routes', icon: Bus },
   { href: '/saved', label: 'Saved Journeys', icon: Star },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
 export function FloatingDock() {
@@ -51,16 +52,18 @@ export function FloatingDock() {
 
   return (
     <>
-      {/* Hamburger trigger */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-9 w-9"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
-      >
-        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </Button>
+      {/* Hamburger trigger - hidden when sidebar is open */}
+      {!isOpen && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9"
+          onClick={() => setIsOpen(true)}
+          aria-label="Open menu"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+      )}
 
       {/* Backdrop */}
       {isOpen && (
@@ -123,7 +126,25 @@ export function FloatingDock() {
           <div className="p-4 border-t border-border/50">
             {/* Credits */}
             <div className="px-4 space-y-2 text-xs text-muted-foreground">
-              <p>
+              <a
+                href="https://github.com/mrkushalsm/Mangalore-Bus-Routes/issues/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-medium hover:text-foreground transition-colors py-1"
+              >
+                <Bug className="h-4 w-4" />
+                Report an Issue
+              </a>
+              <a
+                href="https://github.com/mrkushalsm/Mangalore-Bus-Routes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-medium hover:text-foreground transition-colors py-1"
+              >
+                <Github className="h-4 w-4" />
+                View on GitHub
+              </a>
+              <p className="pt-1 border-t border-border/50">
                 Built by{' '}
                 <a
                   href="https://github.com/mrkushalsm"
@@ -134,15 +155,6 @@ export function FloatingDock() {
                   Kushal SM
                 </a>
               </p>
-              <a
-                href="https://github.com/mrkushalsm/Mangalore-Bus-Routes"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 font-medium hover:text-foreground transition-colors"
-              >
-                <Github className="h-4 w-4" />
-                View on GitHub
-              </a>
             </div>
           </div>
         </div>
