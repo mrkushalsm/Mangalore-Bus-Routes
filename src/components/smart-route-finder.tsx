@@ -411,10 +411,16 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                     <AlertDescription>{suggestion.reasoning}</AlertDescription>
                 </Alert>
             )}
-            <div className="flex items-start gap-2 pt-3 sm:pt-4 text-[10px] sm:text-xs text-muted-foreground border-t mt-2">
-              <Info className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 translate-y-0.5" />
-              <p>
-                Tap cards to expand and see route options. Tap bus badges to view all stops.
+            <div className="pt-3 sm:pt-4 border-t mt-2 space-y-2">
+              <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1.5">
+                <Info className="h-3 w-3 shrink-0" />
+                Tap cards to expand. Tap bus badges to view stops.
+              </p>
+              <p className="text-[10px] sm:text-xs text-amber-500/90">
+                ⚠️ Timings not available. Routes may vary. Please verify with locals before travel.
+              </p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                Found an error? <a href="/settings" className="text-primary hover:underline">Report in Settings</a>
               </p>
             </div>
           </CardContent>

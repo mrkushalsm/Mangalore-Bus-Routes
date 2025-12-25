@@ -103,7 +103,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Support & Feedback</CardTitle>
-            <CardDescription>Help us improve the app</CardDescription>
+            <CardDescription>Help us improve the app!</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <a
