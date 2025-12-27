@@ -237,13 +237,12 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     const hasTransfers = route.segments.length > 1;
     
     return (
-      <div key={idx} className={`flex items-center justify-between py-2 px-2 ${idx > 0 ? 'border-t' : ''}`}>
-        <div className="flex items-center gap-1 flex-wrap text-xs sm:text-sm">
+      <div key={idx} className={`flex items-start justify-between py-2 px-2 ${idx > 0 ? 'border-t' : ''}`}>
+        <div className="flex flex-col gap-1 text-xs sm:text-sm">
           {hasTransfers ? (
             <>
               {route.segments.slice(1).map((segment, segIdx) => (
                 <div key={segIdx} className="flex items-center gap-1">
-                  {segIdx > 0 && <ChevronsRight className="h-3 w-3 text-muted-foreground" />}
                   <SegmentStopsDialog segment={segment} />
                   <span className="text-muted-foreground">→</span>
                   <span className="font-medium text-xs sm:text-sm">{segment.endStop}</span>
@@ -251,11 +250,11 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               ))}
             </>
           ) : (
-            <>
+            <div className="flex items-center gap-1">
               <span className="text-muted-foreground">Direct to</span>
               <span className="font-medium">{route.segments[0].endStop}</span>
               <span className="text-muted-foreground text-[10px] sm:text-xs">({route.segments[0].stops.length} stops)</span>
-            </>
+            </div>
           )}
         </div>
         <Button
