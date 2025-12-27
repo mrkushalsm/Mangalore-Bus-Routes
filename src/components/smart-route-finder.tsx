@@ -145,39 +145,55 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     });
   };
 
-  const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button className="flex items-center gap-1 px-2 py-1 rounded bg-secondary/50 border text-xs sm:text-sm hover:bg-secondary transition-colors">
-          <Bus className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
-          <span className="font-medium">{segment.busNumber}</span>
-        </button>
-      </DialogTrigger>
-      <DialogContent className="max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Bus {segment.busNumber} Stops</DialogTitle>
-          <CardDescription>{segment.startStop} to {segment.endStop}</CardDescription>
-        </DialogHeader>
-        <div className="py-4">
-            <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
+  const SegmentStopsDialog = ({ segment }: { segment: RouteSegment }) => {
+    const handleStopPropagation = (e: React.MouseEvent | React.PointerEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+    };
+
+    return (
+      <div 
+        onClick={handleStopPropagation}
+        onPointerDown={handleStopPropagation}
+        onMouseDown={handleStopPropagation}
+        onPointerUp={handleStopPropagation}
+        onMouseUp={handleStopPropagation}
+        className="shrink-0"
+      >
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="flex items-center gap-1 px-2 py-1 rounded bg-secondary/50 border text-xs sm:text-sm hover:bg-secondary transition-colors">
+              <Bus className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+              <span className="font-medium">{segment.busNumber}</span>
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Bus {segment.busNumber} Stops</DialogTitle>
+              <CardDescription>{segment.startStop} to {segment.endStop}</CardDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">
                 {segment.stops.map((stop, index) => (
-                    <li key={index} className="mb-4 sm:mb-6 ml-4 sm:ml-6">
-                        <span className="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-full -left-2.5 sm:-left-3 ring-4 sm:ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                            <Bus className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300"/>
-                        </span>
-                        <h3 className="flex items-center mb-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
-                            {stop}
-                            {(stop === segment.startStop || stop === segment.endStop) && (
-                                <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
-                            )}
-                        </h3>
-                    </li>
+                  <li key={index} className="mb-4 sm:mb-6 ml-4 sm:ml-6">
+                    <span className="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-full -left-2.5 sm:-left-3 ring-4 sm:ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                      <Bus className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300"/>
+                    </span>
+                    <h3 className="flex items-center mb-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                      {stop}
+                      {(stop === segment.startStop || stop === segment.endStop) && (
+                        <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
+                      )}
+                    </h3>
+                  </li>
                 ))}
-            </ol>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+              </ol>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  };
 
   // Group routes by transfer count
   const groupedByTransfers = useMemo(() => {
@@ -225,7 +241,6 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
         <div className="flex items-center gap-1 flex-wrap text-xs sm:text-sm">
           {hasTransfers ? (
             <>
-              <span className="text-muted-foreground text-[10px] sm:text-xs">Transfer @{route.segments[0].endStop}:</span>
               {route.segments.slice(1).map((segment, segIdx) => (
                 <div key={segIdx} className="flex items-center gap-1">
                   {segIdx > 0 && <ChevronsRight className="h-3 w-3 text-muted-foreground" />}
@@ -263,37 +278,47 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     const accordionKey = `${transferKey}-${firstSegmentKey}`;
     const isOpen = openAccordions.has(accordionKey);
     const routeCount = routes.length;
+    const hasTransfers = transferKey > 0;
+    const transferPoint = firstSegment.endStop;
     
     return (
-      <Collapsible key={firstSegmentKey} open={isOpen} onOpenChange={() => toggleAccordion(accordionKey)}>
-        <CollapsibleTrigger asChild>
-          <div className="p-3 sm:p-4 border rounded-lg cursor-pointer hover:bg-secondary/30 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="flex items-center gap-1.5">
-                  <Bus className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                  <Badge variant="outline" className="text-sm sm:text-base font-semibold">{firstSegment.busNumber}</Badge>
-                </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">
-                  {firstSegment.startStop} → {firstSegment.endStop}
-                </div>
-                <Badge variant="secondary" className="text-[10px] sm:text-xs">
-                  {routeCount} {routeCount === 1 ? 'route' : 'routes'}
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2">
-                <SegmentStopsDialog segment={firstSegment} />
-                {isOpen ? (
-                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                )}
-              </div>
+      <Collapsible key={firstSegmentKey} open={isOpen}>
+        {/* Entire card is clickable to toggle accordion */}
+        <div 
+          className="p-3 sm:p-4 border rounded-lg hover:bg-secondary/30 transition-colors cursor-pointer"
+          onClick={() => toggleAccordion(accordionKey)}
+        >
+          {/* Line 1: Bus number + route + chevron */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              {/* Bus number button - clicking this should NOT toggle accordion */}
+              <SegmentStopsDialog segment={firstSegment} />
+              <span className="text-xs sm:text-sm text-muted-foreground">
+                {firstSegment.startStop} → {firstSegment.endStop}
+              </span>
+            </div>
+            <div className="shrink-0">
+              {isOpen ? (
+                <ChevronUp className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              )}
             </div>
           </div>
-        </CollapsibleTrigger>
+          {/* Line 2: Routes count */}
+          <div className="mt-1.5">
+            <Badge variant="secondary" className="text-[10px] sm:text-xs">
+              {routeCount} {routeCount === 1 ? 'route' : 'routes'}
+            </Badge>
+          </div>
+        </div>
         <CollapsibleContent>
           <div className="mt-1 ml-4 sm:ml-6 border-l-2 border-primary/30 bg-secondary/20 rounded-b-lg">
+            {hasTransfers && (
+              <div className="px-2 pt-2 pb-1 text-[10px] sm:text-xs text-muted-foreground">
+                Transfer from {transferPoint} to:
+              </div>
+            )}
             {routes.map((route, idx) => renderRouteOption(route, idx))}
           </div>
         </CollapsibleContent>
