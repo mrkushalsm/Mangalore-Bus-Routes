@@ -238,22 +238,22 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     
     return (
       <div key={idx} className={`flex items-start justify-between py-2 px-2 ${idx > 0 ? 'border-t' : ''}`}>
-        <div className="flex flex-col gap-1 text-xs sm:text-sm">
+        <div className="flex flex-col gap-1.5 text-xs sm:text-sm w-full max-w-[85%]">
           {hasTransfers ? (
             <>
               {route.segments.slice(1).map((segment, segIdx) => (
-                <div key={segIdx} className="flex items-center gap-1">
+                <div key={segIdx} className="flex items-center gap-1.5 flex-wrap">
                   <SegmentStopsDialog segment={segment} />
-                  <span className="text-muted-foreground">→</span>
-                  <span className="font-medium text-xs sm:text-sm">{segment.endStop}</span>
+                  <span className="text-muted-foreground text-xs">→ Drop at</span>
                 </div>
               ))}
             </>
           ) : (
-            <div className="flex items-center gap-1">
-              <span className="text-muted-foreground">Direct to</span>
-              <span className="font-medium">{route.segments[0].endStop}</span>
-              <span className="text-muted-foreground text-[10px] sm:text-xs">({route.segments[0].stops.length} stops)</span>
+            // Direct Route Option: Just show text if needed, but context is usually enough.
+            // But per request: "just show stop count" - actually user said replace badge with stop count.
+            // Let's keep duplicate removal clean.
+            <div className="flex items-center gap-1.5 flex-wrap">
+               {/* "Direct to" removed previously */}
             </div>
           )}
         </div>
@@ -280,6 +280,43 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     const hasTransfers = transferKey > 0;
     const transferPoint = firstSegment.endStop;
     
+    // Direct Routes: No Dropdown, but keep original Header styling
+    if (!hasTransfers) {
+        return (
+            <Card key={`${transferKey}-${firstSegmentKey}`} className="overflow-hidden">
+                <CardHeader className="p-3 sm:p-4 flex flex-row items-start justify-between space-y-0">
+                    <div className="flex flex-col gap-2 text-left">
+                        <div className="flex items-center gap-2">
+                            <SegmentStopsDialog segment={firstSegment} />
+                            <span className="text-sm font-medium">
+                                {firstSegment.startStop} <span className="text-muted-foreground font-normal">→</span> {firstSegment.endStop}
+                            </span>
+                        </div>
+                        
+                        <div className="text-xs text-muted-foreground flex items-center gap-2">
+                            <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal">
+                                {firstSegment.stops.length} stops
+                            </Badge>
+                        </div>
+                    </div>
+
+                    <div className="shrink-0">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => { e.stopPropagation(); handleSaveRoute(firstRoute); }}
+                          className="h-8 w-8 -mt-1 -mr-1"
+                          title={isSuggestedRouteSaved(firstRoute) ? 'Already saved' : 'Save route'}
+                        >
+                          <Star className={`h-4 w-4 ${isSuggestedRouteSaved(firstRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                        </Button>
+                    </div>
+                </CardHeader>
+            </Card>
+        );
+    }
+
+    // Transfer Routes: Keep Dropdown
     return (
       <Collapsible key={firstSegmentKey} open={isOpen}>
         {/* Entire card is clickable to toggle accordion */}
