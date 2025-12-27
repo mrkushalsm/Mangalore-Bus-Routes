@@ -182,13 +182,11 @@ export function findRoutes(
             for (const nextStop of bus.stops) {
                 if (nextStop === currentStop) continue;
 
-                // Pruning: Have we visited nextStop with fewer or equal bus rides?
+                // Pruning: Have we visited nextStop with STRICTLY fewer bus rides?
                 // If we reached "Mallikatte" in 1 bus, we don't want to process reaching "Mallikatte" in 2 buses later.
-                // Note: history.length + 1 is the depth of the *next* state
+                // But if we reach it in 1 bus again (different route), we DO want to explore it to offer variety.
                 const nextDepth = history.length + 1;
-                if (visitedStops.has(nextStop) && visitedStops.get(nextStop)! <= nextDepth) {
-                    // Exception: Sometimes a longer path allows a better connection later? 
-                    // For simplicity and speed, we prune strictly.
+                if (visitedStops.has(nextStop) && visitedStops.get(nextStop)! < nextDepth) {
                     continue;
                 }
 
