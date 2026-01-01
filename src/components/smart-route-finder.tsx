@@ -207,25 +207,89 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
       return groups;
   }, [suggestion]);
 
-  // Further group by first bus within each transfer group
-  const groupedByFirstBus = useMemo(() => {
-      const result: Record<number, Record<string, SuggestedRoute[]>> = {};
+  // Group by "Tail Signature" - buses that have the exact same connecting options
+  const groupedByCommonTails = useMemo(() => {
+    const result: Record<number, Array<{
+      headerSegments: RouteSegment[];
+      routes: SuggestedRoute[];
+      id: string; // Helper for keys
+    }>> = {};
+
+    Object.entries(groupedByTransfers).forEach(([transferKey, routes]) => {
+      const transfers = parseInt(transferKey);
+      result[transfers] = [];
+
+      // 1. First, group by the specific First Bus (e.g. "4A|Start|End")
+      // This gives us the full set of routes for each source bus.
+      const byFirstBus: Record<string, { segment: RouteSegment, routes: SuggestedRoute[] }> = {};
       
-      Object.entries(groupedByTransfers).forEach(([transferKey, routes]) => {
-          const transfers = parseInt(transferKey);
-          result[transfers] = {};
-          
-          routes.forEach(route => {
-              const firstBus = route.segments[0].busNumber;
-              const firstSegmentKey = `${firstBus}|${route.segments[0].startStop}|${route.segments[0].endStop}`;
-              if (!result[transfers][firstSegmentKey]) {
-                  result[transfers][firstSegmentKey] = [];
-              }
-              result[transfers][firstSegmentKey].push(route);
-          });
+      routes.forEach(route => {
+        const firstSeg = route.segments[0];
+        // Key uniquely identifies the "Source Bus" trip
+        const key = `${firstSeg.busNumber}|${firstSeg.startStop}|${firstSeg.endStop}`;
+        
+        if (!byFirstBus[key]) {
+          byFirstBus[key] = { segment: firstSeg, routes: [] };
+        }
+        byFirstBus[key].routes.push(route);
       });
+
+      // 2. Now group these "Source Bus Groups" by their tails.
+      // If two source buses have the same list of connecting routes (tails), they get merged.
       
-      return result;
+      // Map: TailSignature -> { headers: Segment[], representativeRoutes: SuggestedRoute[] }
+      const byTailSig: Record<string, { headers: RouteSegment[], representativeRoutes: SuggestedRoute[] }> = {};
+
+      Object.values(byFirstBus).forEach(({ segment, routes: routeList }) => {
+        // Create a signature for the tails.
+        // For direct routes (transfers=0), the signature is just "DIRECT".
+        // For transfers, it's the sorted list of tail segment identifiers.
+        let signature = "DIRECT";
+        
+        if (transfers > 0) {
+           // Get all unique tails for this source bus
+           // A "tail" is the chain of segments after the first one.
+           // Since we are inside a specific transfer count, and specific source bus context...
+           // Actually, `routeList` contains all the variations from this Source Bus.
+           // We need to capture the *set* of tails this source bus offers.
+           
+           const tailStrings = routeList.map(r => {
+             // Create a string for segments 1..N
+             return r.segments.slice(1).map(s => `${s.busNumber}-${s.startStop}-${s.endStop}`).join('>>');
+           });
+           tailStrings.sort();
+           signature = tailStrings.join('||');
+        } else {
+             // For direct routes, we might still want to group if they are truly identical (e.g. 4A and 4B both go direct)
+             // But usually direct routes are distinct entries. 
+             // However, strictly adhering to "group by identical children" (children=empty set),
+             // implies all direct routes from A to B could be grouped?
+             // The issue description implies "source buses which have identical connecting buses".
+             // For direct routes, connecting buses = []. So they are all identical.
+             // So yes, we should group direct buses too if they go to the same place.
+             signature = "DIRECT";
+        }
+
+        if (!byTailSig[signature]) {
+          byTailSig[signature] = { headers: [], representativeRoutes: routeList };
+        }
+        byTailSig[signature].headers.push(segment);
+      });
+
+      // 3. Convert back to array
+      result[transfers] = Object.entries(byTailSig).map(([sig, data]) => ({
+        headerSegments: data.headers,
+        routes: data.representativeRoutes, // The routes from the first bus added are sufficient as representatives for the tails
+        id: sig
+      }));
+       
+      // Sort specific groups? Maybe by bus number of first header?
+      result[transfers].sort((a, b) => 
+        a.headerSegments[0].busNumber.localeCompare(b.headerSegments[0].busNumber, undefined, { numeric: true })
+      );
+    });
+
+    return result;
   }, [groupedByTransfers]);
 
   const sortedTransferKeys = useMemo(() => {
@@ -235,6 +299,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   // Render a single route option within accordion
   const renderRouteOption = (route: SuggestedRoute, idx: number) => {
     const hasTransfers = route.segments.length > 1;
+    // If grouped, we effectively show the tails. The header bus was handled in the card header.
     
     return (
       <div key={idx} className={`flex items-start justify-between py-2 px-2 ${idx > 0 ? 'border-t' : ''}`}>
@@ -244,16 +309,22 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               {route.segments.slice(1).map((segment, segIdx) => (
                 <div key={segIdx} className="flex items-center gap-1.5 flex-wrap">
                   <SegmentStopsDialog segment={segment} />
-                  <span className="text-muted-foreground text-xs">→ Drop at</span>
+                  <span className="text-muted-foreground text-xs">→ Drop at {segment.endStop}</span>
                 </div>
               ))}
             </>
           ) : (
-            // Direct Route Option: Just show text if needed, but context is usually enough.
-            // But per request: "just show stop count" - actually user said replace badge with stop count.
-            // Let's keep duplicate removal clean.
-            <div className="flex items-center gap-1.5 flex-wrap">
-               {/* "Direct to" removed previously */}
+            // Direct Route:
+            // Since we might group direct routes, we don't need to re-list the bus name here
+            // unless we want to distinguish *which* of the grouped buses corresponds to... wait.
+            // If they are grouped, they are equivalent. 
+            // For Direct routes grouped together, the "route option" is just "Direct Trip".
+            // It feels redundant to list anything here for Direct routes if grouped.
+            // But `renderRouteOption` is called inside the collapsible content.
+            // For Direct routes, we typically don't use Collapsible if it's a single item.
+            // But now we might have a group.
+            <div className="flex items-center gap-1.5 flex-wrap text-muted-foreground italic text-xs">
+              Goes directly to destination.
             </div>
           )}
         </div>
@@ -270,45 +341,89 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     );
   };
 
-  // Render an accordion card for routes starting with the same bus
-  const renderAccordionCard = (firstSegmentKey: string, routes: SuggestedRoute[], transferKey: number) => {
-    const firstRoute = routes[0];
-    const firstSegment = firstRoute.segments[0];
-    const accordionKey = `${transferKey}-${firstSegmentKey}`;
-    const isOpen = openAccordions.has(accordionKey);
-    const routeCount = routes.length;
-    const hasTransfers = transferKey > 0;
-    const transferPoint = firstSegment.endStop;
+  // Render an accordion card for a GROUP of buses having identical tails
+  const renderAccordionCard = (
+      group: { headerSegments: RouteSegment[], routes: SuggestedRoute[], id: string }, 
+      transferKey: number
+  ) => {
+    const { headerSegments, routes, id: groupId } = group;
+    // We utilize the first route in the list to act as the "representative" for structure info like Transfer Point.
+    // Note: If we grouped different Direct Routes, 'routes' array might specific to the *first* bus of the group.
+    // But logically, for Direct routes, the "tail" is empty, so they are all equivalent.
     
-    // Direct Routes: No Dropdown, but keep original Header styling
+    const representativeRoute = routes[0];
+    const representativeSegment = representativeRoute.segments[0];
+    
+    // Sort header segments naturally
+    const sortedHeaders = [...headerSegments].sort((a,b) => 
+        a.busNumber.localeCompare(b.busNumber, undefined, { numeric: true })
+    );
+
+    // Creates a unique ID for the accordion state
+    // Use the group ID (tail signature) to ensure uniqueness even if headers are same (which means different tails)
+    const accordionKey = `${transferKey}-${groupId}`;
+    const isOpen = openAccordions.has(accordionKey);
+    const routeCount = routes.length; // This is the number of connecting options (tails)
+    const hasTransfers = transferKey > 0;
+    const transferPoint = representativeSegment.endStop;
+    
+    // Header Content: List of Bus Badges
+    const HeaderBusList = () => (
+        <div className="flex flex-wrap gap-1 items-center">
+             {sortedHeaders.map((seg, i) => (
+                 <div key={i} className="flex items-center">
+                     <SegmentStopsDialog segment={seg} />
+                     {i < sortedHeaders.length - 1 && <span className="text-muted-foreground text-xs mx-0.5">,</span>}
+                 </div>
+             ))}
+             <span className="text-sm font-medium ml-1">
+                 {/* Only show trip details if it fits, or maybe just "Start -> Transfer" */}
+                 {hasTransfers ? (
+                     <span className="text-muted-foreground text-xs">({representativeSegment.startStop} → {representativeSegment.endStop})</span>
+                 ) : (
+                     <span className="text-muted-foreground text-xs">({representativeSegment.startStop} → {representativeSegment.endStop})</span>
+                 )}
+             </span>
+        </div>
+    );
+
+    // Direct Routes Logic
     if (!hasTransfers) {
+        // If multiple direct buses are grouped (e.g. 4A, 4B both go direct)
+        // We show one card listing all of them.
         return (
-            <Card key={`${transferKey}-${firstSegmentKey}`} className="overflow-hidden">
+            <Card key={accordionKey} className="overflow-hidden">
                 <CardHeader className="p-3 sm:p-4 flex flex-row items-start justify-between space-y-0">
-                    <div className="flex flex-col gap-2 text-left">
-                        <div className="flex items-center gap-2">
-                            <SegmentStopsDialog segment={firstSegment} />
-                            <span className="text-sm font-medium">
-                                {firstSegment.startStop} <span className="text-muted-foreground font-normal">→</span> {firstSegment.endStop}
-                            </span>
-                        </div>
+                    <div className="flex flex-col gap-2 text-left w-full">
+                        <HeaderBusList />
                         
                         <div className="text-xs text-muted-foreground flex items-center gap-2">
-                            <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal">
-                                {firstSegment.stops.length} stops
+                             <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal">
+                                {representativeSegment.stops.length} stops
                             </Badge>
+                             <span className="text-[10px] text-green-600 dark:text-green-400 font-medium">Direct Route</span>
                         </div>
                     </div>
 
                     <div className="shrink-0">
+                         {/* 
+                           Saving mechanism: 
+                           Since we merged multiple buses, which one do we save? 
+                           Ideally we save the *Concept* "Take any of 4A, 4B...".
+                           But our data model saves specific routes.
+                           For now, let's just save the representative (first) one, 
+                           OR provide a dropdown to save specific ones?
+                           Simpler: Just save the representative one. 
+                           The user will see "4A" in saved routes, which is fine.
+                         */}
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={(e) => { e.stopPropagation(); handleSaveRoute(firstRoute); }}
+                          onClick={(e) => { e.stopPropagation(); handleSaveRoute(representativeRoute); }}
                           className="h-8 w-8 -mt-1 -mr-1"
-                          title={isSuggestedRouteSaved(firstRoute) ? 'Already saved' : 'Save route'}
+                          title={isSuggestedRouteSaved(representativeRoute) ? 'Already saved' : 'Save route'}
                         >
-                          <Star className={`h-4 w-4 ${isSuggestedRouteSaved(firstRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                          <Star className={`h-4 w-4 ${isSuggestedRouteSaved(representativeRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
                         </Button>
                     </div>
                 </CardHeader>
@@ -318,22 +433,20 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
 
     // Transfer Routes: Keep Dropdown
     return (
-      <Collapsible key={firstSegmentKey} open={isOpen}>
+      <Collapsible key={accordionKey} open={isOpen}>
         {/* Entire card is clickable to toggle accordion */}
         <div 
           className="p-3 sm:p-4 border rounded-lg hover:bg-secondary/30 transition-colors cursor-pointer"
           onClick={() => toggleAccordion(accordionKey)}
         >
-          {/* Line 1: Bus number + route + chevron */}
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              {/* Bus number button - clicking this should NOT toggle accordion */}
-              <SegmentStopsDialog segment={firstSegment} />
-              <span className="text-xs sm:text-sm text-muted-foreground">
-                {firstSegment.startStop} → {firstSegment.endStop}
-              </span>
+          {/* Line 1: List of Source Buses + chevron */}
+          <div className="flex items-start justify-between gap-2">
+            <div className="w-full">
+                <div className="text-[10px] uppercase text-muted-foreground font-semibold mb-1">Take any of:</div>
+                <HeaderBusList />
             </div>
-            <div className="shrink-0">
+            
+            <div className="shrink-0 mt-1">
               {isOpen ? (
                 <ChevronUp className="h-4 w-4 text-muted-foreground" />
               ) : (
@@ -342,17 +455,17 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
             </div>
           </div>
           {/* Line 2: Routes count */}
-          <div className="mt-1.5">
+          <div className="mt-2 flex items-center gap-2">
             <Badge variant="secondary" className="text-[10px] sm:text-xs">
-              {routeCount} {routeCount === 1 ? 'route' : 'routes'}
+              {routeCount} connection option{routeCount === 1 ? '' : 's'}
             </Badge>
           </div>
         </div>
         <CollapsibleContent>
           <div className="mt-1 ml-4 sm:ml-6 border-l-2 border-primary/30 bg-secondary/20 rounded-b-lg">
             {hasTransfers && (
-              <div className="px-2 pt-2 pb-1 text-[10px] sm:text-xs text-muted-foreground">
-                Transfer from {transferPoint} to:
+              <div className="px-2 pt-2 pb-1 text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1">
+                 <span className="font-semibold text-primary">Then at {transferPoint}, take:</span>
               </div>
             )}
             {routes.map((route, idx) => renderRouteOption(route, idx))}
@@ -443,15 +556,14 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                     </TabsList>
                     
                     {sortedTransferKeys.map(transfers => {
-                        const busGroups = groupedByFirstBus[transfers] || {};
-                        const groupKeys = Object.keys(busGroups);
+                        const groups = groupedByCommonTails[transfers] || [];
                         const visible = visibleCount[transfers.toString()] || 10;
-                        const shownGroups = groupKeys.slice(0, visible);
-                        const hasMore = visible < groupKeys.length;
+                        const shownGroups = groups.slice(0, visible);
+                        const hasMore = visible < groups.length;
 
                         return (
                             <TabsContent key={transfers} value={transfers.toString()} className="space-y-2 sm:space-y-3 mt-3 sm:mt-4">
-                                {shownGroups.map(groupKey => renderAccordionCard(groupKey, busGroups[groupKey], transfers))}
+                                {shownGroups.map(group => renderAccordionCard(group, transfers))}
                                 
                                 {hasMore && (
                                     <div className="flex justify-center pt-2 sm:pt-4">
