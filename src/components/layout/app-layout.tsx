@@ -7,15 +7,17 @@ import { BottomNav } from './bottom-nav';
 export function AppLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Desktop Only - Hamburger Menu */}
-      <div className="hidden md:flex fixed top-0 left-0 z-40 px-4 py-3">
-        <FloatingDock />
-      </div>
+      <div className="flex flex-1 min-h-screen relative w-full">
+        {/* Desktop Sidebar - Static */}
+        <aside className="hidden md:block sticky top-0 h-screen shrink-0">
+          <FloatingDock />
+        </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 mb-16 md:mb-0">
-        {children}
-      </main>
+        {/* Main Content */}
+        <main className="flex-1 w-full min-w-0 mb-16 md:mb-0">
+          {children}
+        </main>
+      </div>
 
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav />
