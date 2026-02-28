@@ -1,7 +1,7 @@
 id,busNumber,description,stops
 1,1,Car Street to Kunjathbail,Car Street;Mannagudda;Ladyhill;Chilimbi;Urwa Store;Kavoor;MCF colony;Kunjathbail
 2,1A,State Bank to Tannirbhavi Beach,State Bank;Lalbagh;Urwa Store;Kuloor;Tannirbhavi Beach
-3,1B,State Bank to Kodikal,State Bank;Car Street;Mannagudda;Ladyhill;Chilimbi;Urwa Store;Kodikal
+3,1B,State Bank to Kodikal,State Bank;Car Street;Mannagudda;Ladyhill;Chilimbi;Urwa Store;Kodikal;Adyar;Adyar Launch Jetty;Adyar Padav
 4,1C,State Bank to Kodikal,State Bank;Hampankatta;Shedigudde;Lalbagh;Ladyhill;Kodikal Cross;Kodikal
 5,2,State Bank to Mukka,State Bank;Lalbagh;Ashoknagar;Baikampady;Surathkal;Mukka
 6,2A,State Bank to Sasihitlu,State Bank;Lalbagh;Ashoknagar;Baikampady;Surathkal;Mukka;Sasihitlu
