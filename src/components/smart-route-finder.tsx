@@ -10,7 +10,8 @@ import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/lib/sma
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, ChevronUp, Info, MapPin } from 'lucide-react';
+import { buildMapsUrl } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -184,6 +185,18 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                       {(stop === segment.startStop || stop === segment.endStop) && (
                         <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
                       )}
+                      <a
+                        href={buildMapsUrl(stop)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className="ml-2 inline-flex items-center justify-center h-6 w-6 rounded-full text-primary hover:bg-primary/10 transition-colors"
+                        title={`Open ${stop} in Google Maps`}
+                      >
+                        <MapPin className="h-3.5 w-3.5" />
+                      </a>
                     </h3>
                   </li>
                 ))}
@@ -486,14 +499,30 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-xs sm:text-sm">Source Bus Stop</FormLabel>
-                  <FormControl>
-                    <AutoComplete 
-                        options={allStops}
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="Select a source stop..."
-                    />
-                  </FormControl>
+                  <div className="flex items-center gap-1.5">
+                    <FormControl>
+                      <AutoComplete 
+                          options={allStops}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          placeholder="Select a source stop..."
+                      />
+                    </FormControl>
+                    <a
+                      href={field.value ? buildMapsUrl(field.value) : '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-md border transition-colors ${
+                        field.value
+                          ? 'text-primary border-primary/30 hover:bg-primary/10 cursor-pointer'
+                          : 'text-muted-foreground/40 border-muted cursor-not-allowed pointer-events-none'
+                      }`}
+                      title={field.value ? `Open ${field.value} in Google Maps` : 'Select a stop first'}
+                      aria-disabled={!field.value}
+                    >
+                      <MapPin className="h-4 w-4" />
+                    </a>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -504,14 +533,30 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-xs sm:text-sm">Destination Bus Stop</FormLabel>
-                  <FormControl>
-                    <AutoComplete 
-                        options={allStops}
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="Select a destination stop..."
-                    />
-                  </FormControl>
+                  <div className="flex items-center gap-1.5">
+                    <FormControl>
+                      <AutoComplete 
+                          options={allStops}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          placeholder="Select a destination stop..."
+                      />
+                    </FormControl>
+                    <a
+                      href={field.value ? buildMapsUrl(field.value) : '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-md border transition-colors ${
+                        field.value
+                          ? 'text-primary border-primary/30 hover:bg-primary/10 cursor-pointer'
+                          : 'text-muted-foreground/40 border-muted cursor-not-allowed pointer-events-none'
+                      }`}
+                      title={field.value ? `Open ${field.value} in Google Maps` : 'Select a stop first'}
+                      aria-disabled={!field.value}
+                    >
+                      <MapPin className="h-4 w-4" />
+                    </a>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
