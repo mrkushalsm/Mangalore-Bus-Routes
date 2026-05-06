@@ -115,15 +115,18 @@ public/
 
 ## 🌟 About This Project
 
-This project was developed as part of my **Google Developer Groups (GDG) Lead application** to demonstrate:
+This project is a bus route finder and journey planner for Mangalore city. It is built around the real bus route data in [public/data/bus-data.csv](public/data/bus-data.csv), which the app loads and parses on the server to power route search, route browsing, and correction workflows.
 
-- **Technical Leadership**: Building a complex full-stack application with modern technologies
-- **Community Impact**: Solving real-world transportation challenges for Mangalore residents
-- **Innovation**: Integrating AI/ML capabilities for intelligent route suggestions
-- **User Experience**: Creating an intuitive, accessible interface for all users
-- **Open Source Contribution**: Sharing knowledge and tools with the developer community
+The main experience is the home page route finder: you enter a source stop and a destination stop, and the app searches the route network for direct trips or journeys with transfers using a deterministic graph traversal algorithm. The results are then presented with the exact buses, stops, and transfer points so a user can actually follow the trip.
 
-The project showcases my ability to lead technical initiatives, work with cutting-edge technologies, and create solutions that benefit the local community - key qualities for a GDG Lead role.
+Beyond route search, the project includes a full browse-and-manage flow:
+
+- The [All Routes](src/app/routes/page.tsx) page lets you search the complete route list by bus number, description, or stop name.
+- The [Saved Journeys](src/app/saved/page.tsx) page stores favorite routes in the browser so they can be reopened later on the same device.
+- The [Settings](src/app/settings/page.tsx) page handles theme switching and route feedback.
+- The correction form submits proposed CSV updates through a GitHub-backed pull request flow, so route data can be edited, added, or removed without changing the app manually.
+
+This was built as part of my **Google Developer Groups (GDG) Lead application** to show a practical product, not a demo shell: a real data source, a local routing engine, responsive UI, saved state, and a contribution path for keeping the route database current.
 
 ## 🤝 Contributing
 
