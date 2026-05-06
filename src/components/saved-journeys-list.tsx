@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import type { SavedJourney } from '@/hooks/use-saved-journeys';
-import { MapPin, ArrowRight, Bus, ChevronsRight, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, ArrowRight, Bus, ChevronsRight, Trash2, ChevronDown, ChevronUp, Map } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
+import { buildTransitVizUrl } from '@/lib/utils';
+import { useMapProvider } from '@/hooks/use-map-provider';
+import { useTransitVizStops } from '@/hooks/use-transit-viz-stops';
 
 type SavedJourneysListProps = {
   savedJourneys: SavedJourney[];
@@ -15,6 +18,8 @@ type SavedJourneysListProps = {
 
 export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourneysListProps) {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
+  const { provider, isLoaded: providerLoaded } = useMapProvider();
+  const { buildGoogleMapsDirectionsUrl } = useTransitVizStops();
 
   const toggleItem = (id: string) => {
     setOpenItems(prev => {
@@ -26,6 +31,32 @@ export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourney
       }
       return newSet;
     });
+  };
+
+  const getAllStopsInJourney = (journey: SavedJourney): string[] => {
+    const stops: string[] = [];
+    journey.segments.forEach((segment, idx) => {
+      if (idx === 0) {
+        stops.push(...segment.stops);
+      } else {
+        stops.push(...segment.stops.slice(1));
+      }
+    });
+    return stops;
+  };
+
+  const buildMapUrlForJourney = (journey: SavedJourney): string => {
+    if (provider === 'transit-viz') {
+      return buildTransitVizUrl(journey.sourceStop, journey.destinationStop, 0);
+    } else {
+      const allStops = getAllStopsInJourney(journey);
+      return buildGoogleMapsDirectionsUrl(allStops);
+    }
+  };
+
+  const handleViewOnMap = (journey: SavedJourney) => {
+    const mapUrl = buildMapUrlForJourney(journey);
+    window.open(mapUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -47,7 +78,19 @@ export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourney
                       <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
                       <span className="truncate">{journey.destinationStop}</span>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewOnMap(journey);
+                        }}
+                        className="h-7 w-7"
+                        title="View on map"
+                      >
+                        <Map className="h-3.5 w-3.5 text-primary" />
+                      </Button>
                       <Badge variant="secondary" className="text-[10px] sm:text-xs">
                         {transfers === 0 ? 'Direct' : `${transfers} transfer${transfers > 1 ? 's' : ''}`}
                       </Badge>

@@ -10,17 +10,20 @@ import { smartRouteSuggestion, type SmartRouteSuggestionOutput } from '@/lib/sma
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, ChevronUp, Info, MapPin } from 'lucide-react';
-import { buildMapsUrl } from '@/lib/utils';
+import { Loader2, AlertCircle, ChevronsRight, Bus, Star, ChevronDown, ChevronUp, Info, MapPin, Map } from 'lucide-react';
+import { buildTransitVizUrl } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { RouteMapPathPopover } from '@/components/route-map-path-popover';
 import { useToast } from '@/hooks/use-toast';
 import { BusRoute } from '@/lib/bus-data';
 import { useSavedJourneys } from '@/hooks/use-saved-journeys';
+import { useTransitVizStops } from '@/hooks/use-transit-viz-stops';
 import { AutoComplete } from '@/components/ui/autocomplete';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useMapProvider } from '@/hooks/use-map-provider';
 
 const formSchema = z.object({
   sourceStop: z.string().min(1, { message: 'Please select a source stop.' }),
@@ -42,6 +45,8 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const { toast } = useToast();
   const { addJourney, removeJourney, isJourneySaved } = useSavedJourneys();
+  const { provider, isLoaded: providerLoaded } = useMapProvider();
+  const { isLoaded: transitVizStopsLoaded, buildGoogleMapsStopUrl, buildGoogleMapsDirectionsUrl } = useTransitVizStops();
 
   const allStops = useMemo(() => {
     const stops = new Set<string>();
@@ -127,11 +132,52 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
     return isJourneySaved(journeyId);
   }
 
+  const routeIndexByJourneyId = useMemo(() => {
+    if (!suggestion?.routes) return new globalThis.Map<string, number>();
+    return new globalThis.Map(
+      suggestion.routes.map((route, index) => [getJourneyId(route), index])
+    );
+  }, [suggestion]);
+
+  const getTransitVizRouteIndex = (route: SuggestedRoute) => {
+    return routeIndexByJourneyId.get(getJourneyId(route)) ?? 0;
+  };
+
+  const getAllStopsInRoute = (route: SuggestedRoute): string[] => {
+    const stops: string[] = [];
+    route.segments.forEach((segment, idx) => {
+      if (idx === 0) {
+        // First segment: include all stops
+        stops.push(...segment.stops);
+      } else {
+        // Subsequent segments: skip the first stop (transfer point already included)
+        stops.push(...segment.stops.slice(1));
+      }
+    });
+    return stops;
+  };
+
+  const buildMapUrlForRoute = (route: SuggestedRoute, sourceStop: string, destinationStop: string, routeIndex: number): string => {
+    if (provider === 'transit-viz') {
+      return buildTransitVizUrl(sourceStop, destinationStop, routeIndex);
+    } else {
+      const allStops = getAllStopsInRoute(route);
+      return buildGoogleMapsDirectionsUrl(allStops);
+    }
+  };
+
+  const handleViewOnMap = (route: SuggestedRoute, routeIndex: number) => {
+    const sourceStop = form.getValues('sourceStop');
+    const destinationStop = form.getValues('destinationStop');
+    const mapUrl = buildMapUrlForRoute(route, sourceStop, destinationStop, routeIndex);
+    window.open(mapUrl, '_blank', 'noopener,noreferrer');
+  };
+
   const loadMore = (key: string) => {
-      setVisibleCount(prev => ({
-          ...prev,
-          [key]: (prev[key] || 10) + 10
-      }));
+    setVisibleCount(prev => ({
+      ...prev,
+      [key]: (prev[key] || 10) + 10
+    }));
   };
 
   const toggleAccordion = (key: string) => {
@@ -186,7 +232,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                         <Badge variant={stop === segment.startStop ? 'default': 'destructive'} className="ml-2 sm:ml-3 text-xs">{stop === segment.startStop ? 'Board' : 'Alight'}</Badge>
                       )}
                       <a
-                        href={buildMapsUrl(stop)}
+                        href={buildGoogleMapsStopUrl(stop)}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -284,9 +330,10 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
         }
 
         if (!byTailSig[signature]) {
-          byTailSig[signature] = { headers: [], representativeRoutes: routeList };
+          byTailSig[signature] = { headers: [], representativeRoutes: [] };
         }
         byTailSig[signature].headers.push(segment);
+        byTailSig[signature].representativeRoutes.push(...routeList);
       });
 
       // 3. Convert back to array
@@ -322,7 +369,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
               {route.segments.slice(1).map((segment, segIdx) => (
                 <div key={segIdx} className="flex items-center gap-1.5 flex-wrap">
                   <SegmentStopsDialog segment={segment} />
-                  <span className="text-muted-foreground text-xs">→ Drop at {segment.endStop}</span>
+                  <span className="text-muted-foreground text-xs">→ Drop at {segment.endStop} <span className="italic text-muted-foreground text-[10px]">(From {route.segments[0].busNumber})</span></span>
                 </div>
               ))}
             </>
@@ -429,6 +476,19 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                            Simpler: Just save the representative one. 
                            The user will see "4A" in saved routes, which is fine.
                          */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            handleViewOnMap(representativeRoute, getTransitVizRouteIndex(representativeRoute)); 
+                          }}
+                          className="h-8 w-8 -mt-1 -mr-1"
+                          title="View on map"
+                        >
+                          <Map className="h-4 w-4 text-primary" />
+                        </Button>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -439,12 +499,14 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                           <Star className={`h-4 w-4 ${isSuggestedRouteSaved(representativeRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
                         </Button>
                     </div>
+                    </div>
                 </CardHeader>
             </Card>
         );
     }
 
     // Transfer Routes: Keep Dropdown
+
     return (
       <Collapsible key={accordionKey} open={isOpen}>
         {/* Entire card is clickable to toggle accordion */}
@@ -452,14 +514,15 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
           className="p-3 sm:p-4 border rounded-lg hover:bg-secondary/30 transition-colors cursor-pointer"
           onClick={() => toggleAccordion(accordionKey)}
         >
-          {/* Line 1: List of Source Buses + chevron */}
+          {/* Line 1: List of Source Buses + chevron + actions */}
           <div className="flex items-start justify-between gap-2">
             <div className="w-full">
                 <div className="text-[10px] uppercase text-muted-foreground font-semibold mb-1">Take any of:</div>
                 <HeaderBusList />
             </div>
             
-            <div className="shrink-0 mt-1">
+            <div className="flex items-center gap-1 shrink-0 mt-1">
+              <RouteMapPathPopover routes={routes} getRouteIndex={getTransitVizRouteIndex} onSelectRoute={handleViewOnMap} />
               {isOpen ? (
                 <ChevronUp className="h-4 w-4 text-muted-foreground" />
               ) : (
@@ -509,7 +572,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                       />
                     </FormControl>
                     <a
-                      href={field.value ? buildMapsUrl(field.value) : '#'}
+                        href={field.value ? buildGoogleMapsStopUrl(field.value) : '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-md border transition-colors ${
@@ -543,7 +606,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                       />
                     </FormControl>
                     <a
-                      href={field.value ? buildMapsUrl(field.value) : '#'}
+                        href={field.value ? buildGoogleMapsStopUrl(field.value) : '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-md border transition-colors ${

@@ -215,15 +215,7 @@ export function findRoutes(
     // Post-processing: Deduplication and Scoring
     // 1. Sort by number of transfers (Primary)
     // 2. Sort by total number of stops (Secondary)
-    validRoutes.sort((a, b) => {
-        const transfersA = a.segments.length;
-        const transfersB = b.segments.length;
-        if (transfersA !== transfersB) return transfersA - transfersB;
-
-        const stopsA = a.segments.reduce((acc, s) => acc + s.stops.length, 0);
-        const stopsB = b.segments.reduce((acc, s) => acc + s.stops.length, 0);
-        return stopsA - stopsB;
-    });
+    validRoutes.sort((a, b) => a.segments.length - b.segments.length);
 
     // Deduplicate: If multiple routes have exact same bus numbers in sequence, keep the one with fewer stops?
     // Actually, sometimes different bus IDs have same number (15, 15A etc). 

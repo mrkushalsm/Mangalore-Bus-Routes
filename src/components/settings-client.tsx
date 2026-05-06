@@ -1,11 +1,12 @@
 'use client';
 
-import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink } from 'lucide-react';
+import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink, Map } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SuggestCorrectionForm } from '@/components/suggest-correction-form';
+import { useMapProvider } from '@/hooks/use-map-provider';
 import type { BusRoute } from '@/lib/bus-data';
 
 interface SettingsClientProps {
@@ -15,6 +16,7 @@ interface SettingsClientProps {
 
 export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
   const { theme, setTheme } = useTheme();
+  const { provider, setProvider, isLoaded } = useMapProvider();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -73,6 +75,60 @@ export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
                 Auto
               </Button>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Navigation Provider */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Map className="h-5 w-5 text-primary" />
+              Route Maps
+            </CardTitle>
+            <CardDescription>Choose how to view routes on a map</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="space-y-2">
+              <label className="flex items-center gap-3 p-3 rounded-lg border cursor-pointer hover:bg-secondary/50 transition-colors"
+                style={{
+                  borderColor: mounted && isLoaded && provider === 'transit-viz' ? 'var(--primary)' : 'var(--border)',
+                  backgroundColor: mounted && isLoaded && provider === 'transit-viz' ? 'var(--primary-foreground)' : 'transparent',
+                }}>
+                <input
+                  type="radio"
+                  name="map-provider"
+                  value="transit-viz"
+                  checked={mounted && isLoaded && provider === 'transit-viz'}
+                  onChange={(e) => e.target.checked && setProvider('transit-viz')}
+                  className="h-4 w-4"
+                />
+                <div>
+                  <p className="text-sm font-medium">Mangalore Transit Viz</p>
+                  <p className="text-xs text-muted-foreground">Visual route on map with live tracking support</p>
+                </div>
+              </label>
+              <label className="flex items-center gap-3 p-3 rounded-lg border cursor-pointer hover:bg-secondary/50 transition-colors"
+                style={{
+                  borderColor: mounted && isLoaded && provider === 'google-maps' ? 'var(--primary)' : 'var(--border)',
+                  backgroundColor: mounted && isLoaded && provider === 'google-maps' ? 'var(--primary-foreground)' : 'transparent',
+                }}>
+                <input
+                  type="radio"
+                  name="map-provider"
+                  value="google-maps"
+                  checked={mounted && isLoaded && provider === 'google-maps'}
+                  onChange={(e) => e.target.checked && setProvider('google-maps')}
+                  className="h-4 w-4"
+                />
+                <div>
+                  <p className="text-sm font-medium">Google Maps</p>
+                  <p className="text-xs text-muted-foreground">Directions with all stops as waypoints</p>
+                </div>
+              </label>
+            </div>
+            <p className="text-xs text-muted-foreground border-t pt-3">
+              When you view a route on a map, it will open in your selected service. Transit Viz shows the connected bus path, while Google Maps provides a directions interface.
+            </p>
           </CardContent>
         </Card>
 
