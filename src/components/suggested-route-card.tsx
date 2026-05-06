@@ -96,6 +96,7 @@ export function SuggestedRouteCard({ route, isLast, isSavedView = false, sourceS
             id: journeyId,
             sourceStop,
             destinationStop,
+            idx: 0,
         });
         
         setSaveState('saved');

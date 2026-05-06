@@ -16,6 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RouteMapPathPopover } from '@/components/route-map-path-popover';
+import { RouteShareDialog } from '@/components/route-share-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { BusRoute } from '@/lib/bus-data';
 import { useSavedJourneys } from '@/hooks/use-saved-journeys';
@@ -119,6 +120,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
         id: journeyId,
         sourceStop,
         destinationStop,
+        idx: getTransitVizRouteIndex(route),
       });
       toast({
         title: "Journey Saved!",
@@ -164,6 +166,12 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
       const allStops = getAllStopsInRoute(route);
       return buildGoogleMapsDirectionsUrl(allStops);
     }
+  };
+
+  const getRouteShareUrl = (route: SuggestedRoute) => {
+    const sourceStop = form.getValues('sourceStop');
+    const destinationStop = form.getValues('destinationStop');
+    return buildMapUrlForRoute(route, sourceStop, destinationStop, getTransitVizRouteIndex(route));
   };
 
   const handleViewOnMap = (route: SuggestedRoute, routeIndex: number) => {
@@ -489,6 +497,11 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                         >
                           <Map className="h-4 w-4 text-primary" />
                         </Button>
+                        <RouteShareDialog
+                          route={representativeRoute}
+                          shareUrl={getRouteShareUrl(representativeRoute)}
+                          triggerClassName="h-8 w-8 -mt-1 -mr-1"
+                        />
                         <Button
                           variant="ghost"
                           size="icon"
@@ -522,7 +535,7 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
             </div>
             
             <div className="flex items-center gap-1 shrink-0 mt-1">
-              <RouteMapPathPopover routes={routes} getRouteIndex={getTransitVizRouteIndex} onSelectRoute={handleViewOnMap} />
+              <RouteMapPathPopover routes={routes} getRouteIndex={getTransitVizRouteIndex} getShareUrl={getRouteShareUrl} onSelectRoute={handleViewOnMap} />
               {isOpen ? (
                 <ChevronUp className="h-4 w-4 text-muted-foreground" />
               ) : (

@@ -7,9 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
-import { buildTransitVizUrl } from '@/lib/utils';
 import { useMapProvider } from '@/hooks/use-map-provider';
-import { useTransitVizStops } from '@/hooks/use-transit-viz-stops';
+import { RouteShareDialog } from '@/components/route-share-dialog';
 
 type SavedJourneysListProps = {
   savedJourneys: SavedJourney[];
@@ -19,7 +18,6 @@ type SavedJourneysListProps = {
 export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourneysListProps) {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const { provider, isLoaded: providerLoaded } = useMapProvider();
-  const { buildGoogleMapsDirectionsUrl } = useTransitVizStops();
 
   const toggleItem = (id: string) => {
     setOpenItems(prev => {
@@ -33,25 +31,16 @@ export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourney
     });
   };
 
-  const getAllStopsInJourney = (journey: SavedJourney): string[] => {
-    const stops: string[] = [];
-    journey.segments.forEach((segment, idx) => {
-      if (idx === 0) {
-        stops.push(...segment.stops);
-      } else {
-        stops.push(...segment.stops.slice(1));
-      }
-    });
-    return stops;
-  };
-
   const buildMapUrlForJourney = (journey: SavedJourney): string => {
     if (provider === 'transit-viz') {
-      return buildTransitVizUrl(journey.sourceStop, journey.destinationStop, 0);
+      return journey.transitVizUrl;
     } else {
-      const allStops = getAllStopsInJourney(journey);
-      return buildGoogleMapsDirectionsUrl(allStops);
+      return journey.googleMapsUrl;
     }
+  };
+
+  const getShareUrl = (journey: SavedJourney): string => {
+    return provider === 'transit-viz' ? journey.transitVizUrl : journey.googleMapsUrl;
   };
 
   const handleViewOnMap = (journey: SavedJourney) => {
@@ -91,6 +80,11 @@ export function SavedJourneysList({ savedJourneys, removeJourney }: SavedJourney
                       >
                         <Map className="h-3.5 w-3.5 text-primary" />
                       </Button>
+                      <RouteShareDialog
+                        route={journey}
+                        shareUrl={getShareUrl(journey)}
+                        triggerClassName="h-7 w-7"
+                      />
                       <Badge variant="secondary" className="text-[10px] sm:text-xs">
                         {transfers === 0 ? 'Direct' : `${transfers} transfer${transfers > 1 ? 's' : ''}`}
                       </Badge>

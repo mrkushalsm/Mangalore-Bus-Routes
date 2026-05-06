@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Map } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { RouteShareDialog } from '@/components/route-share-dialog';
 import type { SmartRouteSuggestionOutput } from '@/lib/smart-route-suggestion';
 
 type SuggestedRoute = NonNullable<SmartRouteSuggestionOutput['routes']>[0];
@@ -11,10 +12,11 @@ type SuggestedRoute = NonNullable<SmartRouteSuggestionOutput['routes']>[0];
 interface RouteMapPathPopoverProps {
   routes: SuggestedRoute[];
   getRouteIndex: (route: SuggestedRoute) => number;
+  getShareUrl: (route: SuggestedRoute) => string;
   onSelectRoute: (route: SuggestedRoute, routeIndex: number) => void;
 }
 
-export function RouteMapPathPopover({ routes, getRouteIndex, onSelectRoute }: RouteMapPathPopoverProps) {
+export function RouteMapPathPopover({ routes, getRouteIndex, getShareUrl, onSelectRoute }: RouteMapPathPopoverProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,23 +42,34 @@ export function RouteMapPathPopover({ routes, getRouteIndex, onSelectRoute }: Ro
             const routeIndex = getRouteIndex(route);
 
             return (
-              <button
+              <div
                 key={idx}
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelectRoute(route, routeIndex);
-                  setOpen(false);
-                }}
-                className="w-full text-left p-2 rounded-md border hover:bg-secondary/50 transition-colors"
+                className="flex items-center gap-2 rounded-md border p-2 transition-colors hover:bg-secondary/50"
               >
-                <p className="font-medium text-foreground text-sm truncate">{busSequence}</p>
-                <p className="text-muted-foreground text-xs">
-                  {firstSegment.startStop}
-                  {' -> '}
-                  {lastSegment.endStop}
-                </p>
-              </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectRoute(route, routeIndex);
+                    setOpen(false);
+                  }}
+                  className="flex min-w-0 flex-1 items-start text-left"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-foreground">{busSequence}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {firstSegment.startStop}
+                      {' -> '}
+                      {lastSegment.endStop}
+                    </p>
+                  </div>
+                </button>
+                <RouteShareDialog
+                  route={route}
+                  shareUrl={getShareUrl(route)}
+                  triggerClassName="h-7 w-7 shrink-0"
+                />
+              </div>
             );
           })}
         </div>

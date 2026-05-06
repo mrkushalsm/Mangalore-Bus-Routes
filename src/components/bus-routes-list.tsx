@@ -2,14 +2,13 @@
 
 import { useState, useMemo } from 'react';
 import type { BusRoute } from '@/lib/bus-data';
-import { useToast } from '@/hooks/use-toast';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { Share2, Bus, Search, MapPin } from 'lucide-react';
+import { Bus, Search, MapPin } from 'lucide-react';
+import { BusRouteShareDialog } from '@/components/bus-route-share-dialog';
 
 type BusRoutesListProps = {
   allRoutes: BusRoute[];
@@ -17,7 +16,6 @@ type BusRoutesListProps = {
 
 export function BusRoutesList({ allRoutes }: BusRoutesListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast();
 
   const filteredRoutes = useMemo(() => {
     if (!searchTerm) return allRoutes;
@@ -29,38 +27,6 @@ export function BusRoutesList({ allRoutes }: BusRoutesListProps) {
         route.stops.some((stop) => stop.toLowerCase().includes(lowercasedTerm))
     );
   }, [searchTerm, allRoutes]);
-
-  const handleShare = async (route: BusRoute) => {
-    const routeInfo = `Bus Route: ${route.busNumber}\nDescription: ${route.description}\nStops: ${route.stops.join(', ')}`;
-    const shareText = `Check out this bus route in Mangalore:\n\n${routeInfo}`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `Mangalore Bus Route: ${route.busNumber}`,
-          text: shareText,
-        });
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          console.error('Error sharing:', err);
-        }
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(shareText);
-        toast({
-          title: 'Copied to Clipboard!',
-          description: 'Route details copied. You can paste them anywhere.',
-        });
-      } catch (err) {
-        toast({
-          title: 'Failed to Copy',
-          description: 'Could not copy route details to clipboard.',
-          variant: 'destructive',
-        });
-      }
-    }
-  };
 
   return (
     <div className="space-y-8">
@@ -115,10 +81,7 @@ export function BusRoutesList({ allRoutes }: BusRoutesListProps) {
                 </Accordion>
               </CardContent>
               <CardFooter className="pt-0">
-                <Button variant="outline" size="sm" onClick={() => handleShare(route)} className="w-full">
-                  <Share2 className="h-4 w-4" />
-                  Share Route
-                </Button>
+                <BusRouteShareDialog route={route} triggerClassName="w-full" />
               </CardFooter>
             </Card>
           ))}
