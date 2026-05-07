@@ -474,46 +474,25 @@ export function SmartRouteFinder({ busRoutes }: SmartRouteFinderProps) {
                     </div>
 
                     <div className="shrink-0">
-                         {/* 
-                           Saving mechanism: 
-                           Since we merged multiple buses, which one do we save? 
-                           Ideally we save the *Concept* "Take any of 4A, 4B...".
-                           But our data model saves specific routes.
-                           For now, let's just save the representative (first) one, 
-                           OR provide a dropdown to save specific ones?
-                           Simpler: Just save the representative one. 
-                           The user will see "4A" in saved routes, which is fine.
-                         */}
                         <div className="flex items-center gap-1.5 sm:gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={(e) => { 
-                            e.stopPropagation(); 
-                            handleViewOnMap(representativeRoute, getTransitVizRouteIndex(representativeRoute)); 
-                          }}
-                          className="h-8 w-8 -mt-1 -mr-1"
-                          title="View on map"
-                        >
-                          <Map className="h-4 w-4 text-primary" />
-                        </Button>
-                        <RouteShareDialog
-                          route={representativeRoute}
-                          shareUrl={getRouteShareUrl(representativeRoute)}
-                          triggerClassName="h-8 w-8 -mt-1 -mr-1"
-                        />
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={(e) => { e.stopPropagation(); handleSaveRoute(representativeRoute); }}
-                          className="h-8 w-8 -mt-1 -mr-1"
-                          title={isSuggestedRouteSaved(representativeRoute) ? 'Already saved' : 'Save route'}
-                        >
-                          <Star className={`h-4 w-4 ${isSuggestedRouteSaved(representativeRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
-                        </Button>
-                    </div>
-                    </div>
-                </CardHeader>
+                          <RouteMapPathPopover
+                            routes={routes}
+                            getRouteIndex={getTransitVizRouteIndex}
+                            getShareUrl={getRouteShareUrl}
+                            onSelectRoute={(route, routeIndex) => handleViewOnMap(route, routeIndex)}
+                          />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => { e.stopPropagation(); handleSaveRoute(representativeRoute); }}
+                            className="h-8 w-8 -mt-1 -mr-1"
+                            title={isSuggestedRouteSaved(representativeRoute) ? 'Already saved' : 'Save route'}
+                          >
+                            <Star className={`h-4 w-4 ${isSuggestedRouteSaved(representativeRoute) ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardHeader>
             </Card>
         );
     }

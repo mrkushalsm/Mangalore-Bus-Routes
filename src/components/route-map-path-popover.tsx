@@ -32,8 +32,8 @@ export function RouteMapPathPopover({ routes, getRouteIndex, getShareUrl, onSele
           <Map className="h-3.5 w-3.5 text-primary" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[min(92vw,24rem)] p-2" side="top" align="end">
-        <div className="space-y-2">
+      <PopoverContent className="w-[min(96vw,24rem)] p-2 max-h-[70vh]" side="top" align="end">
+        <div className="space-y-2 overflow-y-auto max-h-[66vh]">
           <p className="text-sm font-semibold text-foreground mb-2">Choose a path</p>
           {routes.map((route, idx) => {
             const busSequence = route.segments.map((s) => s.busNumber).join(' -> ');
@@ -44,7 +44,7 @@ export function RouteMapPathPopover({ routes, getRouteIndex, getShareUrl, onSele
             return (
               <div
                 key={idx}
-                className="flex items-center gap-2 rounded-md border p-2 transition-colors hover:bg-secondary/50"
+                className="flex items-center gap-2 rounded-md border p-2 transition-colors hover:bg-secondary/50 min-h-[3.25rem]"
               >
                 <button
                   type="button"
@@ -56,8 +56,8 @@ export function RouteMapPathPopover({ routes, getRouteIndex, getShareUrl, onSele
                   className="flex min-w-0 flex-1 items-start text-left"
                 >
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-foreground">{busSequence}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="truncate text-sm font-medium text-foreground break-words">{busSequence}</p>
+                    <p className="text-xs text-muted-foreground break-words">
                       {firstSegment.startStop}
                       {' -> '}
                       {lastSegment.endStop}
