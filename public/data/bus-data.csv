@@ -137,43 +137,44 @@ id,busNumber,description,stops
 147,44M,State Bank to Eliyar Padavu,State Bank;Jyothi;Pumpwell;Deralakatte;Ranipura;Eliyar Padavu
 148,44N,Kankanady to Inoli Temple,Kankanady;Pumpwell;Thokottu;Eliyar Padavu;Gramachavadi;Malar School;Inoli Temple
 149,44P,Someshwar to Pavoor,Someshwar;Ullal;Thokottu;Gramachavadi;Inoli Padav;Harekala;Pavoor
-150,45,State Bank to Katipalla,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla
-151,45A,State Bank to Chokkabettu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Chokkabettu
-152,45B,State Bank to Chokkabettu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Chokkabettu
-153,45C,State Bank to Kaikamba,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;Kaikamba
-154,45D,State Bank to Kuthethoor,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;MRPL;Kuthethoor
-155,45E,State Bank to Kaithakurneri,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;MRPL;Kaithakurneri
-156,45F,State Bank to Kaikamba,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Kaikamba
-157,45G,State Bank to Janatha Colony,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Mason Road;Janatha Colony
-158,45H,State Bank to Madhya Padavu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Madhya Padavu
-159,47,State Bank to Bajpe,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe
-160,47A,State Bank to Bajpe,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe
-161,47B,State Bank to Bajpe Aerodrome,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe;Bajpe Aerodrome
-162,47C,State Bank to Kattalsara,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe;Bajpe Aerodrome;Bhatrakere;Kattalsara
-163,47D,Bajpe to Kankanady,Bajpe;Kavoor;Bhatrakere;Adyapadi;Markada;Kavoor;Kuntikana;KSRTC;Nanthoor;Kankanady
-164,47F,Mangaldevi to Bajpe,Mangaldevi;Nandi Gudda;Valencia;Jyothi;PVS;Ladyhill;Kavoor;Markada;Kenjaru;Porkodi;Bajpe
-165,51,State Bank to Konaje,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Mangalore University;Konaje
-166,51A,State Bank to Inoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Mangalore University;Konaje;Inoli
-167,51B,Kottara to Konaje,Kottara;Urwa Store;Ladyhill;PVS;Jyothi;Kankanady;Pumpwell;Thokottu;Kotekar;Madoor;Deralakatte;Konaje
-168,51C,Konaje to MRPL,Konaje;Thokottu;Kuloor;MRPL
-169,51D,Kottara to Inoli Padav,Kottara;Kankanady;Thokottu;Inoli Padav
-170,51E,State Bank to Hoohakuvakallu,State Bank;Jyothi;Kankanady;Pumpwell;Thokottu;Konaje;Mudipu;Hoohakuvakallu
-171,51G,Baikampady to Dharmanagar,Baikampady;Panambur;Lalbagh;Nanthoor;Thokottu;Konaje;Inoli Padav;Dharmanagar
-172,51K,Kinya to Kankanady,Kinya;Gorigudde;Thokottu;Kankanady
-173,51T,Talapady to Thokottu,Talapady;Deralakatte;Kuthar Padavu;Thokottu
-174,53,State Bank to Tibar,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Soorinje;Tibar
-175,53A,Kankanady to Tibar,Kankanady;Pumpwell;Nanthoor;Kadri;Kuloor;Surathkal;Chokkabettu;Katipalla;Soorinje;Tibar
-176,53B,C.F. Colony to Shibaroor,C.F. Colony;Kuloor;Surathkal;Katipalla;Shibaroor
-177,53C,Mangaldevi to Delanthabettu,Mangaldevi;Nandi Gudda;Kankanady;Nanthoor;Ladyhill;Surathkal;Bala;Soorinje;Delanthabettu
-178,53D,Porkodi to Shibaroor,Porkodi;Surathkal;Katipalla;Shibaroor
-179,54,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Beeri;Maddur;Natekal;Manjanady;Thaudugoli
-180,54A,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Natekal;Manjanady;Thaudugoli
-181,54B,State Bank to Hoohakuvakallu,State Bank;RTO;Pandeshwar;Mulihithlu;Morgans Gate;Jeppinamogaru;Thokottu;Manjanady;Narya;Hoohakuvakallu
-182,55,State Bank to Pavoor,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Kuthar;Deralakatte;Natekal;Konaje;Fajir;Harekala;Pavoor
-183,59,State Bank to Surathkal,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Kuloor;Baikampady;Chitrapur;Hosabettu;Surathkal
-184,60,Anandanagar to Gorigudde,Anandanagar;Nandanapura;Ladyhill;Bejai;Museum;Kadri Temple;Mangalore Junction;Valencia;Gorigudde
-185,60B,Ladyhill to Akashabhavan,Ladyhill;Kottara;Akashabhavan
-186,61,Kodikal to Mangalore Junction,Kodikal;Kodikal Cross;Ladyhill;Bejai;Museum;Kadri Temple;Pumpwell;Padil;Mangalore Junction
+150,44T,Someshwara to Kunjathbail,Someshwar;Ullal;Thokottu;Kankanady;Mallikatte;Nanthoor;KPT;Bondel;Kavoor;Kunjathbail
+151,45,State Bank to Katipalla,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla
+152,45A,State Bank to Chokkabettu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Chokkabettu
+153,45B,State Bank to Chokkabettu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Chokkabettu
+154,45C,State Bank to Kaikamba,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;Kaikamba
+155,45D,State Bank to Kuthethoor,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;MRPL;Kuthethoor
+156,45E,State Bank to Kaithakurneri,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Mangalpete;MRPL;Kaithakurneri
+157,45F,State Bank to Kaikamba,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Kaikamba
+158,45G,State Bank to Janatha Colony,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Mason Road;Janatha Colony
+159,45H,State Bank to Madhya Padavu,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Madhya Padavu
+160,47,State Bank to Bajpe,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe
+161,47A,State Bank to Bajpe,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe
+162,47B,State Bank to Bajpe Aerodrome,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe;Bajpe Aerodrome
+163,47C,State Bank to Kattalsara,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Kavoor;Maravoor;Bajpe;Bajpe Aerodrome;Bhatrakere;Kattalsara
+164,47D,Bajpe to Kankanady,Bajpe;Kavoor;Bhatrakere;Adyapadi;Markada;Kavoor;Kuntikana;KSRTC;Nanthoor;Kankanady
+165,47F,Mangaldevi to Bajpe,Mangaldevi;Nandi Gudda;Valencia;Jyothi;PVS;Ladyhill;Kavoor;Markada;Kenjaru;Porkodi;Bajpe
+166,51,State Bank to Konaje,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Mangalore University;Konaje
+167,51A,State Bank to Inoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Mangalore University;Konaje;Inoli
+168,51B,Kottara to Konaje,Kottara;Urwa Store;Ladyhill;PVS;Jyothi;Kankanady;Pumpwell;Thokottu;Kotekar;Madoor;Deralakatte;Konaje
+169,51C,Konaje to MRPL,Konaje;Thokottu;Kuloor;MRPL
+170,51D,Kottara to Inoli Padav,Kottara;Kankanady;Thokottu;Inoli Padav
+171,51E,State Bank to Hoohakuvakallu,State Bank;Jyothi;Kankanady;Pumpwell;Thokottu;Konaje;Mudipu;Hoohakuvakallu
+172,51G,Baikampady to Dharmanagar,Baikampady;Panambur;Lalbagh;Nanthoor;Thokottu;Konaje;Inoli Padav;Dharmanagar
+173,51K,Kinya to Kankanady,Kinya;Gorigudde;Thokottu;Kankanady
+174,51T,Talapady to Thokottu,Talapady;Deralakatte;Kuthar Padavu;Thokottu
+175,53,State Bank to Tibar,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Soorinje;Tibar
+176,53A,Kankanady to Tibar,Kankanady;Pumpwell;Nanthoor;Kadri;Kuloor;Surathkal;Chokkabettu;Katipalla;Soorinje;Tibar
+177,53B,C.F. Colony to Shibaroor,C.F. Colony;Kuloor;Surathkal;Katipalla;Shibaroor
+178,53C,Mangaldevi to Delanthabettu,Mangaldevi;Nandi Gudda;Kankanady;Nanthoor;Ladyhill;Surathkal;Bala;Soorinje;Delanthabettu
+179,53D,Porkodi to Shibaroor,Porkodi;Surathkal;Katipalla;Shibaroor
+180,54,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Beeri;Maddur;Natekal;Manjanady;Thaudugoli
+181,54A,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Natekal;Manjanady;Thaudugoli
+182,54B,State Bank to Hoohakuvakallu,State Bank;RTO;Pandeshwar;Mulihithlu;Morgans Gate;Jeppinamogaru;Thokottu;Manjanady;Narya;Hoohakuvakallu
+183,55,State Bank to Pavoor,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Kuthar;Deralakatte;Natekal;Konaje;Fajir;Harekala;Pavoor
+184,59,State Bank to Surathkal,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Kuloor;Baikampady;Chitrapur;Hosabettu;Surathkal
+185,60,Anandanagar to Gorigudde,Anandanagar;Nandanapura;Ladyhill;Bejai;Museum;Kadri Temple;Mangalore Junction;Valencia;Gorigudde
+186,60B,Ladyhill to Akashabhavan,Ladyhill;Kottara;Akashabhavan
+187,61,Kodikal to Mangalore Junction,Kodikal;Kodikal Cross;Ladyhill;Bejai;Museum;Kadri Temple;Pumpwell;Padil;Mangalore Junction
 188,62A,Padil Railway Station to Katipalla,Padil Railway Station;KPT;Bondel;Kavoor;Kuloor;Kaikamba;Katipalla
 189,65,Kankanady Railway Station to Kaikamba,Kankanady Railway Station;Kuntikana;Surathkal;Kaikamba
 190,65E,Kankanady to Ganeshapura,Kankanady;Kottara;Ganeshapura
