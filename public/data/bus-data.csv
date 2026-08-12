@@ -126,7 +126,7 @@ id,busNumber,description,stops
 136,43B,State Bank to Kinya,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Kotekar;Beeri;Talapady;Kinya
 137,44,State Bank to Amrithnagar,State Bank;Jyothi;Pumpwell;Thokottu;Kumpala;Amrithnagar
 138,44A,State Bank to Someshwar,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Ullal;Someshwar
-139,44B,State Bank to Eliyar Padavu,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Kotekar;Eliyar Padavu
+139,44B,State Bank to Eliyar Padavu,State Bank;Jyothi;Balmatta;Kankanady;Pumpwell;Thokottu;Kuthar;Ranipura;Madaka;Eliyar Padavu
 140,44C,State Bank to Ullal Launch Jetty,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Ullal;Ullal Launch Jetty
 141,44D,State Bank to Kotepura,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Ullal;Kotepura
 142,44E,Amrithnagar to Nehru Circle,Amrithnagar;Moorukatte;Kumpala;Thokottu;Jeppu Market;Mulihithlu;Lewell;Yemmekere;Nehru Circle
