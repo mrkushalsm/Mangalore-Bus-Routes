@@ -168,7 +168,7 @@ id,busNumber,description,stops
 178,53C,Mangaldevi to Delanthabettu,Mangaldevi;Nandi Gudda;Kankanady;Nanthoor;Ladyhill;Surathkal;Bala;Soorinje;Delanthabettu
 179,53D,Porkodi to Shibaroor,Porkodi;Surathkal;Katipalla;Shibaroor
 180,54,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Beeri;Maddur;Natekal;Manjanady;Thaudugoli
-181,54A,State Bank to Thaudugoli,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Deralakatte;Natekal;Manjanady;Thaudugoli
+181,54A,State Bank to Narya,State Bank;Jyothi;Balmatta;Kankanady;Pumpwell;Thokottu;Deralakatte;Natekal;Manjanady;Hoohakuvakallu;Narya
 182,54B,State Bank to Hoohakuvakallu,State Bank;RTO;Pandeshwar;Mulihithlu;Morgans Gate;Jeppinamogaru;Thokottu;Manjanady;Narya;Hoohakuvakallu
 183,55,State Bank to Pavoor,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Thokottu;Kuthar;Deralakatte;Natekal;Konaje;Fajir;Harekala;Pavoor
 184,59,State Bank to Surathkal,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Kuloor;Baikampady;Chitrapur;Hosabettu;Surathkal
