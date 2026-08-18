@@ -86,7 +86,7 @@ id,busNumber,description,stops
 96,15G,Mangaldevi to Janatha Colony,Mangaldevi;Valencia;Kankanady;Jyothi;PVS;Ladyhill;Surathkal;Kaana;Janatha Colony
 97,15H,Mangaldevi to Madhya Padavu,Mangaldevi;Valencia;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Surathkal;Kaana;Katipalla;Narayanaguru ITI;Madhya Padavu
 98,15I,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Nanthoor;KSRTC;Ladyhill;Surathkal;Krishnapura;Kaikamba
-99,15J,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Nanthoor;Bejai;KSRTC;Lalbagh;Ladyhill;Surathkal;Krishnapura;Kaikamba
+99,15J,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Mallikatte;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Urwa Store;Ashoknagar;Dambel
 101,15K,Mangaldevi to Dambel,Mangaldevi;Valencia;Nanthoor;Ladyhill;Shediguri;Dambel
 102,15L,Mallikatte to Katipalla,Mallikatte;Nanthoor;Ladyhill;Surathkal;Kaana;Katipalla
 103,15N,Mangaldevi to Khandige,Mangaldevi;Morgans Gate;Nanthoor;Ladyhill;Surathkal;Madhya Padavu;Chelairpadavu;Khandige
