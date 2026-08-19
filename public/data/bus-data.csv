@@ -94,7 +94,7 @@ id,busNumber,description,stops
 105,16,State Bank to Sulthan Bathery,State Bank;Mission Street;Azizzudin Road;Kandathpalli;Mandi;Gokarnath Temple;Kudroli;Bokkapatna;Boloor;Sulthan Bathery
 106,16A,State Bank to Sulthan Bathery,State Bank;Car Street;Alake;Kudroli;Bokkapatna;Boloor;Sulthan Bathery
 107,16B,Nehru Circle to Vishranthi Church Bokkapatna,Nehru Circle;Jyothi;PVS;Lalbagh;Ladyhill;Urwa Market;Vishranthi Church Bokkapatna
-108,16C,Sulthan Bathery to Pumpwell,Sulthan Bathery;Urwa Market;Ladyhill;Lalbagh;Bejai;KPT;Nanthoor;Pumpwell
+108,16C,Sulthan Bathery to Pumpwell,Sulthan Bathery;Urwa Market;Ladyhill;Urwa Store;Kottara;Kuloor;Panjimogaru;Kavoor;Bondel;Padavinangadi;Yeyyadi;KPT;Nanthoor;Kadri;Mallikatte;Kankanady;Pumpwell
 192,17,State Bank to Kunjathbail,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
 109,17A,State Bank to Kunjathbail,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
 110,17B,State Bank to Kunjathbail,State Bank;Jyothi;Bunts Hostel;Milagres;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Saibeen Complex;Bharat Mall;KSRTC Bus Stand;Kapikad;Balebail;Kottara Cross;Kuntikana;Konchadi;Mullakadu;Kavoor;Maravoor;Kunjathbail
