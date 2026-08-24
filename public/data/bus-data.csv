@@ -32,7 +32,7 @@ id,busNumber,description,stops
 31,6A,State Bank to Shaktinagar,State Bank;Jyothi;Bendoorwell;Mallikatte;Kadri;Bikkarnakatta;Kulshekar;Shaktinagar
 32,6B,State Bank to Shaktinagar,State Bank;Falnir;Kankanady;Bendoorwell;Mallikatte;Kadri;Bikkarnakatta;Kulshekar;Shaktinagar
 33,6C,State Bank to Shaktinagar,State Bank;Jyothi;Bunts Hostel;Mallikatte;Kadri;Bikkarnakatta;Kulshekar;Shaktinagar
-34,6D,Mangaldevi to Shaktinagar,Mangaldevi;Nandi Gudda;Kankanady;Nanthoor;Muthappagudi;Shaktinagar
+34,6D,Mangaldevi to Sconflicthaktinagar,Mangaldevi;Nandi Gudda;Kankanady;Nanthoor;Muthappagudi;Shaktinagar
 35,6F,Morgans Gate to Preetinagar,Morgans Gate;Kankanady;Nanthoor;Preetinagar
 36,7,State Bank to Urwa Store,State Bank;Car Street;Alake;Mannagudda;Ladyhill;Chilimbi;Urwa Store
 37,9,State Bank to Bajal Church,State Bank;Balmatta;Jyothi;Kankanady;Pumpwell;Nagori;Padil;Karmar;Bajal;Jalligudde Cross;Bajal Church
@@ -70,7 +70,7 @@ id,busNumber,description,stops
 69,14C,Mangaldevi to Bondel,Mangaldevi;Morgans Gate;Attavar;Yemmekere;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;KPT;Yeyyadi;Konchadi;Padangady;Bondel
 70,14D,Jeppu Market to Bondel,Jeppu Market;Kankanady;Nanthoor;Bondel
 71,14E,Pumpwell to Vamanjoor,Pumpwell;KPT;Pachanady;Vamanjoor
-79,14F,Kunjathbail to Kankanady,Kunjathbail;Markada;Kavoor;Bondel;Padavinangadi;Yeyyadi;KPT;Kadri;Nanthoor;Mallikatte;Kankanady
+72,14F,Kunjathbail to Kankanady,Kunjathbail;Markada;Kavoor;Bondel;Padavinangadi;Yeyyadi;KPT;Kadri;Nanthoor;Mallikatte;Kankanady
 73,15,Mangaldevi to Surathkal,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal
 74,15A,Mangaldevi to Katipalla,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal;Krishnapura;Katipalla
 75,15A,Mangaldevi to Madhya Padavu,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal;Krishnapura;Madhya Padavu
@@ -85,7 +85,7 @@ id,busNumber,description,stops
 84,15G,Mangaldevi to Janatha Colony,Mangaldevi;Valencia;Kankanady;Jyothi;PVS;Ladyhill;Surathkal;Kaana;Janatha Colony
 85,15H,Mangaldevi to Madhya Padavu,Mangaldevi;Valencia;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Surathkal;Kaana;Katipalla;Narayanaguru ITI;Madhya Padavu
 86,15I,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Nanthoor;KSRTC;Ladyhill;Surathkal;Krishnapura;Kaikamba
-87,15J,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Nanthoor;Bejai;KSRTC;Lalbagh;Ladyhill;Surathkal;Krishnapura;Kaikamba
+97,15J,Mangaldevi to Dambel,Mangaldevi;Valencia;Kankanady;Mallikatte;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Urwa Store;Ashoknagar;Dambel
 88,15K,Mangaldevi to Dambel,Mangaldevi;Valencia;Nanthoor;Ladyhill;Shediguri;Dambel
 89,15L,Mallikatte to Katipalla,Mallikatte;Nanthoor;Ladyhill;Surathkal;Kaana;Katipalla
 90,15N,Mangaldevi to Khandige,Mangaldevi;Morgans Gate;Nanthoor;Ladyhill;Surathkal;Madhya Padavu;Chelairpadavu;Khandige
