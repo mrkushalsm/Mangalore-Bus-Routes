@@ -22,7 +22,7 @@ id,busNumber,description,stops
 21,3H,Moodushedde to Chelairpadavu,Moodushedde;Vamanjoor;Kavoor;Surathkal;Chelairpadavu
 22,3K,Talapady to Moodushedde,Talapady;Thokottu;Kankanady;Vamanjoor;Moodushedde
 23,3L,Kottara to Moodushedde,Kottara;Moodushedde
-24,4,State Bank to Kulshekar Chowki,State Bank;Falnir;Kankanady;Bendoorwell;Mallikatte;Kadri;Bikkarnakatta;Kulshekar;Kulshekar Chowki
+24,4,State Bank to Saripalla,State Bank;Falnir;Kankanady;Bendoorwell;Mallikatte;Kadri;Nanthoor;Bikkarnakatta;Kulshekar;Kannagudde;Saripalla
 25,4A,State Bank to Merlapadav,State Bank;Falnir;Kankanady;Bendoorwell;Mallikatte;Kadri;Nanthoor;Kulshekar;Kaikamba;Neermarga;Merlapadav
 26,4B,State Bank to Saripalla,State Bank;Falnir;Bendoorwell;ESI;Shivabagh;Nanthoor;Pedamale;Saripalla
 27,4C,State Bank to Neermarga,State Bank;Falnir;Kankanady;Bendoorwell;Mallikatte;Kadri;Nanthoor;Kulshekar;Kaikamba;Neermarga
@@ -85,7 +85,7 @@ id,busNumber,description,stops
 84,15G,Mangaldevi to Janatha Colony,Mangaldevi;Valencia;Kankanady;Jyothi;PVS;Ladyhill;Surathkal;Kaana;Janatha Colony
 85,15H,Mangaldevi to Madhya Padavu,Mangaldevi;Valencia;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Surathkal;Kaana;Katipalla;Narayanaguru ITI;Madhya Padavu
 86,15I,Mangaldevi to Kaikamba,Mangaldevi;Valencia;Kankanady;Nanthoor;KSRTC;Ladyhill;Surathkal;Krishnapura;Kaikamba
-97,15J,Mangaldevi to Dambel,Mangaldevi;Valencia;Kankanady;Mallikatte;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Urwa Store;Ashoknagar;Dambel
+87,15J,Mangaldevi to Dambel,Mangaldevi;Valencia;Kankanady;Mallikatte;Nanthoor;KPT;Bejai;KSRTC;Lalbagh;Ladyhill;Urwa Store;Ashoknagar;Dambel
 88,15K,Mangaldevi to Dambel,Mangaldevi;Valencia;Nanthoor;Ladyhill;Shediguri;Dambel
 89,15L,Mallikatte to Katipalla,Mallikatte;Nanthoor;Ladyhill;Surathkal;Kaana;Katipalla
 90,15N,Mangaldevi to Khandige,Mangaldevi;Morgans Gate;Nanthoor;Ladyhill;Surathkal;Madhya Padavu;Chelairpadavu;Khandige
