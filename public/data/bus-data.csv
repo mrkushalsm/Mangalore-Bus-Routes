@@ -159,6 +159,7 @@ id,busNumber,description,stops
 158,51D,Kottara to Inoli Padav,Kottara;Kankanady;Thokottu;Inoli Padav
 159,51E,State Bank to Hoohakuvakallu,State Bank;Jyothi;Kankanady;Pumpwell;Thokottu;Konaje;Mudipu;Hoohakuvakallu
 160,51G,Baikampady to Dharmanagar,Baikampady;Panambur;Lalbagh;Nanthoor;Thokottu;Konaje;Inoli Padav;Dharmanagar
+193,51I,Kankanady to Inoli,Kankanady;Thokottu;Kuthar;Deralakatte;Natekal;Konaje;Gramachavadi;Inoli
 161,51K,Kinya to Kankanady,Kinya;Gorigudde;Thokottu;Kankanady
 162,51T,Talapady to Thokottu,Talapady;Deralakatte;Kuthar Padavu;Thokottu
 163,53,State Bank to Tibar,State Bank;K.S. Rao Road;PVS;Empire Mall;Ballalbagh;Lalbagh;Ladyhill;Chilimbi;Urwa Store;Kottara Chowki;Kuloor;Panambur;Surathkal;Kaana;Krishnapura;Katipalla;Soorinje;Tibar
