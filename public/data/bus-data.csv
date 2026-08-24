@@ -70,7 +70,7 @@ id,busNumber,description,stops
 69,14C,Mangaldevi to Bondel,Mangaldevi;Morgans Gate;Attavar;Yemmekere;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;KPT;Yeyyadi;Konchadi;Padangady;Bondel
 70,14D,Jeppu Market to Bondel,Jeppu Market;Kankanady;Nanthoor;Bondel
 71,14E,Pumpwell to Vamanjoor,Pumpwell;KPT;Pachanady;Vamanjoor
-72,14F,Kunjathbail to Tharaithota,Kunjathbail;Nanthoor;Tharaithota
+79,14F,Kunjathbail to Kankanady,Kunjathbail;Markada;Kavoor;Bondel;Padavinangadi;Yeyyadi;KPT;Kadri;Nanthoor;Mallikatte;Kankanady
 73,15,Mangaldevi to Surathkal,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal
 74,15A,Mangaldevi to Katipalla,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal;Krishnapura;Katipalla
 75,15A,Mangaldevi to Madhya Padavu,Mangaldevi;Morgans Gate;Nandi Gudda;Kankanady;Mallikatte;Kadri Market;Nanthoor;Akashavani;Bejai;KSRTC Bus Stand;Bharat Mall;Lalbagh;Ladyhill;Kuloor;Baikampady;Surathkal;Krishnapura;Madhya Padavu
