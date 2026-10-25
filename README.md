@@ -13,7 +13,9 @@
 
 </div>
 
-An intelligent bus route finder for Mangalore city, designed to provide smart route suggestions and journey planning using advanced graph traversal algorithms.
+Mangalore Bus Routes is a route finder for Mangalore city. It searches the local bus network and suggests direct journeys or transfer-based itineraries using a graph traversal algorithm.
+
+The application is designed for practical day-to-day use: route data is stored in a readable CSV file, results show the buses and stops needed for a journey, and the community can suggest corrections through GitHub-backed pull requests.
 
 ## ✨ Features
 
@@ -62,7 +64,7 @@ An intelligent bus route finder for Mangalore city, designed to provide smart ro
 ### Prerequisites
 
 - Node.js 18+ installed
-- npm or yarn package manager
+- npm installed
 
 ### Installation
 
@@ -77,12 +79,18 @@ An intelligent bus route finder for Mangalore city, designed to provide smart ro
    npm install
    ```
 
-3. **Run the development server**
+3. **Configure GitHub-backed corrections (optional)**
+
+   Copy `.env.example` to `.env.local` and fill in the GitHub token and repository settings if you want the correction form to open pull requests automatically. The token needs Contents (read/write) and Pull Requests (read/write) access for the target repository.
+
+4. **Run the development server**
    ```bash
    npm run dev
    ```
 
    The application will be available at `http://localhost:9002`
+
+The GitHub configuration is only needed for submitting route corrections. Browsing routes and searching for journeys works without these variables.
 
 ## 📱 Usage
 
@@ -128,15 +136,21 @@ Beyond route search, the project includes a full browse-and-manage flow:
 
 This was built as part of my **Google Developer Groups (GDG) Lead application** to show a practical product, not a demo shell: a real data source, a local routing engine, responsive UI, saved state, and a contribution path for keeping the route database current.
 
+### Route data and corrections
+
+The route network is maintained in [public/data/bus-data.csv](public/data/bus-data.csv). Each row contains a bus identifier, its description, and the stops served by that route. Changes to this file should preserve the existing CSV structure so the parser and route finder can continue to load it correctly.
+
+For smaller corrections, use the form on the Settings page. When GitHub integration is configured, the form creates a branch and pull request containing the proposed CSV change. Review the generated diff and confirm the route details before merging it.
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please open an issue first for major changes so the approach can be discussed before implementation. For route-data updates, include the affected bus number, stops, and the source or reason for the correction in the pull request description.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project and create a feature branch (`git checkout -b feature/AmazingFeature`).
+2. Install dependencies with `npm install`.
+3. Make the change and run `npm run typecheck` and `npm run lint`.
+4. Commit your changes with a descriptive message.
+5. Push the branch (`git push origin feature/AmazingFeature`) and open a pull request.
 
 ## 📄 License
 
@@ -151,7 +165,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-Created by Kushal SM - mrkushalsm@gmail.com
+Created by Kushal SM and Arvind Sagar - mrkushalsm@gmail.com arvindsagar7350@gmail.com
 
 Project Link: [https://github.com/mrkushalsm/Mangalore-Bus-Routes](https://github.com/mrkushalsm/Mangalore-Bus-Routes)
 

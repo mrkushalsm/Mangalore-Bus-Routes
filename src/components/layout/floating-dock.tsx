@@ -85,7 +85,7 @@ export function FloatingDock() {
               rel="noopener noreferrer"
               className="font-medium underline underline-offset-4 hover:text-foreground transition-colors"
             >
-              Kushal SM
+              Kushal SM and Arvind Sagar
             </a>
           </p>
         </div>
