@@ -13,7 +13,9 @@
 
 </div>
 
-An intelligent bus route finder for Mangalore city, designed to provide smart route suggestions and journey planning using advanced graph traversal algorithms.
+Mangalore Bus Routes is a route finder for Mangalore city. It searches the local bus network and suggests direct journeys or transfer-based itineraries using a graph traversal algorithm.
+
+The application is designed for practical day-to-day use: route data is stored in a readable CSV file, results show the buses and stops needed for a journey, and the community can suggest corrections through GitHub-backed pull requests.
 
 ## ✨ Features
 
