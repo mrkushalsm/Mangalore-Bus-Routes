@@ -64,7 +64,7 @@ The application is designed for practical day-to-day use: route data is stored i
 ### Prerequisites
 
 - Node.js 18+ installed
-- npm or yarn package manager
+- npm installed
 
 ### Installation
 
@@ -79,12 +79,18 @@ The application is designed for practical day-to-day use: route data is stored i
    npm install
    ```
 
-3. **Run the development server**
+3. **Configure GitHub-backed corrections (optional)**
+
+   Copy `.env.example` to `.env.local` and fill in the GitHub token and repository settings if you want the correction form to open pull requests automatically. The token needs Contents (read/write) and Pull Requests (read/write) access for the target repository.
+
+4. **Run the development server**
    ```bash
    npm run dev
    ```
 
    The application will be available at `http://localhost:9002`
+
+The GitHub configuration is only needed for submitting route corrections. Browsing routes and searching for journeys works without these variables.
 
 ## 📱 Usage
 
