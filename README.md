@@ -144,13 +144,13 @@ For smaller corrections, use the form on the Settings page. When GitHub integrat
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please open an issue first for major changes so the approach can be discussed before implementation. For route-data updates, include the affected bus number, stops, and the source or reason for the correction in the pull request description.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project and create a feature branch (`git checkout -b feature/AmazingFeature`).
+2. Install dependencies with `npm install`.
+3. Make the change and run `npm run typecheck` and `npm run lint`.
+4. Commit your changes with a descriptive message.
+5. Push the branch (`git push origin feature/AmazingFeature`) and open a pull request.
 
 ## 📄 License
 
