@@ -165,7 +165,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-Created by Kushal SM and Arvind Sagar - mrkushalsm@gmail.com
+Created by Kushal SM and Arvind Sagar - mrkushalsm@gmail.com arvindsagar7350@gmail.com
 
 Project Link: [https://github.com/mrkushalsm/Mangalore-Bus-Routes](https://github.com/mrkushalsm/Mangalore-Bus-Routes)
 
