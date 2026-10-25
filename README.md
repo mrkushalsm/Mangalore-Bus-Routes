@@ -136,6 +136,12 @@ Beyond route search, the project includes a full browse-and-manage flow:
 
 This was built as part of my **Google Developer Groups (GDG) Lead application** to show a practical product, not a demo shell: a real data source, a local routing engine, responsive UI, saved state, and a contribution path for keeping the route database current.
 
+### Route data and corrections
+
+The route network is maintained in [public/data/bus-data.csv](public/data/bus-data.csv). Each row contains a bus identifier, its description, and the stops served by that route. Changes to this file should preserve the existing CSV structure so the parser and route finder can continue to load it correctly.
+
+For smaller corrections, use the form on the Settings page. When GitHub integration is configured, the form creates a branch and pull request containing the proposed CSV change. Review the generated diff and confirm the route details before merging it.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
