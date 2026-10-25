@@ -156,7 +156,7 @@ export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
               </a>
               <p className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Heart className="h-4 w-4 text-red-500" />
-                Built by Kushal SM
+                Built by Kushal SM and Arvind Sagar
               </p>
             </div>
           </CardContent>
