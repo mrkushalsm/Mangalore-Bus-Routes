@@ -651,6 +651,9 @@ const SidebarMenuSkeleton = React.forwardRef<
     showIcon?: boolean
   }
 >(({ className, showIcon = false, ...props }, ref) => {
+  const id = React.useId()
+  const width = `${50 + Array.from(id).reduce((total, character) => total + character.charCodeAt(0), 0) % 40}%`
+
   return (
     <div
       ref={ref}
@@ -669,7 +672,7 @@ const SidebarMenuSkeleton = React.forwardRef<
         data-sidebar="menu-skeleton-text"
         style={
           {
-            "--skeleton-width": "70%",
+            "--skeleton-width": width,
           } as React.CSSProperties
         }
       />
