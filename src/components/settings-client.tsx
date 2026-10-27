@@ -195,7 +195,7 @@ export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
                 <Lightbulb className="h-5 w-5 text-yellow-500" />
                 <div>
                   <p className="text-sm font-medium">Request a Feature</p>
-                  <p className="text-xs text-muted-foreground">Have an idea? We'd love to hear it</p>
+                  <p className="text-xs text-muted-foreground">Have an idea? We&apos;d love to hear it</p>
                 </div>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />

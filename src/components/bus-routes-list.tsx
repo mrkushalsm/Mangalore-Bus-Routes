@@ -93,7 +93,7 @@ export function BusRoutesList({ allRoutes }: BusRoutesListProps) {
           </div>
           <h2 className="text-xl font-semibold mb-2">No Routes Found</h2>
           <p className="text-muted-foreground max-w-sm">
-            No routes found for "{searchTerm}". Try a different search term.
+            No routes found for &quot;{searchTerm}&quot;. Try a different search term.
           </p>
         </div>
       )}
