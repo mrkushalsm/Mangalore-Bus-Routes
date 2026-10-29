@@ -2,12 +2,16 @@
 
 import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink, Map } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SuggestCorrectionForm } from '@/components/suggest-correction-form';
 import { useMapProvider } from '@/hooks/use-map-provider';
 import type { BusRoute } from '@/lib/bus-data';
+
+const subscribeToNothing = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 interface SettingsClientProps {
   allRoutes: BusRoute[];
@@ -17,11 +21,11 @@ interface SettingsClientProps {
 export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
   const { theme, setTheme } = useTheme();
   const { provider, setProvider, isLoaded } = useMapProvider();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    subscribeToNothing,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
 
   return (
     <div className="min-h-full">
@@ -195,7 +199,7 @@ export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
                 <Lightbulb className="h-5 w-5 text-yellow-500" />
                 <div>
                   <p className="text-sm font-medium">Request a Feature</p>
-                  <p className="text-xs text-muted-foreground">Have an idea? We'd love to hear it</p>
+                  <p className="text-xs text-muted-foreground">Have an idea? We&apos;d love to hear it</p>
                 </div>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />

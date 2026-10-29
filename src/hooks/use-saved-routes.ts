@@ -11,6 +11,8 @@ export function useSavedRoutes() {
         try {
             const item = window.localStorage.getItem(SAVED_ROUTES_KEY);
             if (item) {
+                // Hydrate saved routes from browser storage after mounting.
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setSavedRouteIds(JSON.parse(item));
             }
         } catch (error) {

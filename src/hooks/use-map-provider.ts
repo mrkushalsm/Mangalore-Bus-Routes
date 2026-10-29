@@ -15,6 +15,8 @@ export function useMapProvider() {
     try {
       const stored = window.localStorage.getItem(MAP_PROVIDER_KEY);
       if (stored && (stored === 'transit-viz' || stored === 'google-maps')) {
+        // Hydrate the selected provider from browser storage after mounting.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setProviderState(stored as MapProvider);
       }
     } catch (error) {

@@ -63,6 +63,8 @@ export function useSavedJourneys() {
       const item = window.localStorage.getItem(SAVED_JOURNEYS_KEY);
       if (item) {
         const parsedJourneys = JSON.parse(item) as SavedJourney[];
+        // Hydrate saved journeys from browser storage after mounting.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSavedJourneys(parsedJourneys.map(normalizeSavedJourney));
       }
     } catch (error) {

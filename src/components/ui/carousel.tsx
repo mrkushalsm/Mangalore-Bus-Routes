@@ -111,6 +111,8 @@ const Carousel = React.forwardRef<
         return
       }
 
+      // Sync initial button state with Embla before subscribing to later changes.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSelect(api)
       api.on("reInit", onSelect)
       api.on("select", onSelect)
