@@ -39,6 +39,11 @@ next-env.d.ts
 
 .genkit/*
 .env
+.env*.local
+
+# server data store
+/data/*.json
+/data
 package-lock.json
 .vscode
 

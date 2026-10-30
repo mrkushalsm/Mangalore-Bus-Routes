@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bus, Github, Star, Search, Bug, Settings } from 'lucide-react';
+import { Bus, Github, Star, Search, Bug, Settings, GitPullRequest } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', label: 'Route Finder', icon: Search },
   { href: '/routes', label: 'All Routes', icon: Bus },
   { href: '/saved', label: 'Saved Journeys', icon: Star },
+  { href: '/corrections', label: 'My Corrections', icon: GitPullRequest },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
