@@ -8,55 +8,67 @@ export type BusRoute = {
   stops: string[];
 };
 
-export async function getBusRoutes(): Promise<BusRoute[]> {
-  const filePath = path.join(process.cwd(), 'public', 'data', 'bus-data.csv');
-  const fileContent = await fs.readFile(filePath, 'utf-8');
+function parseCsvRecords(csvContent: string): string[][] {
+  const records: string[][] = [];
+  let record: string[] = [];
+  let field = '';
+  let inQuotes = false;
 
-  const lines = fileContent.split('\n');
-  const routes: BusRoute[] = [];
+  for (let i = 0; i < csvContent.length; i++) {
+    const char = csvContent[i];
 
-  // Skip header row
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    // Manual CSV parsing to handle quoted fields containing delimiters
-    const parts: string[] = [];
-    let currentPart = '';
-    let inQuotes = false;
-
-    for (let j = 0; j < line.length; j++) {
-      const char = line[j];
+    if (inQuotes) {
       if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        parts.push(currentPart);
-        currentPart = '';
+        if (csvContent[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
       } else {
-        currentPart += char;
+        field += char;
       }
+      continue;
     }
-    parts.push(currentPart);
 
-    if (parts.length >= 4) {
-      const id = parts[0];
-      const busNumber = parts[1];
-      // Remove surrounding quotes if present
-      const description = parts[2].replace(/^"|"$/g, '');
-      const stopsString = parts[3].replace(/^"|"$/g, '');
-
-      const stops = stopsString.split(';').map(s => s.trim()).filter(s => s.length > 0);
-
-      routes.push({
-        id,
-        busNumber,
-        description,
-        stops
-      });
+    if (char === '"' && field.length === 0) {
+      inQuotes = true;
+    } else if (char === ',') {
+      record.push(field);
+      field = '';
+    } else if (char === '\r' || char === '\n') {
+      record.push(field);
+      records.push(record);
+      record = [];
+      field = '';
+      if (char === '\r' && csvContent[i + 1] === '\n') i++;
+    } else if (char === '"') {
+      throw new Error('Invalid quote in unquoted CSV field.');
+    } else {
+      field += char;
     }
   }
 
-  return routes;
+  if (inQuotes) {
+    throw new Error('Unterminated quoted CSV field.');
+  }
+
+  if (field.length > 0 || record.length > 0) {
+    record.push(field);
+    records.push(record);
+  }
+
+  return records;
+}
+
+function serializeCsvField(value: string): string {
+  return /[",\r\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+}
+
+export async function getBusRoutes(): Promise<BusRoute[]> {
+  const filePath = path.join(process.cwd(), 'public', 'data', 'bus-data.csv');
+  const fileContent = await fs.readFile(filePath, 'utf-8');
+  return parseBusRoutesFromCsv(fileContent);
 }
 
 /**
@@ -64,37 +76,15 @@ export async function getBusRoutes(): Promise<BusRoute[]> {
  * Used by the API route which receives CSV content from GitHub API.
  */
 export function parseBusRoutesFromCsv(csvContent: string): BusRoute[] {
-  const lines = csvContent.split('\n');
+  const records = parseCsvRecords(csvContent);
   const routes: BusRoute[] = [];
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    const parts: string[] = [];
-    let currentPart = '';
-    let inQuotes = false;
-
-    for (let j = 0; j < line.length; j++) {
-      const char = line[j];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        parts.push(currentPart);
-        currentPart = '';
-      } else {
-        currentPart += char;
-      }
-    }
-    parts.push(currentPart);
+  for (const parts of records.slice(1)) {
+    if (parts.every(part => part.length === 0)) continue;
 
     if (parts.length >= 4) {
-      const id = parts[0];
-      const busNumber = parts[1];
-      const description = parts[2].replace(/^"|"$/g, '');
-      const stopsString = parts[3].replace(/^"|"$/g, '');
-      const stops = stopsString.split(';').map(s => s.trim()).filter(s => s.length > 0);
-
+      const [id, busNumber, description, stopsString] = parts;
+      const stops = stopsString.split(';').map(stop => stop.trim()).filter(stop => stop.length > 0);
       routes.push({ id, busNumber, description, stops });
     }
   }
@@ -110,7 +100,7 @@ export function serializeBusRoutes(routes: BusRoute[]): string {
   const header = 'id,busNumber,description,stops';
   const lines = routes.map(route => {
     const stops = route.stops.join(';');
-    return `${route.id},${route.busNumber},${route.description},${stops}`;
+    return [route.id, route.busNumber, route.description, stops].map(serializeCsvField).join(',');
   });
   return [header, ...lines].join('\n') + '\n';
 }
