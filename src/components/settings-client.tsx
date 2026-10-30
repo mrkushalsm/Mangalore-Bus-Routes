@@ -1,6 +1,7 @@
 'use client';
 
-import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink, Map } from 'lucide-react';
+import Link from 'next/link';
+import { Moon, Sun, Github, Heart, Bug, Lightbulb, ExternalLink, Map, GitPullRequest } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -201,6 +202,20 @@ export function SettingsClient({ allRoutes, allStops }: SettingsClientProps) {
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
             </a>
             
+            <Link
+              href="/corrections"
+              className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-secondary/50 transition-colors group text-left"
+            >
+              <div className="flex items-center gap-3">
+                <GitPullRequest className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">My Route Corrections</p>
+                  <p className="text-xs text-muted-foreground">Track review status, read comments & revise open proposals</p>
+                </div>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            </Link>
+
             <SuggestCorrectionForm
               allRoutes={allRoutes}
               allStops={allStops}
